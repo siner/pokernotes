@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ── Design tokens ────────────────────────────────────────── */
 :root {
@@ -7,15 +7,15 @@
   --foreground: #f1f5f9;
 
   /* Brand */
-  --brand: #6366f1;           /* indigo-500 */
+  --brand: #6366f1; /* indigo-500 */
   --brand-foreground: #ffffff;
 
   /* Surface levels */
-  --surface-1: #1e293b;       /* slate-800 */
-  --surface-2: #334155;       /* slate-700 */
+  --surface-1: #1e293b; /* slate-800 */
+  --surface-2: #334155; /* slate-700 */
 
   /* Semantic */
-  --muted: #64748b;           /* slate-500 */
+  --muted: #64748b; /* slate-500 */
   --muted-foreground: #94a3b8; /* slate-400 */
   --border: #334155;
   --input: #1e293b;
@@ -58,7 +58,7 @@ body {
 /* ── Tap targets ──────────────────────────────────────────── */
 button,
 a,
-[role="button"] {
+[role='button'] {
   min-height: 44px;
   min-width: 44px;
 }

@@ -45,9 +45,18 @@ const eslintConfig = [
 
   // TypeScript source files (app, components, lib, i18n, tests, types)
   {
-    files: ['app/**/*.ts', 'app/**/*.tsx', 'components/**/*.ts', 'components/**/*.tsx',
-            'lib/**/*.ts', 'lib/**/*.tsx', 'i18n/**/*.ts', 'middleware.ts',
-            'tests/**/*.ts', 'types/**/*.ts'],
+    files: [
+      'app/**/*.ts',
+      'app/**/*.tsx',
+      'components/**/*.ts',
+      'components/**/*.tsx',
+      'lib/**/*.ts',
+      'lib/**/*.tsx',
+      'i18n/**/*.ts',
+      'middleware.ts',
+      'tests/**/*.ts',
+      'types/**/*.ts',
+    ],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -106,5 +115,3 @@ const eslintConfig = [
 ];
 
 export default eslintConfig;
-
-
