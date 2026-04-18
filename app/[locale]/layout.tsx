@@ -2,9 +2,20 @@ import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { Syne } from 'next/font/google';
+import { Spade } from 'lucide-react';
 import { routing } from '@/i18n/routing';
+import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { PwaInstallPrompt } from '@/components/PwaInstallPrompt';
+import { Footer } from '@/components/Footer';
 import '@/app/globals.css';
+
+const syne = Syne({
+  subsets: ['latin'],
+  variable: '--font-syne',
+  display: 'swap',
+});
 
 type Locale = (typeof routing.locales)[number];
 
@@ -49,23 +60,48 @@ export function generateStaticParams() {
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 
-  // Validate locale
   if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
 
-  // Provide all messages to the client
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: 'nav' });
 
   return (
-    <html lang={locale} suppressHydrationWarning className="dark">
-      <body className="min-h-dvh bg-slate-950 text-slate-100 antialiased">
+    <html lang={locale} suppressHydrationWarning className={`dark ${syne.variable}`}>
+      <body className="min-h-dvh bg-[#060d08] text-slate-100 antialiased">
         <NextIntlClientProvider messages={messages}>
-          <header className="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between border-b border-slate-800 bg-slate-950/80 px-4 backdrop-blur-sm sm:px-6">
-            <span className="text-sm font-bold tracking-tight text-emerald-400">PokerNotes</span>
+          <header className="fixed inset-x-0 top-0 z-50 flex h-14 items-center border-b border-white/5 bg-[#060d08]/90 px-4 backdrop-blur-md sm:px-6">
+            <Link
+              href="/"
+              className="mr-6 flex items-center gap-2.5 transition-opacity hover:opacity-80"
+            >
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500 shadow-lg shadow-emerald-500/30 text-white">
+                <Spade className="h-4 w-4 fill-current" />
+              </span>
+              <span className="font-display text-sm font-bold tracking-tight text-white">
+                PokerNotes
+              </span>
+            </Link>
+            <nav className="flex flex-1 items-center gap-0.5">
+              <Link
+                href="/tools/pot-odds"
+                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+              >
+                {t('tools')}
+              </Link>
+              <Link
+                href="/pricing"
+                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+              >
+                {t('pricing')}
+              </Link>
+            </nav>
             <LanguageSwitcher />
           </header>
-          <div className="pt-14">{children}</div>
+          <div className="pt-14 min-h-[calc(100vh-200px)]">{children}</div>
+          <Footer />
+          <PwaInstallPrompt />
         </NextIntlClientProvider>
       </body>
     </html>

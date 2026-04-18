@@ -6,12 +6,19 @@
     "edit": "Edit",
     "loading": "Loading...",
     "error": "Something went wrong",
-    "switchLanguage": "Switch language"
+    "switchLanguage": "Switch language",
+    "offline": {
+      "title": "You are offline",
+      "description": "It looks like you lost your internet connection.",
+      "cta": "Try again"
+    }
   },
   "nav": {
     "notes": "Notes",
     "tools": "Tools",
     "settings": "Settings",
+    "pricing": "Pricing",
+    "backToHome": "Back to Home",
     "signIn": "Sign in",
     "signOut": "Sign out"
   },
@@ -25,6 +32,7 @@
       "pills": ["AI Note Structuring", "Pot Odds", "Push/Fold Nash", "ICM", "Offline-First"]
     },
     "features": {
+      "sectionTitle": "Everything you need at the tables.",
       "aiNotes": {
         "title": "AI-structured notes",
         "description": "Dictate a read; we turn it into structured tags and tendencies."
@@ -51,24 +59,44 @@
     }
   },
   "tools": {
+    "nav": {
+      "potOdds": "Pot Odds",
+      "pushFold": "Push/Fold",
+      "icm": "ICM",
+      "handRankings": "Hand Rankings"
+    },
     "potOdds": {
       "title": "Pot Odds Calculator",
       "metaDescription": "Free pot odds calculator for poker. Calculate the equity you need to make a profitable call.",
       "potSize": "Pot size",
-      "betToCall": "Bet to call",
-      "equityNeeded": "You need {percent}% equity to call profitably"
+      "metaTitle": "Pot Odds Calculator | PokerNotes",
+      "metaDescription": "Calculate minimum required equity based on pot odds to make profitable calls in poker.",
+      "howTo": "How to use the Pot Odds Calculator",
+      "desc1": "Pot odds represent the ratio of the current size of the pot to the cost of a contemplated call. Knowing your pot odds is crucial for making mathematically profitable decisions in poker.",
+      "li1": "Current Pot Size: The total amount of money in the pot, including the bets placed in the current round.",
+      "li2": "Bet to Call: The amount you need to put into the pot to stay in the hand.",
+      "desc2": "The required equity tells you how often your hand needs to win to break even. If your estimated chance of winning (hand equity) is higher than the required equity, calling is mathematically profitable (+EV) in the long run."
+    },
+    "pushFold": {
+      "title": "Push/Fold Nash Chart",
+      "metaTitle": "Push/Fold Nash Chart | PokerNotes",
+      "metaDescription": "Optimal Push/Fold ranges based on Nash Equilibrium for short-stacked tournament poker.",
+      "howTo": "About Push/Fold Charts",
+      "desc1": "Push/Fold is an unexploitable strategy (Nash Equilibrium) used in short-stack tournament play (typically 15 Big Blinds or less). When you have a short stack, you lose your leverage to play post-flop profitably.",
+      "desc2": "Instead of limping or minimally raising, the optimal mathematical play is often to simply push All-in or Fold. This chart approximates profitable shoving ranges based on stack depth and table position."
     },
     "icm": {
       "title": "ICM Calculator",
-      "metaDescription": "Free ICM calculator for poker tournament deal negotiations."
-    },
-    "pushFold": {
-      "title": "Push/Fold Chart",
-      "metaDescription": "Free Nash push/fold chart for tournament poker."
+      "metaTitle": "ICM Calculator | PokerNotes",
+      "metaDescription": "Independent Chip Model (ICM) calculator for final tables and sit & gos.",
+      "howTo": "What is ICM?",
+      "desc1": "The Independent Chip Model (ICM) calculates a mathematical evaluation of a player's chip stack based on the payout structure of a tournament. It helps determine the real monetary value of your chips at any given moment.",
+      "desc2": "This is especially important at the final table or near the bubble, when chip values become heavily decoupled from linearly equivalent dollars. Players use ICM to negotiate equitable chops or evaluate decisions with high payout variance."
     },
     "handRankings": {
-      "title": "Hand Rankings",
-      "metaDescription": "Poker hand rankings — from royal flush to high card. Quick reference guide."
+      "title": "Poker Hand Rankings",
+      "metaTitle": "Poker Hand Rankings | PokerNotes",
+      "metaDescription": "Official poker hand rankings from Royal Flush to High Card."
     }
   },
   "ai": {
@@ -100,16 +128,40 @@
     "tricky": "Tricky"
   },
   "pricing": {
+    "metaTitle": "Pricing | PokerNotes",
+    "metaDescription": "Upgrade to PokerNotes Pro for unlimited cloud-synced player reads.",
+    "headline": "Simple, transparent pricing.",
+    "subtitle": "Free calculators for everyone. Take notes locally for free. Upgrade to Pro for unlimited cloud storage and AI syncing.",
     "free": {
       "name": "Free",
-      "price": "Free forever"
+      "price": "Free forever",
+      "cta": "Current Plan",
+      "feature1": "All Poker Calculators included",
+      "feature2": "Offline PWA Support",
+      "feature3": "Save notes for up to {limit} players locally"
     },
     "pro": {
       "name": "Pro",
       "monthly": "${price}/month",
       "yearly": "${price}/year",
-      "savings": "Save {percent}%"
+      "savings": "Save {percent}%",
+      "badge": "POPULAR",
+      "cta": "Upgrade to Pro",
+      "feature1": "Unlimited player notes",
+      "feature2": "Cloud Sync across all devices",
+      "feature3": "AI Structuring & voice-to-text",
+      "feature4": "Priority Support"
     }
+  },
+  "footer": {
+    "tagline": "Win more live poker with structured AI notes and free calculators. Built for your phone.",
+    "sectionTools": "Tools",
+    "sectionProduct": "Product",
+    "sectionLegal": "Legal",
+    "myNotes": "My Notes",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "copyright": "© {year} PokerNotes. All rights reserved. Play responsibly."
   },
   "auth": {
     "signIn": {
