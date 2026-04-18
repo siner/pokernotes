@@ -99,7 +99,7 @@ const eslintConfig = [
       'public/workbox-*.js',
       'public/workbox-*.js.map',
       'build/**',
-      'dist/**'
+      'dist/**',
     ],
   },
   {
