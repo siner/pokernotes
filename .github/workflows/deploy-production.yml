@@ -31,7 +31,12 @@ jobs:
       - run: pnpm build:cf
 
       - name: Apply D1 migrations (production)
-        run: pnpm exec wrangler d1 migrations apply pokernotes-db --remote
+        run: |
+          if [ -d "migrations" ] && [ "$(ls -A migrations/*.sql 2>/dev/null)" ]; then
+            pnpm exec wrangler d1 migrations apply pokernotes-db --remote
+          else
+            echo "No migrations found, skipping"
+          fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
