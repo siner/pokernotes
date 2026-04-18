@@ -1,0 +1,19 @@
+name = "pokernotes"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pokernotes-db"
+database_id = "b5bb070c-00be-4110-ba6f-8fc9909dc4de"
+
+[[r2_buckets]]
+binding = "PLAYER_PHOTOS"
+bucket_name = "pokernotes-photos"
+
+[[kv_namespaces]]
+binding = "RATE_LIMITS"
+id = "86fb9e18ef0e43a5a719c65fa07455c9"
+
+[ai]
+binding = "AI"
