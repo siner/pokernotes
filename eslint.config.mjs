@@ -22,6 +22,7 @@ const browserGlobals = {
   document: 'readonly',
   navigator: 'readonly',
   fetch: 'readonly',
+  Event: 'readonly',
   React: 'readonly',
   JSX: 'readonly',
 };
@@ -31,6 +32,7 @@ const edgeGlobals = {
   Response: 'readonly',
   Request: 'readonly',
   Headers: 'readonly',
+  ServiceWorkerGlobalScope: 'readonly',
   // Cloudflare bindings (typed via types/cloudflare.d.ts)
   D1Database: 'readonly',
   R2Bucket: 'readonly',
@@ -89,7 +91,19 @@ const eslintConfig = [
 
   // Config files — TypeScript but without strict rules
   {
-    files: ['*.config.ts', '*.config.mjs', '*.config.js'],
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'public/sw.js',
+      'public/sw.js.map',
+      'public/workbox-*.js',
+      'public/workbox-*.js.map',
+      'build/**',
+      'dist/**'
+    ],
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}', '*.config.mjs', '*.config.js'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {

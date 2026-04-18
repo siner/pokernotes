@@ -6,12 +6,19 @@
     "edit": "Editar",
     "loading": "Cargando...",
     "error": "Algo salió mal",
-    "switchLanguage": "Cambiar idioma"
+    "switchLanguage": "Cambiar idioma",
+    "offline": {
+      "title": "Estás sin conexión",
+      "description": "Parece que has perdido la conexión a internet.",
+      "cta": "Reintentar"
+    }
   },
   "nav": {
     "notes": "Notas",
     "tools": "Herramientas",
     "settings": "Ajustes",
+    "pricing": "Precios",
+    "backToHome": "Volver al inicio",
     "signIn": "Iniciar sesión",
     "signOut": "Cerrar sesión"
   },
@@ -25,6 +32,7 @@
       "pills": ["IA para Notas", "Pot Odds", "Tabla Push/Fold", "ICM", "Modo Sin Conexión"]
     },
     "features": {
+      "sectionTitle": "Todo lo que necesitas en la mesa.",
       "aiNotes": {
         "title": "Notas estructuradas con IA",
         "description": "Dicta un read; lo convertimos en tags y tendencias estructuradas."
@@ -51,24 +59,44 @@
     }
   },
   "tools": {
+    "nav": {
+      "potOdds": "Pot Odds",
+      "pushFold": "Push/Fold",
+      "icm": "ICM",
+      "handRankings": "Manos"
+    },
     "potOdds": {
       "title": "Calculadora de Pot Odds",
       "metaDescription": "Calculadora de pot odds gratis para poker. Calcula el equity necesario para pagar de forma rentable.",
       "potSize": "Tamaño del bote",
-      "betToCall": "Apuesta a pagar",
-      "equityNeeded": "Necesitas un {percent}% de equity para pagar con rentabilidad"
+      "metaTitle": "Calculadora de Pot Odds | PokerNotes",
+      "metaDescription": "Calcula el capital mínimo requerido basado en las pot odds para tomar decisiones rentables en poker.",
+      "howTo": "Cómo usar la Calculadora de Pot Odds",
+      "desc1": "Las 'Pot odds' representan la proporción entre el tamaño actual del bote y el coste de la apuesta que intentas igualar. Conocer tus pot odds es crucial para tomar decisiones matemáticamente rentables.",
+      "li1": "Tamaño del Bote: La cantidad total de dinero que hay en la mesa, incluyendo las apuestas de la ronda actual.",
+      "li2": "Apuesta a Igualar: La cantidad que te cuesta entrar a la mano para continuar jugando.",
+      "desc2": "La equity requerida o 'pot odds' porcentual es cuánto debe ganar tu mano para no perder dinero. Si crees que vas a ganar la mano un porcentaje de veces por encima del mostrado, pagar es matemáticamente positivo (+EV) a la larga."
+    },
+    "pushFold": {
+      "title": "Tablas Push/Fold (Nash)",
+      "metaTitle": "Tablas Push/Fold Nash | PokerNotes",
+      "metaDescription": "Rangos óptimos Push/Fold basados en el Equilibrio de Nash para poker de torneos con poco stack.",
+      "howTo": "Acerca de la Estrategia Push/Fold",
+      "desc1": "Push/Fold es una estrategia inexpugnable (Equilibrio de Nash) usada en torneos cuando estás corto de fichas (generalmente 15 o menos ciegas). Cuando esto pasa pierdes todo el nivel dinámico post-flop.",
+      "desc2": "Y en lugar de ir igualando o subiendo poco a poco, la jugada matemáticamente estricta se vuelve simplemente en ir All-in o Retirarse de mano. Esta tabla aproxima con colores qué manos empujar (All in) según tus ciegas y tu posición."
     },
     "icm": {
       "title": "Calculadora ICM",
-      "metaDescription": "Calculadora ICM gratis para negociaciones en torneos de poker."
-    },
-    "pushFold": {
-      "title": "Tabla Push/Fold",
-      "metaDescription": "Tabla Nash push/fold gratis para poker de torneo."
+      "metaTitle": "Calculadora ICM | PokerNotes",
+      "metaDescription": "Calculadora del Modelo Independiente de Fichas (ICM) para mesas finales y saltos de premios.",
+      "howTo": "¿Qué es el ICM?",
+      "desc1": "El modelo ICM calcula la evaluación matemática y real en divisa/dólares del stack de cada jugador basándose en la estructura de pagos de un torneo.",
+      "desc2": "Esto se vuelve vital en la fina línea que separa una mesa final en la burbuja de premios o frente a choques donde la recompensa económica varía brutalmente. Se utiliza habitualmente para negociar pactos justos en las ciegas finales."
     },
     "handRankings": {
-      "title": "Ranking de manos",
-      "metaDescription": "Ranking de manos de poker — de escalera real a carta alta. Guía de referencia rápida."
+      "title": "Ranking de Manos",
+      "metaTitle": "Ranking de Manos | PokerNotes",
+      "metaDescription": "Tabla oficial de fuerzas del poker: desde la Escalera Real a la Carta Alta."
     }
   },
   "ai": {
@@ -100,16 +128,40 @@
     "tricky": "Tramposo"
   },
   "pricing": {
+    "metaTitle": "Precios | PokerNotes",
+    "metaDescription": "Pasa a PokerNotes Pro y accede a notas ilimitadas sincronizadas en la nube.",
+    "headline": "Precios simples y transparentes.",
+    "subtitle": "Calculadoras gratis para todos. Toma notas en local de forma gratuita. Pasa a Pro para acceso ilimitado a la nube y sincronización con IA.",
     "free": {
       "name": "Gratis",
-      "price": "Gratis para siempre"
+      "price": "Gratis para siempre",
+      "cta": "Plan actual",
+      "feature1": "Todas las Calculadoras de Poker incluidas",
+      "feature2": "Soporte PWA sin conexión",
+      "feature3": "Guarda notas de hasta {limit} jugadores en local"
     },
     "pro": {
       "name": "Pro",
       "monthly": "${price}/mes",
       "yearly": "${price}/año",
-      "savings": "Ahorra un {percent}%"
+      "savings": "Ahorra un {percent}%",
+      "badge": "POPULAR",
+      "cta": "Pasarse a Pro",
+      "feature1": "Notas ilimitadas de jugadores",
+      "feature2": "Sincronización en la nube entre dispositivos",
+      "feature3": "IA para estructurar notas y transcripción de voz",
+      "feature4": "Soporte prioritario"
     }
+  },
+  "footer": {
+    "tagline": "Gana más en el poker en vivo con notas estructuradas por IA y calculadoras gratis. Hecho para tu móvil.",
+    "sectionTools": "Herramientas",
+    "sectionProduct": "Producto",
+    "sectionLegal": "Legal",
+    "myNotes": "Mis Notas",
+    "terms": "Términos de uso",
+    "privacy": "Política de privacidad",
+    "copyright": "© {year} PokerNotes. Todos los derechos reservados. Juega con responsabilidad."
   },
   "auth": {
     "signIn": {

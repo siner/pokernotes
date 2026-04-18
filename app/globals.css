@@ -1,24 +1,32 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@plugin 'tailwindcss-animate';
+
+@theme {
+  --grid-template-columns-13: repeat(13, minmax(0, 1fr));
+  --font-display: var(--font-syne);
+  --font-mono: var(--font-mono-loaded, ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace);
+}
 
 /* ── Design tokens ────────────────────────────────────────── */
 :root {
   /* Dark theme by default (discreet at the poker table) */
-  --background: #0f172a;
-  --foreground: #f1f5f9;
+  --background: #060d08;
+  --foreground: #e8f0e9;
 
-  /* Brand */
-  --brand: #6366f1; /* indigo-500 */
+  /* Brand — emerald, not indigo */
+  --brand: #16a34a;
   --brand-foreground: #ffffff;
 
   /* Surface levels */
-  --surface-1: #1e293b; /* slate-800 */
-  --surface-2: #334155; /* slate-700 */
+  --surface-1: #0f1e12;
+  --surface-2: #1a2e1d;
 
   /* Semantic */
-  --muted: #64748b; /* slate-500 */
-  --muted-foreground: #94a3b8; /* slate-400 */
-  --border: #334155;
-  --input: #1e293b;
+  --muted: #4d6b51;
+  --muted-foreground: #7fa882;
+  --border: #1e3322;
+  --input: #0f1e12;
 
   /* Status */
   --success: #22c55e;
@@ -34,12 +42,9 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
-  /* Prevent font-size zoom on iOS when rotating */
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
@@ -50,15 +55,18 @@ body {
   font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
   line-height: 1.6;
   min-height: 100dvh;
-  /* Readable in low-light conditions */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Tap targets ──────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-syne, system-ui, sans-serif);
+}
+
+/* ── Tap targets (interactive elements only, not inline anchors) ── */
 button,
-a,
-[role='button'] {
+[role='button'],
+a.btn {
   min-height: 44px;
   min-width: 44px;
 }
