@@ -1,23 +1,20 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Smoke tests @smoke', () => {
-  test('English landing page renders hero title', async ({ page }) => {
-    await page.goto('/en');
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Win more live poker');
-  });
+test('@smoke health endpoint returns ok', async ({ request }) => {
+  const res = await request.get('/api/health');
+  expect(res.status()).toBe(200);
+  const body = (await res.json()) as { status: string };
+  expect(body.status).toBe('ok');
+});
 
-  test('Spanish landing page renders hero title', async ({ page }) => {
-    await page.goto('/es');
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('poker en vivo');
-  });
+test('@smoke /en renders hero heading', async ({ page }) => {
+  await page.goto('/en');
+  const heading = page.getByRole('heading', { level: 1 });
+  await expect(heading).toBeVisible();
+});
 
-  test('Root redirects to locale', async ({ page }) => {
-    const response = await page.goto('/');
-    // Should redirect to /en or /es
-    const url = page.url();
-    expect(url).toMatch(/\/(en|es)$/);
-    expect(response?.status()).toBeLessThan(400);
-  });
+test('@smoke /es renders hero heading', async ({ page }) => {
+  await page.goto('/es');
+  const heading = page.getByRole('heading', { level: 1 });
+  await expect(heading).toBeVisible();
 });

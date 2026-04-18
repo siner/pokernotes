@@ -1,0 +1,26 @@
+{
+  "name": "PokerNotes",
+  "short_name": "PokerNotes",
+  "description": "Live poker player notes & tools — AI-powered opponent tracking",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "start_url": "/en/notes",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["games", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

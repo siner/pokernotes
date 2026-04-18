@@ -5,7 +5,8 @@
     "delete": "Delete",
     "edit": "Edit",
     "loading": "Loading...",
-    "error": "Something went wrong"
+    "error": "Something went wrong",
+    "switchLanguage": "Switch language"
   },
   "nav": {
     "notes": "Notes",
@@ -18,7 +19,10 @@
     "hero": {
       "title": "Read your opponents. Win more live poker.",
       "subtitle": "AI-powered notes for live poker players. Free calculators. Built for your phone.",
-      "cta": "Start taking notes"
+      "cta": "Start taking notes",
+      "secondaryCta": "Try Calculators",
+      "badgeFree": "Free forever for basics",
+      "pills": ["AI Note Structuring", "Pot Odds", "Push/Fold Nash", "ICM", "Offline-First"]
     },
     "features": {
       "aiNotes": {

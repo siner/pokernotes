@@ -5,7 +5,8 @@
     "delete": "Eliminar",
     "edit": "Editar",
     "loading": "Cargando...",
-    "error": "Algo salió mal"
+    "error": "Algo salió mal",
+    "switchLanguage": "Cambiar idioma"
   },
   "nav": {
     "notes": "Notas",
@@ -18,7 +19,10 @@
     "hero": {
       "title": "Lee a tus rivales. Gana más al poker en vivo.",
       "subtitle": "Notas potenciadas con IA para jugadores de poker en vivo. Calculadoras gratis. Hecho para tu móvil.",
-      "cta": "Empezar a tomar notas"
+      "cta": "Empezar a tomar notas",
+      "secondaryCta": "Probar Calculadoras",
+      "badgeFree": "Básico gratis para siempre",
+      "pills": ["IA para Notas", "Pot Odds", "Tabla Push/Fold", "ICM", "Modo Sin Conexión"]
     },
     "features": {
       "aiNotes": {

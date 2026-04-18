@@ -26,6 +26,18 @@ const browserGlobals = {
   JSX: 'readonly',
 };
 
+// Web Fetch API + Cloudflare Workers globals (edge runtime)
+const edgeGlobals = {
+  Response: 'readonly',
+  Request: 'readonly',
+  Headers: 'readonly',
+  // Cloudflare bindings (typed via types/cloudflare.d.ts)
+  D1Database: 'readonly',
+  R2Bucket: 'readonly',
+  KVNamespace: 'readonly',
+  Ai: 'readonly',
+};
+
 /** @type {import('eslint').Linter.Config[]} */
 const eslintConfig = [
   // Base JS recommended rules
@@ -37,6 +49,7 @@ const eslintConfig = [
       globals: {
         ...nodeGlobals,
         ...browserGlobals,
+        ...edgeGlobals,
       },
       ecmaVersion: 2022,
       sourceType: 'module',
