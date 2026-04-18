@@ -1,0 +1,127 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "switchLanguage": "Cambiar idioma"
+  },
+  "nav": {
+    "notes": "Notas",
+    "tools": "Herramientas",
+    "settings": "Ajustes",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión"
+  },
+  "landing": {
+    "hero": {
+      "title": "Lee a tus rivales. Gana más al poker en vivo.",
+      "subtitle": "Notas potenciadas con IA para jugadores de poker en vivo. Calculadoras gratis. Hecho para tu móvil.",
+      "cta": "Empezar a tomar notas",
+      "secondaryCta": "Probar Calculadoras",
+      "badgeFree": "Básico gratis para siempre",
+      "pills": ["IA para Notas", "Pot Odds", "Tabla Push/Fold", "ICM", "Modo Sin Conexión"]
+    },
+    "features": {
+      "aiNotes": {
+        "title": "Notas estructuradas con IA",
+        "description": "Dicta un read; lo convertimos en tags y tendencias estructuradas."
+      },
+      "calculators": {
+        "title": "Calculadoras gratis",
+        "description": "Pot odds, ICM, tabla push/fold — siempre disponibles, incluso sin conexión."
+      },
+      "offline": {
+        "title": "Funciona sin conexión",
+        "description": "Instálala como app. Toma notas en la mesa sin necesidad de señal."
+      }
+    }
+  },
+  "notes": {
+    "empty": {
+      "title": "Aún no hay jugadores registrados",
+      "cta": "Añade tu primer jugador"
+    },
+    "playerCount": "{count, plural, =0 {Sin jugadores} one {# jugador} other {# jugadores}}",
+    "lastSeen": "Visto por última vez {date, date, medium}",
+    "limits": {
+      "freeTier": "Has alcanzado el límite gratuito de {limit} jugadores. Pasa a Pro para tener acceso ilimitado."
+    }
+  },
+  "tools": {
+    "potOdds": {
+      "title": "Calculadora de Pot Odds",
+      "metaDescription": "Calculadora de pot odds gratis para poker. Calcula el equity necesario para pagar de forma rentable.",
+      "potSize": "Tamaño del bote",
+      "betToCall": "Apuesta a pagar",
+      "equityNeeded": "Necesitas un {percent}% de equity para pagar con rentabilidad"
+    },
+    "icm": {
+      "title": "Calculadora ICM",
+      "metaDescription": "Calculadora ICM gratis para negociaciones en torneos de poker."
+    },
+    "pushFold": {
+      "title": "Tabla Push/Fold",
+      "metaDescription": "Tabla Nash push/fold gratis para poker de torneo."
+    },
+    "handRankings": {
+      "title": "Ranking de manos",
+      "metaDescription": "Ranking de manos de poker — de escalera real a carta alta. Guía de referencia rápida."
+    }
+  },
+  "ai": {
+    "button": "Estructurar con IA",
+    "processing": "Analizando nota...",
+    "suggestedTags": "Tags sugeridos",
+    "summary": "Resumen",
+    "preflop": "Tendencia preflop",
+    "postflop": "Tendencia postflop",
+    "rateLimitExceeded": "Límite diario de IA alcanzado. Actualiza para conseguir más."
+  },
+  "tags": {
+    "aggro": "Agresivo",
+    "passive": "Pasivo",
+    "nit": "Nit",
+    "maniac": "Maniac",
+    "fish": "Fish",
+    "reg": "Regular",
+    "shark": "Tiburón",
+    "calling-station": "Calling station",
+    "3bet-happy": "3bet fácil",
+    "slow-player": "Slow player",
+    "bluffer": "Farolero",
+    "value-heavy": "Value-heavy",
+    "overbet": "Overbet",
+    "scared-money": "Dinero con miedo",
+    "tilt-prone": "Tiltea fácil",
+    "solid": "Sólido",
+    "tricky": "Tramposo"
+  },
+  "pricing": {
+    "free": {
+      "name": "Gratis",
+      "price": "Gratis para siempre"
+    },
+    "pro": {
+      "name": "Pro",
+      "monthly": "${price}/mes",
+      "yearly": "${price}/año",
+      "savings": "Ahorra un {percent}%"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Inicia sesión en PokerNotes",
+      "emailLabel": "Correo electrónico",
+      "passwordLabel": "Contraseña",
+      "submit": "Iniciar sesión",
+      "withGoogle": "Continuar con Google"
+    },
+    "signUp": {
+      "title": "Crea tu cuenta",
+      "submit": "Crear cuenta"
+    }
+  }
+}
