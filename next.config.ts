@@ -3,8 +3,10 @@ import createNextIntlPlugin from 'next-intl/plugin';
 import withSerwistInit from '@serwist/next';
 import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
 
-// Wires up wrangler's platform proxy so CF bindings work in `next dev`
-initOpenNextCloudflareForDev();
+// Wires up wrangler's platform proxy so CF bindings work in `next dev` only
+if (process.env.NODE_ENV === 'development') {
+  initOpenNextCloudflareForDev();
+}
 
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
