@@ -20,7 +20,8 @@
     "pricing": "Precios",
     "backToHome": "Volver al inicio",
     "signIn": "Iniciar sesión",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "signUp": "Registrarse"
   },
   "landing": {
     "hero": {
@@ -294,16 +295,34 @@
     "copyright": "© {year} PokerNotes. Todos los derechos reservados. Juega con responsabilidad."
   },
   "auth": {
-    "signIn": {
-      "title": "Inicia sesión en PokerNotes",
-      "emailLabel": "Correo electrónico",
-      "passwordLabel": "Contraseña",
-      "submit": "Iniciar sesión",
-      "withGoogle": "Continuar con Google"
-    },
-    "signUp": {
-      "title": "Crea tu cuenta",
-      "submit": "Crear cuenta"
+    "signIn": "Iniciar sesión",
+    "signingIn": "Iniciando sesión...",
+    "signUp": "Registrarse",
+    "signOut": "Cerrar sesión",
+    "createAccount": "Crear cuenta",
+    "creatingAccount": "Creando cuenta...",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "name": "Tu nombre",
+    "namePlaceholder": "Fran",
+    "orContinueWith": "o continúa con",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "errors": {
+      "invalidCredentials": "Email o contraseña incorrectos",
+      "signUpFailed": "No se pudo crear la cuenta. Inténtalo de nuevo."
     }
+  },
+  "settings": {
+    "metaTitle": "Ajustes | PokerNotes",
+    "title": "Ajustes de la cuenta",
+    "profile": "Perfil",
+    "subscription": "Suscripción",
+    "currentPlan": "Plan actual",
+    "manageBilling": "Gestionar facturación",
+    "freePlan": "Gratis",
+    "proPlan": "Pro",
+    "upgradeToPro": "Pasarse a Pro",
+    "memberSince": "Miembro desde {date}"
   }
 }

@@ -13,4 +13,12 @@ interface CloudflareEnv {
   RATE_LIMITS: KVNamespace;
   /** Cloudflare Workers AI — Llama 3.1 8B */
   AI: Ai;
+  /** Stripe API Secret Key */
+  STRIPE_SECRET_KEY: string;
+  /** Stripe Webhook Secret */
+  STRIPE_WEBHOOK_SECRET: string;
+  /** Stripe Pro Price ID */
+  NEXT_PUBLIC_STRIPE_PRO_PRICE_ID: string;
+  /** Public App URL */
+  NEXT_PUBLIC_APP_URL: string;
 }

@@ -8,3 +8,4 @@ playwright-report
 *.md
 public/sw.js
 public/sw.js.map
+pnpm-lock.yaml
