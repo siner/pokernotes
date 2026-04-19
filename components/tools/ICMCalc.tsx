@@ -33,10 +33,10 @@ export function ICMCalc() {
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="grid gap-6">
       {/* Inputs */}
       <div
-        className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl"
+        className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl grid gap-6 md:grid-cols-2"
         style={dotGrid}
       >
         {/* Stacks */}
@@ -75,8 +75,6 @@ export function ICMCalc() {
             ))}
           </div>
         </div>
-
-        <div className="my-5 border-t border-slate-800/80" />
 
         {/* Payouts */}
         <div>
