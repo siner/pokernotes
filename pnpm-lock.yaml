@@ -16,6 +16,9 @@ importers:
       '@serwist/sw':
         specifier: ^9.5.7
         version: 9.5.7(browserslist@4.28.2)(typescript@6.0.3)
+      idb:
+        specifier: ^8.0.3
+        version: 8.0.3
       lucide-react:
         specifier: ^1.8.0
         version: 1.8.0(react@19.2.5)
@@ -34,6 +37,9 @@ importers:
       serwist:
         specifier: ^9.5.7
         version: 9.5.7(browserslist@4.28.2)(typescript@6.0.3)
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20260418.1

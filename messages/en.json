@@ -48,14 +48,81 @@
     }
   },
   "notes": {
+    "metaTitle": "My Notes | PokerNotes",
+    "metaDescription": "Track your live poker opponents. Add reads, tags, and AI-structured notes.",
+    "title": "My Notes",
+    "addPlayer": "Add Player",
+    "search": {
+      "placeholder": "Search players...",
+      "noResults": "No players match your search"
+    },
     "empty": {
       "title": "No players tracked yet",
+      "description": "Start building your database. Add your first opponent to take notes.",
       "cta": "Add your first player"
     },
     "playerCount": "{count, plural, =0 {No players} one {# player} other {# players}}",
-    "lastSeen": "Last seen {date, date, medium}",
+    "lastSeen": "Last seen {date}",
+    "timesPlayed": "{count, plural, one {# session} other {# sessions}}",
     "limits": {
       "freeTier": "You've reached the free limit of {limit} players. Upgrade to Pro for unlimited."
+    },
+    "tabs": {
+      "players": "Players",
+      "sessions": "Sessions"
+    },
+    "sessionBadge": "Session",
+    "addModal": {
+      "title": "Add new player",
+      "nicknameLabel": "Nickname",
+      "nicknamePlaceholder": "e.g. Big Hat Guy",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Physical description to help you identify them...",
+      "tagsLabel": "Tags",
+      "submit": "Add Player"
+    },
+    "deleteConfirm": {
+      "title": "Delete player",
+      "message": "Delete {name}? This will also delete all their notes.",
+      "confirm": "Yes, delete"
+    },
+    "detail": {
+      "metaTitle": "{name} | PokerNotes",
+      "notFound": "Player not found",
+      "notFoundBack": "Back to notes",
+      "editNickname": "Edit nickname",
+      "editDescription": "Edit description",
+      "addNote": "Add note",
+      "noNotes": "No notes yet",
+      "noNotesHint": "Add your first read on this player.",
+      "noteCount": "{count, plural, one {# note} other {# notes}}",
+      "timesPlayed": "{count, plural, one {# session} other {# sessions}}",
+      "lastSeen": "Last seen {date}",
+      "deleteNote": "Delete note",
+      "tabs": {
+        "notes": "Notes",
+        "info": "Info"
+      },
+      "infoSection": {
+        "description": "Description",
+        "descriptionEmpty": "No description added",
+        "firstSeen": "First seen",
+        "addedOn": "Added"
+      }
+    },
+    "composer": {
+      "placeholder": "e.g. Called my river shove with second pair. Never folds to 3bets. Limps UTG a lot.",
+      "aiButton": "Structure with AI",
+      "aiProcessing": "Analyzing...",
+      "aiResultTitle": "AI Analysis",
+      "aiSummaryLabel": "Summary",
+      "aiPreflopLabel": "Preflop",
+      "aiPostflopLabel": "Postflop",
+      "aiTagsLabel": "Suggested tags",
+      "save": "Save note",
+      "saveWithAi": "Save with AI tags",
+      "discard": "Discard",
+      "aiError": "AI analysis failed. You can still save your note."
     }
   },
   "tools": {
@@ -126,6 +193,69 @@
     "tilt-prone": "Tilt-prone",
     "solid": "Solid",
     "tricky": "Tricky"
+  },
+  "session": {
+    "metaTitle": "Session | PokerNotes",
+    "startSession": "Start Session",
+    "activeSessionBanner": "Session active",
+    "activeBannerCta": "Back to session",
+    "noActive": {
+      "title": "No active session",
+      "description": "Start a session from My Notes to track the players at your table.",
+      "cta": "Go to My Notes"
+    },
+    "startModal": {
+      "title": "Start new session",
+      "namePlaceholder": "e.g. Casino Orenes — Tuesday",
+      "nameHint": "Optional. Helps you find it later.",
+      "startButton": "Start Session"
+    },
+    "header": {
+      "duration": "{hours}h {minutes}m",
+      "durationMinutes": "{minutes}m",
+      "playerCount": "{count, plural, one {# player} other {# players}}",
+      "noteCount": "{count, plural, one {# note} other {# notes}}"
+    },
+    "table": {
+      "title": "Met this session",
+      "empty": "No players added yet",
+      "emptyHint": "Search below to add players to this session.",
+      "addSearch": "Search or add player..."
+    },
+    "quickNote": {
+      "title": "Note on {name}",
+      "save": "Save & continue"
+    },
+    "endSession": "End Session",
+    "endConfirm": {
+      "title": "End session?",
+      "message": "Notes already saved won't be lost.",
+      "confirm": "End session"
+    },
+    "summary": {
+      "title": "Session complete",
+      "duration": "Duration",
+      "playersTracked": "Players tracked",
+      "notesAdded": "Notes added",
+      "done": "Done"
+    },
+    "list": {
+      "empty": "No sessions yet",
+      "emptyHint": "Start a session to track the players you encounter.",
+      "unnamed": "Session {date}",
+      "duration": "{hours}h {minutes}m",
+      "durationMinutes": "{minutes}m",
+      "durationShort": "< 1m",
+      "playerCount": "{count, plural, one {# player} other {# players}}",
+      "noteCount": "{count, plural, one {# note} other {# notes}}"
+    },
+    "detail": {
+      "metaTitle": "{name} | PokerNotes",
+      "backToSessions": "Sessions",
+      "unnamed": "Session {date}",
+      "noPlayers": "No players recorded",
+      "noNotes": "No notes during this session"
+    }
   },
   "pricing": {
     "metaTitle": "Pricing | PokerNotes",

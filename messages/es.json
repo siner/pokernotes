@@ -48,14 +48,81 @@
     }
   },
   "notes": {
+    "metaTitle": "Mis Notas | PokerNotes",
+    "metaDescription": "Registra a tus rivales de poker en vivo. Añade reads, tags y notas estructuradas con IA.",
+    "title": "Mis Notas",
+    "addPlayer": "Añadir jugador",
+    "search": {
+      "placeholder": "Buscar jugadores...",
+      "noResults": "Ningún jugador coincide con tu búsqueda"
+    },
     "empty": {
       "title": "Aún no hay jugadores registrados",
+      "description": "Empieza a construir tu base de datos. Añade a tu primer rival para tomar notas.",
       "cta": "Añade tu primer jugador"
     },
     "playerCount": "{count, plural, =0 {Sin jugadores} one {# jugador} other {# jugadores}}",
-    "lastSeen": "Visto por última vez {date, date, medium}",
+    "lastSeen": "Visto por última vez {date}",
+    "timesPlayed": "{count, plural, one {# sesión} other {# sesiones}}",
     "limits": {
       "freeTier": "Has alcanzado el límite gratuito de {limit} jugadores. Pasa a Pro para tener acceso ilimitado."
+    },
+    "tabs": {
+      "players": "Jugadores",
+      "sessions": "Sesiones"
+    },
+    "sessionBadge": "Sesión",
+    "addModal": {
+      "title": "Añadir jugador",
+      "nicknameLabel": "Apodo",
+      "nicknamePlaceholder": "ej. Tío del sombrero",
+      "descriptionLabel": "Descripción (opcional)",
+      "descriptionPlaceholder": "Descripción física para identificarle...",
+      "tagsLabel": "Tags",
+      "submit": "Añadir jugador"
+    },
+    "deleteConfirm": {
+      "title": "Eliminar jugador",
+      "message": "¿Eliminar a {name}? También se eliminarán todas sus notas.",
+      "confirm": "Sí, eliminar"
+    },
+    "detail": {
+      "metaTitle": "{name} | PokerNotes",
+      "notFound": "Jugador no encontrado",
+      "notFoundBack": "Volver a notas",
+      "editNickname": "Editar apodo",
+      "editDescription": "Editar descripción",
+      "addNote": "Añadir nota",
+      "noNotes": "Sin notas todavía",
+      "noNotesHint": "Añade tu primer read sobre este jugador.",
+      "noteCount": "{count, plural, one {# nota} other {# notas}}",
+      "timesPlayed": "{count, plural, one {# sesión} other {# sesiones}}",
+      "lastSeen": "Visto por última vez {date}",
+      "deleteNote": "Eliminar nota",
+      "tabs": {
+        "notes": "Notas",
+        "info": "Info"
+      },
+      "infoSection": {
+        "description": "Descripción",
+        "descriptionEmpty": "Sin descripción",
+        "firstSeen": "Primera vez visto",
+        "addedOn": "Añadido el"
+      }
+    },
+    "composer": {
+      "placeholder": "ej. Pagó mi all-in en el river con pareja media. Nunca foldea a 3bets. Limp UTG con frecuencia.",
+      "aiButton": "Estructurar con IA",
+      "aiProcessing": "Analizando...",
+      "aiResultTitle": "Análisis IA",
+      "aiSummaryLabel": "Resumen",
+      "aiPreflopLabel": "Preflop",
+      "aiPostflopLabel": "Postflop",
+      "aiTagsLabel": "Tags sugeridos",
+      "save": "Guardar nota",
+      "saveWithAi": "Guardar con tags IA",
+      "discard": "Descartar",
+      "aiError": "El análisis de IA falló. Puedes guardar tu nota igualmente."
     }
   },
   "tools": {
@@ -126,6 +193,69 @@
     "tilt-prone": "Tiltea fácil",
     "solid": "Sólido",
     "tricky": "Tramposo"
+  },
+  "session": {
+    "metaTitle": "Sesión | PokerNotes",
+    "startSession": "Iniciar sesión",
+    "activeSessionBanner": "Sesión activa",
+    "activeBannerCta": "Volver a la sesión",
+    "noActive": {
+      "title": "Sin sesión activa",
+      "description": "Inicia una sesión desde Mis Notas para registrar a los jugadores de tu mesa.",
+      "cta": "Ir a Mis Notas"
+    },
+    "startModal": {
+      "title": "Nueva sesión",
+      "namePlaceholder": "ej. Casino Orenes — Martes",
+      "nameHint": "Opcional. Te ayuda a encontrarla más tarde.",
+      "startButton": "Iniciar sesión"
+    },
+    "header": {
+      "duration": "{hours}h {minutes}m",
+      "durationMinutes": "{minutes}m",
+      "playerCount": "{count, plural, one {# jugador} other {# jugadores}}",
+      "noteCount": "{count, plural, one {# nota} other {# notas}}"
+    },
+    "table": {
+      "title": "Vistos en esta sesión",
+      "empty": "Todavía no hay jugadores",
+      "emptyHint": "Usa el buscador para añadir jugadores a esta sesión.",
+      "addSearch": "Buscar o añadir jugador..."
+    },
+    "quickNote": {
+      "title": "Nota sobre {name}",
+      "save": "Guardar y continuar"
+    },
+    "endSession": "Finalizar sesión",
+    "endConfirm": {
+      "title": "¿Finalizar sesión?",
+      "message": "Las notas ya guardadas no se perderán.",
+      "confirm": "Finalizar sesión"
+    },
+    "summary": {
+      "title": "Sesión completada",
+      "duration": "Duración",
+      "playersTracked": "Jugadores registrados",
+      "notesAdded": "Notas añadidas",
+      "done": "Listo"
+    },
+    "list": {
+      "empty": "Todavía no hay sesiones",
+      "emptyHint": "Inicia una sesión para registrar los jugadores con los que coincidas.",
+      "unnamed": "Sesión {date}",
+      "duration": "{hours}h {minutes}m",
+      "durationMinutes": "{minutes}m",
+      "durationShort": "< 1m",
+      "playerCount": "{count, plural, one {# jugador} other {# jugadores}}",
+      "noteCount": "{count, plural, one {# nota} other {# notas}}"
+    },
+    "detail": {
+      "metaTitle": "{name} | PokerNotes",
+      "backToSessions": "Sesiones",
+      "unnamed": "Sesión {date}",
+      "noPlayers": "Sin jugadores registrados",
+      "noNotes": "Sin notas en esta sesión"
+    }
   },
   "pricing": {
     "metaTitle": "Precios | PokerNotes",
