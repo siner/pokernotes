@@ -74,6 +74,18 @@ a.btn {
   min-width: 44px;
 }
 
+/* ── iOS autozoom fix ─────────────────────────────────────── */
+/* iOS Safari zooms in when an input/textarea has font-size < 16px.
+   Using max() keeps the visual size unchanged on desktop but
+   guarantees ≥16px on iOS, preventing the unwanted zoom. */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1em) !important;
+  }
+}
+
 /* ── Reduced motion ───────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
