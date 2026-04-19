@@ -31,6 +31,9 @@ jobs:
       - run: pnpm test:unit
       - run: pnpm test:integration
       - run: pnpm build:cf
+        env:
+          NEXT_PUBLIC_APP_URL: https://pokerreads.app
+          NEXT_PUBLIC_STRIPE_PRO_PRICE_ID: price_1TNxAm03IQZJpCYqet69zF0B
 
       - name: Apply D1 migrations (production)
         run: |
