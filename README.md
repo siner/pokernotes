@@ -1,6 +1,6 @@
-# PokerNotes Documentation
+# PokerReads Documentation
 
-Complete specification and planning docs for **PokerNotes** — a mobile-first PWA for live poker players, built on the Cloudflare stack.
+Complete specification and planning docs for **PokerReads** — a mobile-first PWA for live poker players, built on the Cloudflare stack.
 
 ## 📋 Document Index
 
@@ -19,7 +19,7 @@ Complete specification and planning docs for **PokerNotes** — a mobile-first P
 
 ## 🎯 Quick Summary
 
-**What:** PokerNotes — AI-powered note-taking app for live poker players + free utility calculators (pot odds, ICM, push/fold, hand rankings).
+**What:** PokerReads — AI-powered note-taking app for live poker players + free utility calculators (pot odds, ICM, push/fold, hand rankings).
 
 **Why:** Existing poker tools target online players; live poker has no great mobile companion. Calculators drive SEO traffic; notes + AI drive conversion to Pro.
 
@@ -39,7 +39,7 @@ Complete specification and planning docs for **PokerNotes** — a mobile-first P
 ## 📂 Suggested Repository Structure
 
 ```
-pokernotes/
+pokerreads/
 ├── CLAUDE.md              # Root context — Claude Code reads this every session
 ├── README.md              # Project readme (public-facing)
 ├── .claude/

@@ -34,19 +34,46 @@ export const viewport: Viewport = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'landing.hero' });
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://pokerreads.app';
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+    metadataBase: new URL(baseUrl),
+    title: {
+      default: 'PokerReads — Live Poker Player Notes & Calculators',
+      template: '%s | PokerReads',
+    },
+    description: t('subtitle'),
     manifest: '/manifest.json',
     alternates: {
-      canonical: `/${locale}`,
+      canonical: './',
       languages: {
         en: '/en',
         es: '/es',
         'x-default': '/en',
       },
     },
-    description: t('subtitle'),
+    openGraph: {
+      type: 'website',
+      locale: locale === 'es' ? 'es_ES' : 'en_US',
+      url: baseUrl,
+      siteName: 'PokerReads',
+      title: 'PokerReads — Live Poker Player Notes & Calculators',
+      description: t('subtitle'),
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'PokerReads — AI-powered live poker notes',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'PokerReads — Live Poker Player Notes & Calculators',
+      description: t('subtitle'),
+      images: ['/og-image.png'],
+    },
     icons: {
       icon: '/icons/icon-192.png',
       apple: '/icons/icon-192.png',
@@ -81,7 +108,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                 <Spade className="h-4 w-4 fill-current" />
               </span>
               <span className="font-display text-sm font-bold tracking-tight text-white hidden sm:inline-block">
-                PokerNotes
+                PokerReads
               </span>
             </Link>
             <nav className="flex flex-1 items-center gap-1 sm:gap-2">

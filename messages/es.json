@@ -49,7 +49,7 @@
     }
   },
   "notes": {
-    "metaTitle": "Mis Notas | PokerNotes",
+    "metaTitle": "Mis Notas | PokerReads",
     "metaDescription": "Registra a tus rivales de poker en vivo. Añade reads, tags y notas estructuradas con IA.",
     "title": "Mis Notas",
     "addPlayer": "Añadir jugador",
@@ -88,7 +88,7 @@
       "confirm": "Sí, eliminar"
     },
     "detail": {
-      "metaTitle": "{name} | PokerNotes",
+      "metaTitle": "{name} | PokerReads",
       "notFound": "Jugador no encontrado",
       "notFoundBack": "Volver a notas",
       "editNickname": "Editar apodo",
@@ -137,7 +137,7 @@
       "title": "Calculadora de Pot Odds",
       "metaDescription": "Calculadora de pot odds gratis para poker. Calcula el equity necesario para pagar de forma rentable.",
       "potSize": "Tamaño del bote",
-      "metaTitle": "Calculadora de Pot Odds | PokerNotes",
+      "metaTitle": "Calculadora de Pot Odds | PokerReads",
       "metaDescription": "Calcula el capital mínimo requerido basado en las pot odds para tomar decisiones rentables en poker.",
       "howTo": "Cómo usar la Calculadora de Pot Odds",
       "desc1": "Las 'Pot odds' representan la proporción entre el tamaño actual del bote y el coste de la apuesta que intentas igualar. Conocer tus pot odds es crucial para tomar decisiones matemáticamente rentables.",
@@ -147,7 +147,7 @@
     },
     "pushFold": {
       "title": "Tablas Push/Fold (Nash)",
-      "metaTitle": "Tablas Push/Fold Nash | PokerNotes",
+      "metaTitle": "Tablas Push/Fold Nash | PokerReads",
       "metaDescription": "Rangos óptimos Push/Fold basados en el Equilibrio de Nash para poker de torneos con poco stack.",
       "howTo": "Acerca de la Estrategia Push/Fold",
       "desc1": "Push/Fold es una estrategia inexpugnable (Equilibrio de Nash) usada en torneos cuando estás corto de fichas (generalmente 15 o menos ciegas). Cuando esto pasa pierdes todo el nivel dinámico post-flop.",
@@ -155,7 +155,7 @@
     },
     "icm": {
       "title": "Calculadora ICM",
-      "metaTitle": "Calculadora ICM | PokerNotes",
+      "metaTitle": "Calculadora ICM | PokerReads",
       "metaDescription": "Calculadora del Modelo Independiente de Fichas (ICM) para mesas finales y saltos de premios.",
       "howTo": "¿Qué es el ICM?",
       "desc1": "El modelo ICM calcula la evaluación matemática y real en divisa/dólares del stack de cada jugador basándose en la estructura de pagos de un torneo.",
@@ -163,7 +163,7 @@
     },
     "handRankings": {
       "title": "Ranking de Manos",
-      "metaTitle": "Ranking de Manos | PokerNotes",
+      "metaTitle": "Ranking de Manos | PokerReads",
       "metaDescription": "Tabla oficial de fuerzas del poker: desde la Escalera Real a la Carta Alta."
     }
   },
@@ -196,7 +196,7 @@
     "tricky": "Tramposo"
   },
   "session": {
-    "metaTitle": "Sesión | PokerNotes",
+    "metaTitle": "Sesión | PokerReads",
     "startSession": "Iniciar sesión",
     "activeSessionBanner": "Sesión activa",
     "activeBannerCta": "Volver a la sesión",
@@ -251,7 +251,7 @@
       "noteCount": "{count, plural, one {# nota} other {# notas}}"
     },
     "detail": {
-      "metaTitle": "{name} | PokerNotes",
+      "metaTitle": "{name} | PokerReads",
       "backToSessions": "Sesiones",
       "unnamed": "Sesión {date}",
       "noPlayers": "Sin jugadores registrados",
@@ -259,8 +259,8 @@
     }
   },
   "pricing": {
-    "metaTitle": "Precios | PokerNotes",
-    "metaDescription": "Pasa a PokerNotes Pro y accede a notas ilimitadas sincronizadas en la nube.",
+    "metaTitle": "Precios | PokerReads",
+    "metaDescription": "Pasa a PokerReads Pro y accede a notas ilimitadas sincronizadas en la nube.",
     "headline": "Precios simples y transparentes.",
     "subtitle": "Calculadoras gratis para todos. Toma notas en local de forma gratuita. Pasa a Pro para acceso ilimitado a la nube y sincronización con IA.",
     "free": {
@@ -292,7 +292,7 @@
     "myNotes": "Mis Notas",
     "terms": "Términos de uso",
     "privacy": "Política de privacidad",
-    "copyright": "© {year} PokerNotes. Todos los derechos reservados. Juega con responsabilidad."
+    "copyright": "© {year} PokerReads. Todos los derechos reservados. Juega con responsabilidad."
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -314,7 +314,7 @@
     }
   },
   "settings": {
-    "metaTitle": "Ajustes | PokerNotes",
+    "metaTitle": "Ajustes | PokerReads",
     "title": "Ajustes de la cuenta",
     "profile": "Perfil",
     "subscription": "Suscripción",
@@ -324,5 +324,17 @@
     "proPlan": "Pro",
     "upgradeToPro": "Pasarse a Pro",
     "memberSince": "Miembro desde {date}"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Política de Privacidad",
+      "metaDescription": "Política de privacidad de PokerReads. Aprende cómo tratamos tus datos.",
+      "content": "En PokerReads, nos tomamos muy en serio tu privacidad. Esta política explica cómo protegemos tus notas de jugador y tu información personal."
+    },
+    "terms": {
+      "title": "Términos de Servicio",
+      "metaDescription": "Términos de servicio de PokerReads. Reglas y normativas para usar nuestra app.",
+      "content": "Al usar PokerReads, aceptas nuestros términos. Ofrecemos herramientas de toma de notas para jugadores de poker en vivo mediante IA."
+    }
   }
 }

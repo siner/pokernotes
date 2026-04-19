@@ -1,4 +1,4 @@
-# PokerNotes — Database Schema
+# PokerReads — Database Schema
 
 ## Overview
 
@@ -194,7 +194,7 @@ Same shape as D1, stored locally. Use `idb` library for a clean Promise API.
 ```typescript
 // lib/storage/local.ts
 
-interface PokerNotesDB extends DBSchema {
+interface PokerReadsDB extends DBSchema {
   players: {
     key: string;
     value: LocalPlayer;

@@ -49,7 +49,7 @@
     }
   },
   "notes": {
-    "metaTitle": "My Notes | PokerNotes",
+    "metaTitle": "My Notes | PokerReads",
     "metaDescription": "Track your live poker opponents. Add reads, tags, and AI-structured notes.",
     "title": "My Notes",
     "addPlayer": "Add Player",
@@ -88,7 +88,7 @@
       "confirm": "Yes, delete"
     },
     "detail": {
-      "metaTitle": "{name} | PokerNotes",
+      "metaTitle": "{name} | PokerReads",
       "notFound": "Player not found",
       "notFoundBack": "Back to notes",
       "editNickname": "Edit nickname",
@@ -137,7 +137,7 @@
       "title": "Pot Odds Calculator",
       "metaDescription": "Free pot odds calculator for poker. Calculate the equity you need to make a profitable call.",
       "potSize": "Pot size",
-      "metaTitle": "Pot Odds Calculator | PokerNotes",
+      "metaTitle": "Pot Odds Calculator | PokerReads",
       "metaDescription": "Calculate minimum required equity based on pot odds to make profitable calls in poker.",
       "howTo": "How to use the Pot Odds Calculator",
       "desc1": "Pot odds represent the ratio of the current size of the pot to the cost of a contemplated call. Knowing your pot odds is crucial for making mathematically profitable decisions in poker.",
@@ -147,7 +147,7 @@
     },
     "pushFold": {
       "title": "Push/Fold Nash Chart",
-      "metaTitle": "Push/Fold Nash Chart | PokerNotes",
+      "metaTitle": "Push/Fold Nash Chart | PokerReads",
       "metaDescription": "Optimal Push/Fold ranges based on Nash Equilibrium for short-stacked tournament poker.",
       "howTo": "About Push/Fold Charts",
       "desc1": "Push/Fold is an unexploitable strategy (Nash Equilibrium) used in short-stack tournament play (typically 15 Big Blinds or less). When you have a short stack, you lose your leverage to play post-flop profitably.",
@@ -155,7 +155,7 @@
     },
     "icm": {
       "title": "ICM Calculator",
-      "metaTitle": "ICM Calculator | PokerNotes",
+      "metaTitle": "ICM Calculator | PokerReads",
       "metaDescription": "Independent Chip Model (ICM) calculator for final tables and sit & gos.",
       "howTo": "What is ICM?",
       "desc1": "The Independent Chip Model (ICM) calculates a mathematical evaluation of a player's chip stack based on the payout structure of a tournament. It helps determine the real monetary value of your chips at any given moment.",
@@ -163,7 +163,7 @@
     },
     "handRankings": {
       "title": "Poker Hand Rankings",
-      "metaTitle": "Poker Hand Rankings | PokerNotes",
+      "metaTitle": "Poker Hand Rankings | PokerReads",
       "metaDescription": "Official poker hand rankings from Royal Flush to High Card."
     }
   },
@@ -196,7 +196,7 @@
     "tricky": "Tricky"
   },
   "session": {
-    "metaTitle": "Session | PokerNotes",
+    "metaTitle": "Session | PokerReads",
     "startSession": "Start Session",
     "activeSessionBanner": "Session active",
     "activeBannerCta": "Back to session",
@@ -251,7 +251,7 @@
       "noteCount": "{count, plural, one {# note} other {# notes}}"
     },
     "detail": {
-      "metaTitle": "{name} | PokerNotes",
+      "metaTitle": "{name} | PokerReads",
       "backToSessions": "Sessions",
       "unnamed": "Session {date}",
       "noPlayers": "No players recorded",
@@ -259,8 +259,8 @@
     }
   },
   "pricing": {
-    "metaTitle": "Pricing | PokerNotes",
-    "metaDescription": "Upgrade to PokerNotes Pro for unlimited cloud-synced player reads.",
+    "metaTitle": "Pricing | PokerReads",
+    "metaDescription": "Upgrade to PokerReads Pro for unlimited cloud-synced player reads.",
     "headline": "Simple, transparent pricing.",
     "subtitle": "Free calculators for everyone. Take notes locally for free. Upgrade to Pro for unlimited cloud storage and AI syncing.",
     "free": {
@@ -292,7 +292,7 @@
     "myNotes": "My Notes",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
-    "copyright": "© {year} PokerNotes. All rights reserved. Play responsibly."
+    "copyright": "© {year} PokerReads. All rights reserved. Play responsibly."
   },
   "auth": {
     "signIn": "Sign in",
@@ -314,7 +314,7 @@
     }
   },
   "settings": {
-    "metaTitle": "Settings | PokerNotes",
+    "metaTitle": "Settings | PokerReads",
     "title": "Account Settings",
     "profile": "Profile",
     "subscription": "Subscription",
@@ -324,5 +324,17 @@
     "proPlan": "Pro",
     "upgradeToPro": "Upgrade to Pro",
     "memberSince": "Member since {date}"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "metaDescription": "Privacy policy for PokerReads. Learn how we handle your data.",
+      "content": "At PokerReads, we take your privacy seriously. This policy explains how we collect and protect your player notes and personal information."
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "metaDescription": "Terms of service for PokerReads. Rules and regulations for using our app.",
+      "content": "By using PokerReads, you agree to our terms. We provide AI-powered note-taking tools for live poker players."
+    }
   }
 }

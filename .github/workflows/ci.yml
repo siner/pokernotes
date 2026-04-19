@@ -86,7 +86,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
         env:
-          NEXT_PUBLIC_APP_URL: https://pokernotes.app
+          NEXT_PUBLIC_APP_URL: https://pokerreads.app
 
   preview-deploy:
     needs: [lint, typecheck, test-unit, test-integration, build]
@@ -108,7 +108,7 @@ jobs:
       - name: Deploy preview to Cloudflare Workers
         id: deploy
         run: |
-          OUTPUT=$(pnpm exec wrangler deploy --name "pokernotes-pr-${{ github.event.pull_request.number }}" 2>&1)
+          OUTPUT=$(pnpm exec wrangler deploy --name "pokerreads-pr-${{ github.event.pull_request.number }}" 2>&1)
           echo "$OUTPUT"
           URL=$(echo "$OUTPUT" | grep -oP 'https://[^\s]+\.workers\.dev' | head -1)
           echo "deploy_url=$URL" >> $GITHUB_OUTPUT

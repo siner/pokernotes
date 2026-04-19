@@ -80,7 +80,7 @@ export function PwaInstallPrompt() {
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50 flex items-center justify-between rounded-xl border border-slate-700 bg-slate-800 p-4 shadow-xl shadow-black/20 sm:bottom-6 sm:left-auto sm:right-6 sm:w-80">
       <div className="flex flex-col">
-        <span className="text-sm font-medium text-slate-200">Install PokerNotes</span>
+        <span className="text-sm font-medium text-slate-200">Install PokerReads</span>
         <span className="text-xs text-slate-400">
           {isIOS ? 'Tap share and "Add to Home Screen"' : 'Get the app for offline tools'}
         </span>

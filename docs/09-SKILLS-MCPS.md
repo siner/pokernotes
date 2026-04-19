@@ -1,6 +1,6 @@
-# PokerNotes — Skills & MCPs Recommendations
+# PokerReads — Skills & MCPs Recommendations
 
-Curated list of Claude Code skills and MCP servers that will accelerate development of PokerNotes. Filtered to what actually helps for this specific stack — no hype inclusions.
+Curated list of Claude Code skills and MCP servers that will accelerate development of PokerReads. Filtered to what actually helps for this specific stack — no hype inclusions.
 
 > **Reality check first:** Skills and MCPs are powerful but not magic. Most publicly available skills don't just fail to help. They actively hurt — adding tokens, adding latency, injecting constraints that make the output narrower. Install intentionally. Benchmark. Remove what doesn't earn its keep.
 
@@ -23,12 +23,12 @@ Curated list of Claude Code skills and MCP servers that will accelerate developm
 
 ## 2. Recommended Skills
 
-### ⭐ Must-have for PokerNotes
+### ⭐ Must-have for PokerReads
 
 #### `frontend-design` (Anthropic, official)
 Forces Claude to commit to a bold aesthetic direction before writing UI code. Avoids the generic "AI slop" look that makes products feel forgettable.
 
-**Why for PokerNotes:** The app needs to feel distinctive in a crowded poker tools market. Mobile-first, dark, discreet — this skill helps execute that with intention instead of defaulting to generic Tailwind cards.
+**Why for PokerReads:** The app needs to feel distinctive in a crowded poker tools market. Mobile-first, dark, discreet — this skill helps execute that with intention instead of defaulting to generic Tailwind cards.
 
 **When it triggers:** Any UI component, landing page, or design task.
 
@@ -39,7 +39,7 @@ Forces Claude to commit to a bold aesthetic direction before writing UI code. Av
 #### `test-driven-development` (community, widely used)
 Triggers before implementing any feature or bugfix — enforces test-first workflow.
 
-**Why for PokerNotes:** Calculators (ICM, pot odds, push/fold Nash) are pure logic and perfect TDD candidates. AI output parsers need robust tests because Workers AI responses are non-deterministic.
+**Why for PokerReads:** Calculators (ICM, pot odds, push/fold Nash) are pure logic and perfect TDD candidates. AI output parsers need robust tests because Workers AI responses are non-deterministic.
 
 **When it triggers:** "implement X", "fix bug in Y", "add feature Z".
 
@@ -48,7 +48,7 @@ Triggers before implementing any feature or bugfix — enforces test-first workf
 #### `web-design-guidelines` (Vercel Labs)
 Encodes Vercel Engineering's UI/UX standards. Catches accessibility issues, WCAG compliance problems, and form anti-patterns.
 
-**Why for PokerNotes:** Mobile-first PWA needs to be accessible. The app will be used at cardrooms in low-light conditions — contrast and readability matter.
+**Why for PokerReads:** Mobile-first PWA needs to be accessible. The app will be used at cardrooms in low-light conditions — contrast and readability matter.
 
 **When it triggers:** UI review requests, component audits.
 
@@ -59,14 +59,14 @@ Encodes Vercel Engineering's UI/UX standards. Catches accessibility issues, WCAG
 #### `subagent-driven-development`
 Dispatches subagents for parallel tasks with review checkpoints between iterations.
 
-**Why for PokerNotes:** Building 4 calculators in Sprint 1 — perfect fit for parallel subagents (one per calculator) with checkpoint reviews.
+**Why for PokerReads:** Building 4 calculators in Sprint 1 — perfect fit for parallel subagents (one per calculator) with checkpoint reviews.
 
 ---
 
 #### `/simplify` (bundled, Claude Code built-in)
 After making changes to a codebase, /simplify reviews your recently changed files for code reuse opportunities, quality issues, and efficiency improvements — and then fixes them automatically. What makes it effective is that it spawns three parallel review agents, each looking at the changes from a different angle.
 
-**Why for PokerNotes:** Run after every sprint finishes to catch duplicated logic, unused imports, and refactoring opportunities before merging to `main`.
+**Why for PokerReads:** Run after every sprint finishes to catch duplicated logic, unused imports, and refactoring opportunities before merging to `main`.
 
 **Usage:** `/simplify` after completing a feature.
 
@@ -75,7 +75,7 @@ After making changes to a codebase, /simplify reviews your recently changed file
 #### `/review` (bundled)
 Built-in code review before PRs.
 
-**Why for PokerNotes:** Solo developer — no human reviewer. Use `/review` as a sanity check before opening every PR to `dev`.
+**Why for PokerReads:** Solo developer — no human reviewer. Use `/review` as a sanity check before opening every PR to `dev`.
 
 ---
 
@@ -84,21 +84,21 @@ Built-in code review before PRs.
 #### `using-git-worktrees`
 Creates isolated git worktrees with smart directory selection.
 
-**Why for PokerNotes:** If running parallel Claude Code sessions (e.g., one on auth, another on calculators), worktrees prevent branch conflicts.
+**Why for PokerReads:** If running parallel Claude Code sessions (e.g., one on auth, another on calculators), worktrees prevent branch conflicts.
 
 ---
 
 #### `Changelog Generator`
 Transforms technical commits into customer-friendly release notes.
 
-**Why for PokerNotes:** Publishing updates on the landing page helps SEO and shows momentum. Run this before each production deploy.
+**Why for PokerReads:** Publishing updates on the landing page helps SEO and shows momentum. Run this before each production deploy.
 
 ---
 
 #### `MCP Builder`
 Guides creation of custom MCP servers.
 
-**Why for PokerNotes:** Post-MVP, you may want a custom MCP for your PokerManager ecosystem to integrate with PokerNotes.
+**Why for PokerReads:** Post-MVP, you may want a custom MCP for your PokerManager ecosystem to integrate with PokerReads.
 
 ---
 
@@ -119,7 +119,7 @@ Guides creation of custom MCP servers.
 #### Cloudflare Developer Platform MCP
 Official Cloudflare MCP. Gives Claude Code direct access to D1, R2, KV, Workers, and Pages without leaving the terminal.
 
-**Why for PokerNotes:** Every piece of infra lives on Cloudflare. This MCP lets Claude:
+**Why for PokerReads:** Every piece of infra lives on Cloudflare. This MCP lets Claude:
 - Query D1 databases directly during debugging
 - List/create KV namespaces, R2 buckets
 - Deploy Workers
@@ -134,7 +134,7 @@ Official Cloudflare MCP. Gives Claude Code direct access to D1, R2, KV, Workers,
 #### Context7
 Up-to-date documentation and code examples for any package.
 
-**Why for PokerNotes:** Next.js 15, `next-intl`, `drizzle-orm`, `better-auth`, `@opennextjs/cloudflare` — all evolve fast. Claude's training data lags; Context7 fetches current docs.
+**Why for PokerReads:** Next.js 15, `next-intl`, `drizzle-orm`, `better-auth`, `@opennextjs/cloudflare` — all evolve fast. Claude's training data lags; Context7 fetches current docs.
 
 **Install:** MCP registry.
 
@@ -147,7 +147,7 @@ Up-to-date documentation and code examples for any package.
 #### GitHub MCP
 Read/write access to issues, PRs, Actions runs, and code review.
 
-**Why for PokerNotes:**
+**Why for PokerReads:**
 - Claude can check CI status before merging
 - Open issues for bugs found during development
 - Review previous PRs for context on decisions
@@ -160,7 +160,7 @@ Read/write access to issues, PRs, Actions runs, and code review.
 #### Stripe MCP (official)
 Directly interact with Stripe API: create products, view subscriptions, debug webhook events.
 
-**Why for PokerNotes:** Sprint 3 adds Stripe. Rather than juggle the Stripe dashboard and code, let Claude manage products and test webhook flows directly.
+**Why for PokerReads:** Sprint 3 adds Stripe. Rather than juggle the Stripe dashboard and code, let Claude manage products and test webhook flows directly.
 
 **URL:** `https://mcp.stripe.com`
 
@@ -171,14 +171,14 @@ Directly interact with Stripe API: create products, view subscriptions, debug we
 #### Notion MCP
 If you use Notion for planning, this exposes your workspace to Claude.
 
-**Why for PokerNotes:** If you keep sprint retros, user interviews, or affiliate program notes in Notion, this bridges the context. Optional.
+**Why for PokerReads:** If you keep sprint retros, user interviews, or affiliate program notes in Notion, this bridges the context. Optional.
 
 ---
 
 #### Slack MCP
 Read/post to Slack channels.
 
-**Why for PokerNotes:** If you set up CI/deploy notifications in a Slack workspace, Claude can summarize recent alerts. Skip if not using Slack for this project.
+**Why for PokerReads:** If you set up CI/deploy notifications in a Slack workspace, Claude can summarize recent alerts. Skip if not using Slack for this project.
 
 ---
 
@@ -191,7 +191,7 @@ Read/post to Slack channels.
 
 ---
 
-## 4. Custom Skills to Build for PokerNotes
+## 4. Custom Skills to Build for PokerReads
 
 These are project-specific procedures worth capturing as skills. Create them in `.claude/skills/` in your repo so they travel with the project.
 
@@ -487,7 +487,7 @@ Configure in Claude Code settings or via `.claude/config.json`:
 
 ## 6. Recommended Startup Routine
 
-Suggested first commands when starting a Claude Code session on PokerNotes:
+Suggested first commands when starting a Claude Code session on PokerReads:
 
 ```
 1. Read CLAUDE.md (auto-loaded)
@@ -525,7 +525,7 @@ Revisit post-launch:
 
 ## 9. Summary: The Minimum Viable Setup
 
-For getting started on PokerNotes immediately, install these and skip the rest:
+For getting started on PokerReads immediately, install these and skip the rest:
 
 ### Skills (6)
 1. `frontend-design` (official)

@@ -1,4 +1,4 @@
-# PokerNotes — UX & User Flows
+# PokerReads — UX & User Flows
 
 ## 1. Design Principles
 
@@ -65,7 +65,7 @@
 
 ### Flow B: Returning user, active session
 
-1. Opens PokerNotes (PWA, offline-capable)
+1. Opens PokerReads (PWA, offline-capable)
 2. `/notes` shows player list, sorted by "last seen"
 3. Taps **Start Session** → names it "Casino Orenes - Tuesday"
 4. Adds players as they sit at the table
@@ -87,7 +87,7 @@
 
 1. Pro user on player detail page
 2. Taps **Share** menu
-3. Enters friend's PokerNotes username or email
+3. Enters friend's PokerReads username or email
 4. Selects permission: **Read-only** or **Collaborate** (both can add notes)
 5. Friend receives a notification next time they open the app
 6. Friend accepts → player appears in their "Shared with me" section

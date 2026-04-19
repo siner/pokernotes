@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'tools.pushFold' });
 
   return {
-    title: `${t('title')} | PokerNotes`,
+    title: t('title'),
     description: t('metaDescription'),
   };
 }
@@ -19,8 +19,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PushFoldPage() {
   const t = await getTranslations('tools.pushFold');
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: t('title'),
+    description: t('metaDescription'),
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header>
         <h1 className="mb-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
           {t('title')}

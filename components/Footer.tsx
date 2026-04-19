@@ -15,7 +15,7 @@ export async function Footer() {
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-white shadow-lg shadow-emerald-500/20">
                 <Spade className="h-5 w-5 fill-current" />
               </span>
-              PokerNotes
+              PokerReads
             </Link>
             <p className="text-sm text-slate-400">{t('tagline')}</p>
           </div>
@@ -69,12 +69,12 @@ export async function Footer() {
             <h3 className="mb-4 font-semibold text-slate-200">{t('sectionLegal')}</h3>
             <ul className="space-y-3 text-sm text-slate-500">
               <li>
-                <Link href="/" className="transition-colors hover:text-emerald-400">
+                <Link href="/terms" className="transition-colors hover:text-emerald-400">
                   {t('terms')}
                 </Link>
               </li>
               <li>
-                <Link href="/" className="transition-colors hover:text-emerald-400">
+                <Link href="/privacy" className="transition-colors hover:text-emerald-400">
                   {t('privacy')}
                 </Link>
               </li>
