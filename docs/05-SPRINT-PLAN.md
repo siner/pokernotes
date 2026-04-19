@@ -1,295 +1,197 @@
 # PokerReads — Sprint Plan & Roadmap
 
-## Timeline Overview
+## Estado actual (post Sprint 4)
 
-**Total MVP duration:** 3–4 weeks (solo developer, part-time hours)
+Los sprints 0–4 están completados. Resumen de lo que está en producción:
 
-| Sprint | Duration | Focus |
+| Área | Estado |
+|---|---|
+| CI/CD completo (lint, typecheck, tests, build, preview, production) | ✅ |
+| Calculadoras: Pot Odds, Push/Fold, ICM, Break-Even/MDF | ✅ |
+| Landing, Pricing, Privacy, Terms | ✅ |
+| PWA (service worker, manifest, install prompt) | ✅ |
+| Notas offline: jugadores, notas, sesiones en IndexedDB | ✅ |
+| AI structuring (Workers AI + rate limiting por tier) | ✅ |
+| Auth: Better Auth con Google OAuth | ✅ |
+| Stripe: checkout, portal, webhooks | ✅ |
+| Producción en pokerreads.app | ✅ |
+| Bilingüe EN/ES en toda la app | ✅ |
+| Diseño mobile-first, tema casino terminal en herramientas | ✅ |
+
+---
+
+## Lo que falta para tener el producto completo
+
+### Crítico (bloquea la propuesta de valor Pro)
+- ❌ **Cloud sync** — los Pro no sincronizan entre dispositivos (el gap más grande)
+- ❌ **Límite de 20 jugadores sin gate real para Pro** — la lógica está, falta leer el tier del usuario logado
+- ❌ **Fotos de jugadores** (R2) — feature Pro prometida
+
+### Importante (calidad de producto)
+- ❌ Password reset (actualmente solo Google OAuth funciona bien)
+- ❌ Borrado de cuenta real (GDPR)
+- ❌ Compartir perfil de jugador con otro usuario
+- ❌ Export de datos (CSV)
+
+### Launch quality
+- ❌ Analytics (Cloudflare Web Analytics)
+- ❌ Error tracking básico
+- ❌ Lighthouse 95+ en mobile
+- ❌ Assets de lanzamiento (ProductHunt, Reddit)
+
+---
+
+## Timeline
+
+| Sprint | Duración | Foco |
 |---|---|---|
-| Sprint 0 | 3 days | Setup, scaffolding, **CI/CD pipeline** |
-| Sprint 1 | 5 days | Calculators + PWA shell |
-| Sprint 2 | 7 days | Table notes (local) + AI integration |
-| Sprint 3 | 5 days | Auth + Pro tier + cloud sync |
-| Sprint 4 | 3 days | Polish, SEO, launch prep |
+| Sprint 5 | 7 días | **Cloud Sync** — el backbone de Pro |
+| Sprint 6 | 5 días | **Pro Features** — fotos, sharing, export, account |
+| Sprint 7 | 3 días | **Launch** — polish, analytics, lanzamiento |
 
 ---
 
-## Sprint 0 — Setup, Scaffolding & CI/CD (3 days)
+## Sprint 5 — Cloud Sync (7 días)
 
-### Goals
-- Full CI/CD pipeline working **before any feature code**
-- Working Next.js 15 project deployed to Cloudflare Pages (staging + production)
-- Design tokens and base components ready
-- Green pipeline end-to-end
+### Objetivo
+Un usuario Pro que inicia sesión en el móvil y el ordenador ve los mismos jugadores y notas en ambos dispositivos.
 
-### Tasks
+### Arquitectura
+- Pro users: **write-through** — cada escritura va a IndexedDB + D1 en paralelo
+- Free users: solo IndexedDB (sin cambios)
+- On login Pro: **pull** desde D1 → merge con IndexedDB local (last-write-wins)
+- La capa de storage (`lib/storage/`) detecta el tier y enruta
 
-#### Day 1 — Repository & Pipeline (before any app code)
-- [ ] Create GitHub repository (private initially)
-- [ ] Configure `main` + `dev` branch protection rules
-- [ ] Add all 4 GitHub Actions workflows (see `07-CI-CD.md`):
-  - [ ] `ci.yml`
-  - [ ] `deploy-staging.yml`
-  - [ ] `deploy-production.yml`
-  - [ ] `e2e-nightly.yml`
-- [ ] Add `dependabot.yml`
-- [ ] Configure GitHub Environments (staging, production) + secrets
-- [ ] Create Cloudflare Pages projects (staging + production)
-- [ ] **Install Claude Code skills and MCPs per `09-SKILLS-MCPS.md` section 9**
-- [ ] **Create `.claude/skills/` folder with 5 custom skills** (poker-domain, cloudflare-stack, i18n-guardian, sprint-review, ai-prompt-tester)
-- [ ] Verify empty pipeline runs green end-to-end
+### Tareas
 
-#### Day 2 — Project Scaffolding
-- [ ] Create Next.js 15 project with TypeScript + App Router
-- [ ] Configure OpenNext for Cloudflare Pages
-- [ ] Set up `wrangler.toml` with bindings (D1, R2, KV, AI)
-- [ ] Install and configure Tailwind CSS + shadcn/ui
-- [ ] **Install and configure `next-intl`** (see `08-I18N.md`)
-- [ ] **Create `app/[locale]/` structure and `messages/en.json` + `messages/es.json` scaffolds**
-- [ ] **Add `middleware.ts` for locale routing**
-- [ ] **Add `i18n:check` script + wire into CI**
-- [ ] Configure ESLint + Prettier
-- [ ] Set up Husky + lint-staged (pre-commit + pre-push hooks)
-- [ ] Set up Vitest + Playwright (empty test suites first)
-- [ ] Configure all `package.json` scripts per `07-CI-CD.md` section 6
+#### API Routes
+- [ ] `GET/POST /api/players` — listar y crear jugadores (Pro-gated)
+- [ ] `GET/PATCH/DELETE /api/players/[id]` — detalle, editar, borrar
+- [ ] `GET/POST /api/notes` — listar y crear notas
+- [ ] `DELETE /api/notes/[id]`
+- [ ] `GET/POST /api/sessions` — listar y crear sesiones
+- [ ] `PATCH/DELETE /api/sessions/[id]`
+- [ ] `POST /api/sync/import` — bulk import de IndexedDB al hacer upgrade/login Pro
+- [ ] Todas las rutas validadas con Zod + autenticadas con Better Auth
 
-#### Day 3 — Foundations
-- [ ] Create base layout with dark theme
-- [ ] Set up Drizzle ORM + D1 with first migration (including `preferredLocale` field)
-- [ ] Generate PWA icons and manifest
-- [ ] Configure Serwist for PWA
-- [ ] Add `/api/health` endpoint for smoke tests
-- [ ] **Add `LanguageSwitcher` component**
-- [ ] **Translate first page (landing hero) to both en/es**
-- [ ] Write one placeholder unit test (ensure test runner works in CI)
-- [ ] Write one placeholder E2E smoke test per locale (hits `/en` and `/es`)
-- [ ] First PR to `dev` → CI runs green → merge
-- [ ] First PR from `dev` to `main` → production deploy runs green
-- [ ] **Verify `/en` and `/es` both render correctly in production Cloudflare deployment**
+#### Storage layer
+- [ ] Refactor `lib/storage/local.ts` → extrae interfaz `StorageAdapter`
+- [ ] Implementar `lib/storage/cloud.ts` (lee/escribe D1 vía API)
+- [ ] Implementar `lib/storage/hybrid.ts` — write-through: local primero, cloud async
+- [ ] Hook `useStorage()` — devuelve el adapter correcto según tier
+- [ ] On-login sync: si Pro, pull D1 y merge en IndexedDB
+
+#### Tier gating real
+- [ ] Leer `tier` del user desde la sesión Better Auth (ya está en D1)
+- [ ] Exponer tier en `useSession()` o context global
+- [ ] `PlayerList`: desbloquear límite de 20 si tier === 'pro'
+- [ ] `NoteComposer`: aumentar límite AI a 200/día para Pro (ya está en la lógica de rate limiting)
+
+#### Tests
+- [ ] Tests unitarios para los adapters de storage
+- [ ] Tests de integración para las API routes (miniflare)
 
 ### Deliverable
-Empty "Hello PokerReads" app live at both staging and production URLs, installable as PWA, with a **fully working CI/CD pipeline that blocks bad code from merging**.
+Un Pro puede crear una nota en el móvil y verla en el ordenador sin hacer nada especial.
 
 ---
 
-## Sprint 1 — Calculators + PWA Shell (5 days)
+## Sprint 6 — Pro Features (5 días)
 
-### Goals
-- All 4 calculators functional and SEO-optimized
-- Landing page live
-- PWA installable with offline support for calculators
+### Objetivo
+Completar todas las features Pro prometidas en el PRD. El tier Pro tiene que valer el precio.
 
-### Tasks
+### Tareas
 
-#### Calculators (each: ~half day)
-- [ ] **Pot Odds Calculator** — `/tools/pot-odds`
-  - Input form with live calculation
-  - Equity needed formula
-  - Color-coded output
-  - SEO meta + structured data
-- [ ] **Push/Fold Nash** — `/tools/push-fold`
-  - Precomputed Nash range tables as JSON
-  - Stack/position selectors
-  - 13x13 visual hand grid (SVG or CSS grid)
-- [ ] **ICM Calculator** — `/tools/icm`
-  - Dynamic player rows
-  - Payout structure input
-  - Malmuth-Harville or Landau ICM algorithm
-  - Results table
-- [ ] **Hand Rankings** — `/tools/hand-rankings`
-  - Static page with visual rankings
-  - Purely educational, SEO asset
+#### Fotos de jugadores (R2)
+- [ ] `POST /api/players/[id]/photo` — upload a R2, devuelve URL
+- [ ] `DELETE /api/players/[id]/photo`
+- [ ] Resize/compress antes de subir (target: ≤200KB)
+- [ ] UI: botón de foto en PlayerDetail, preview, borrar
+- [ ] Mostrar foto en PlayerList (avatar pequeño)
 
-#### Landing & Marketing
-- [ ] Landing page (`/`) with hero, features, pricing
-- [ ] Pricing page (`/pricing`)
-- [ ] Footer with calculator links (internal linking for SEO)
+#### Compartir jugador
+- [ ] `POST /api/players/[id]/share` — genera token de share
+- [ ] `GET /api/shared/[token]` — vista pública de un jugador (sin notas privadas)
+- [ ] UI: botón "Share" en PlayerDetail, modal con enlace
+- [ ] Página `/shared/[token]` — vista de solo lectura del perfil
 
-#### PWA
-- [ ] Service worker configuration
-- [ ] Offline fallback page
-- [ ] Install prompt component
-- [ ] Verify installability on iOS and Android
+#### Export de datos
+- [ ] `GET /api/export` — genera CSV con todos los jugadores y notas del usuario
+- [ ] UI: botón "Export CSV" en Settings
+- [ ] Formato: una fila por nota, columnas: player_name, tags, note, date, session
+
+#### Account management
+- [ ] Password reset flow (email con link temporal)
+- [ ] Borrado real de cuenta: elimina usuario de `user`, `users`, `players`, `notes`, `sessions`, `account`, fotos en R2
+- [ ] UI: "Delete account" en Settings con confirmación por texto
 
 ### Deliverable
-Marketing site live with working calculators. Ready to start driving organic traffic.
+Pro ofrece fotos, sharing, export, y la cuenta se puede borrar limpiamente.
 
 ---
 
-## Sprint 2 — Table Notes (Local) + AI (7 days)
+## Sprint 7 — Launch (3 días)
 
-### Goals
-- Full note-taking flow working without authentication
-- AI structuring via Workers AI
-- IndexedDB persistence
+### Objetivo
+Lanzar públicamente con calidad de producción.
 
-### Tasks
+### Tareas
 
-#### IndexedDB Setup
-- [ ] Install `idb` library
-- [ ] Create storage layer (`lib/storage/local.ts`)
-- [ ] Implement CRUD for players, notes, sessions
-- [ ] Migration-safe schema versioning
-
-#### Player Management UI
-- [ ] Player list page (`/notes`) with empty state
-- [ ] Search and filter functionality
-- [ ] Add player modal/page
-- [ ] Edit player page
-- [ ] Delete player with confirmation
-- [ ] Tag selector component (grouped by category)
-
-#### Notes UI
-- [ ] Note composer component (textarea + AI button)
-- [ ] Notes list on player detail
-- [ ] Note editing
-- [ ] Delete note
-
-#### AI Integration
-- [ ] Create `/api/ai/structure-note` route
-- [ ] Cloudflare Worker AI binding config
-- [ ] System prompt engineering for Llama 3.1 8B
-- [ ] JSON response parser with validation (Zod)
-- [ ] Rate limiting via KV (IP-based for anonymous)
-- [ ] Error handling and fallbacks
-- [ ] Loading states in UI
-- [ ] AI response review/edit UI
-
-#### Session Management
-- [ ] Active session concept
-- [ ] `/session` page
-- [ ] Quick-add player during session
-- [ ] Session summary view
-
-### Deliverable
-Fully functional note-taking app working offline, AI structuring real notes.
-
----
-
-## Sprint 3 — Auth + Pro Tier + Cloud Sync (5 days)
-
-### Goals
-- Users can sign up and log in
-- Pro tier unlocks cloud sync and premium features
-- Stripe integration working
-
-### Tasks
-
-#### Authentication (Better Auth)
-- [ ] Install and configure Better Auth
-- [ ] Email/password signup + login
-- [ ] Google OAuth setup
-- [ ] Email verification (optional for MVP)
-- [ ] Password reset flow
-- [ ] Session management via cookies
-- [ ] Protected route middleware
-
-#### User Profile & Settings
-- [ ] Settings page (`/settings`)
-- [ ] Profile editing
-- [ ] Account deletion flow (GDPR)
-
-#### Cloud Sync
-- [ ] `/api/players` CRUD endpoints (Pro-gated)
-- [ ] `/api/notes` CRUD endpoints
-- [ ] `/api/sessions` CRUD endpoints
-- [ ] Sync-on-login: pull cloud data to local
-- [ ] Optimistic local write, async cloud write
-- [ ] Conflict resolution (last-write-wins for MVP)
-
-#### Stripe Integration
-- [ ] Stripe account setup + products created
-- [ ] Checkout session API route
-- [ ] Stripe webhook handler (`/api/stripe/webhook`)
-- [ ] Subscription status sync to D1
-- [ ] Customer portal link
-- [ ] Upgrade flow from free tier modal
-
-#### Pro Features
-- [ ] Unlimited players (remove 20-player gate)
-- [ ] Player photo upload to R2
-- [ ] Image optimization (resize before upload)
-- [ ] Player sharing UI (basic: by email)
-- [ ] Shared players section in UI
-- [ ] Export data (CSV) button
-
-### Deliverable
-Full SaaS experience: free users can sign up, upgrade to Pro, sync across devices.
-
----
-
-## Sprint 4 — Polish, SEO, Launch (3 days)
-
-### Goals
-- Production-ready quality
-- SEO-optimized for organic acquisition
-- Launch announcement prepared
-
-### Tasks
-
-#### SEO
-- [ ] Meta tags on all pages (Open Graph, Twitter cards)
-- [ ] Structured data (JSON-LD) for calculators
-- [ ] `sitemap.xml` generation
-- [ ] `robots.txt`
-- [ ] Blog-ready structure (even if empty at launch)
-- [ ] Link building plan (Reddit poker subs, poker forums)
+#### Performance & Quality
+- [ ] Lighthouse audit en mobile: target 95+ en todas las métricas
+- [ ] Probar en dispositivos reales (iOS Safari + Android Chrome)
+- [ ] Resolver cualquier bug visual o de UX que aparezca en las pruebas
 
 #### Analytics & Monitoring
-- [ ] Cloudflare Web Analytics (privacy-friendly)
-- [ ] Error tracking (Sentry or Cloudflare logs)
-- [ ] Conversion funnel tracking (free → pro)
+- [ ] Activar Cloudflare Web Analytics (ya está soportado en el stack)
+- [ ] Error logging básico en las API routes (Workers logs)
+- [ ] Dashboard de conversión: free → pro (desde Stripe)
 
-#### Performance
-- [ ] Lighthouse audit: target 95+ on all metrics
-- [ ] Image optimization (next/image for all assets)
-- [ ] Bundle analysis and code-splitting
-- [ ] Test on real mobile devices (iOS + Android)
+#### SEO final
+- [ ] Verificar que sitemap.xml se genera correctamente
+- [ ] robots.txt correcto
+- [ ] Open Graph images reales (actualmente `/og-image.png` no existe)
+- [ ] Probar sharing en Twitter/WhatsApp con la OG image
 
-#### Launch Prep
-- [ ] Landing page copy polish
-- [ ] Pricing page final
-- [ ] Privacy policy + Terms of service
-- [ ] GDPR cookie banner (if needed)
-- [ ] Support email setup (`support@pokerreads.app`)
-- [ ] ProductHunt launch assets
-- [ ] Twitter/X thread draft
-- [ ] Reddit post drafts for r/poker, r/livepoker
+#### Launch prep
+- [ ] Email de soporte configurado (`support@pokerreads.app`)
+- [ ] Post de ProductHunt redactado y programado
+- [ ] Post para r/poker y r/livepoker redactados
+- [ ] Tweet de lanzamiento redactado
 
 ### Deliverable
-**Launch day.** Live at pokerreads.app (or similar), ready to accept users.
+**Launch day.** pokerreads.app live, primer usuario Pro de pago real.
 
 ---
 
-## Post-MVP Roadmap (v1.1 — v2)
+## Post-Launch Roadmap
 
-### v1.1 — User Feedback Response (Month 2)
-- Blog (first articles: "How to take poker notes", calculator explainers)
-- Improved AI prompts based on user feedback
-- Better mobile gestures (swipe to delete, etc.)
-- Performance improvements
+### v1.1 — Mes 2 (respuesta a feedback)
+- Blog (artículos: "Cómo tomar notas en póker en vivo", explicadores de calculadoras)
+- Mejora de prompts de AI según feedback de usuarios
+- Mejores gestos móviles (swipe to delete, etc.)
+- Apple Sign-In para usuarios de iOS PWA
 
-### v1.2 — Engagement (Month 3)
-- Weekly/monthly player stats dashboard
-- Notification system (shared player updates)
-- Multi-language support (Spanish first)
-- Apple Sign-In for iOS PWA users
+### v1.2 — Mes 3 (engagement)
+- Dashboard de estadísticas por jugador (semana/mes)
+- Sistema de notificaciones (cuando alguien comparte un jugador contigo)
+- Historial cross-session ("ya jugaste con este tipo 3 veces")
 
-### v2 — Expansion (Month 4+)
-- Hand history import (text paste)
-- Hand analysis AI (separate paid tier)
-- Collaborative sessions (live sync with friends)
-- Native iOS/Android apps (if PWA limitations hit)
-- Integration with poker room player databases (ethical concerns TBD)
+### v2 — Mes 4+ (expansión)
+- Import de historial de manos (paste de texto)
+- Hand analysis AI (tier de pago separado)
+- Sesiones colaborativas (sync en tiempo real con amigos)
+- Licencia B2B para casinos/clubs de póker
 
 ---
 
 ## Risk Register
 
-| Risk | Mitigation |
+| Riesgo | Mitigación |
 |---|---|
-| iOS PWA limitations (push notifications, background sync) | Accept as MVP limitation, plan native app if needed |
-| Workers AI latency/quality | Fallback prompts, potentially allow OpenAI as backup |
-| SEO slow to ramp | Paid acquisition ready (Google Ads on "poker calculator" keywords) |
-| Low conversion free → pro | Adjust pricing, improve Pro feature set |
-| Legal concerns (sharing player info) | Clear ToS, opt-in sharing, GDPR compliance |
+| iOS PWA: limitaciones de notificaciones y background sync | Aceptado como limitación del MVP, app nativa si crece |
+| Workers AI latencia/calidad | Prompts de fallback, sin dependencia externa |
+| SEO lento en arranque | Google Ads en "poker calculator" como backup |
+| Conversión free → pro baja | Ajustar precio, mejorar features Pro |
+| Problemas legales con sharing de info de jugadores | ToS claro, sharing opt-in, GDPR compliant |
