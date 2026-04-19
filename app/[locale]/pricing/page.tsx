@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Check } from 'lucide-react';
+import { UpgradeButton } from '@/components/pricing/UpgradeButton';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -87,9 +88,9 @@ export default async function PricingPage() {
               <span>{t('pro.feature4')}</span>
             </li>
           </ul>
-          <button className="w-full rounded-xl bg-emerald-500 py-3 font-semibold text-white transition-all hover:bg-emerald-400 hover:shadow-lg hover:shadow-emerald-500/20 active:scale-95">
+          <UpgradeButton>
             {t('pro.cta')}
-          </button>
+          </UpgradeButton>
         </div>
       </div>
     </div>

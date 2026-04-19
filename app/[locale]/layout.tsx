@@ -9,6 +9,7 @@ import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { PwaInstallPrompt } from '@/components/PwaInstallPrompt';
 import { Footer } from '@/components/Footer';
+import { UserMenu } from '@/components/auth/UserMenu';
 import '@/app/globals.css';
 
 const syne = Syne({
@@ -69,7 +70,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} suppressHydrationWarning className={`dark ${syne.variable}`}>
-      <body className="min-h-dvh bg-[#060d08] text-slate-100 antialiased">
+      <body className="min-h-dvh bg-[#060d08] text-slate-100 antialiased flex flex-col">
         <NextIntlClientProvider messages={messages}>
           <header className="fixed inset-x-0 top-0 z-50 flex h-14 items-center border-b border-white/5 bg-[#060d08]/90 px-4 backdrop-blur-md sm:px-6">
             <Link
@@ -79,27 +80,31 @@ export default async function LocaleLayout({ children, params }: Props) {
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500 shadow-lg shadow-emerald-500/30 text-white">
                 <Spade className="h-4 w-4 fill-current" />
               </span>
-              <span className="font-display text-sm font-bold tracking-tight text-white">
+              <span className="font-display text-sm font-bold tracking-tight text-white hidden sm:inline-block">
                 PokerNotes
               </span>
             </Link>
-            <nav className="flex flex-1 items-center gap-0.5">
+            <nav className="flex flex-1 items-center gap-1 sm:gap-2">
               <Link
                 href="/tools/pot-odds"
-                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+                className="rounded-lg px-2 sm:px-3 py-1.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
               >
                 {t('tools')}
               </Link>
               <Link
                 href="/pricing"
-                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+                className="rounded-lg px-2 sm:px-3 py-1.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
               >
                 {t('pricing')}
               </Link>
             </nav>
-            <LanguageSwitcher />
+            <div className="flex items-center gap-3">
+              <LanguageSwitcher />
+              <div className="h-5 w-px bg-white/10 hidden sm:block"></div>
+              <UserMenu />
+            </div>
           </header>
-          <div className="pt-14 min-h-[calc(100vh-200px)]">{children}</div>
+          <main className="pt-14 flex-1 flex flex-col">{children}</main>
           <Footer />
           <PwaInstallPrompt />
         </NextIntlClientProvider>
