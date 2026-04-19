@@ -39,11 +39,8 @@ export async function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/tools/hand-rankings"
-                  className="transition-colors hover:text-emerald-400"
-                >
-                  Hand Rankings Guide
+                <Link href="/tools/break-even" className="transition-colors hover:text-emerald-400">
+                  Break-Even Calculator
                 </Link>
               </li>
             </ul>

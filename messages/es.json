@@ -158,7 +158,8 @@
       "metaDescription": "Calculadora del Modelo Independiente de Fichas (ICM) para mesas finales y saltos de premios.",
       "howTo": "¿Qué es el ICM?",
       "desc1": "El modelo ICM calcula la evaluación matemática y real en divisa/dólares del stack de cada jugador basándose en la estructura de pagos de un torneo.",
-      "desc2": "Esto se vuelve vital en la fina línea que separa una mesa final en la burbuja de premios o frente a choques donde la recompensa económica varía brutalmente. Se utiliza habitualmente para negociar pactos justos en las ciegas finales."
+      "desc2": "Esto se vuelve vital en la fina línea que separa una mesa final en la burbuja de premios o frente a choques donde la recompensa económica varía brutalmente. Se utiliza habitualmente para negociar pactos justos en las ciegas finales.",
+      "currencySymbol": "€"
     },
     "breakEven": {
       "title": "Calculadora Break-Even y FDM",
@@ -271,7 +272,8 @@
     "subtitle": "Calculadoras gratis para todos. Toma notas en local de forma gratuita. Pasa a Pro para acceso ilimitado a la nube y sincronización con IA.",
     "free": {
       "name": "Gratis",
-      "price": "Gratis para siempre",
+      "amount": "Gratis",
+      "tagline": "Gratis para siempre",
       "cta": "Plan actual",
       "feature1": "Todas las Calculadoras de Poker incluidas",
       "feature2": "Soporte PWA sin conexión",
@@ -279,9 +281,7 @@
     },
     "pro": {
       "name": "Pro",
-      "monthly": "${price}/mes",
-      "yearly": "${price}/año",
-      "savings": "Ahorra un {percent}%",
+      "price": "7€/mes",
       "badge": "POPULAR",
       "cta": "Pasarse a Pro",
       "feature1": "Notas ilimitadas de jugadores",

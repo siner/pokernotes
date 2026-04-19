@@ -158,7 +158,8 @@
       "metaDescription": "Independent Chip Model (ICM) calculator for final tables and sit & gos.",
       "howTo": "What is ICM?",
       "desc1": "The Independent Chip Model (ICM) calculates a mathematical evaluation of a player's chip stack based on the payout structure of a tournament. It helps determine the real monetary value of your chips at any given moment.",
-      "desc2": "This is especially important at the final table or near the bubble, when chip values become heavily decoupled from linearly equivalent dollars. Players use ICM to negotiate equitable chops or evaluate decisions with high payout variance."
+      "desc2": "This is especially important at the final table or near the bubble, when chip values become heavily decoupled from linearly equivalent dollars. Players use ICM to negotiate equitable chops or evaluate decisions with high payout variance.",
+      "currencySymbol": "$"
     },
     "breakEven": {
       "title": "Break-Even & MDF Calculator",
@@ -271,7 +272,8 @@
     "subtitle": "Free calculators for everyone. Take notes locally for free. Upgrade to Pro for unlimited cloud storage and AI syncing.",
     "free": {
       "name": "Free",
-      "price": "Free forever",
+      "amount": "Free",
+      "tagline": "Free forever",
       "cta": "Current Plan",
       "feature1": "All Poker Calculators included",
       "feature2": "Offline PWA Support",
@@ -279,9 +281,7 @@
     },
     "pro": {
       "name": "Pro",
-      "monthly": "${price}/month",
-      "yearly": "${price}/year",
-      "savings": "Save {percent}%",
+      "price": "$7/mo",
       "badge": "POPULAR",
       "cta": "Upgrade to Pro",
       "feature1": "Unlimited player notes",

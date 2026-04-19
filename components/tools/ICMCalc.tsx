@@ -1,10 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { calculateICM } from '@/lib/calculators/icm';
 import { Plus, Trash2 } from 'lucide-react';
 
 export function ICMCalc() {
+  const t = useTranslations('tools.icm');
+  const currencySymbol = t('currencySymbol');
+
   const [stacks, setStacks] = useState<number[]>([10000, 5000, 2000]);
   const [payouts, setPayouts] = useState<number[]>([500, 300, 200]);
 
@@ -127,7 +131,8 @@ export function ICMCalc() {
           <span>
             Prize pool:{' '}
             <span className="font-mono font-semibold text-slate-300">
-              ${totalPrize.toLocaleString()}
+              {currencySymbol}
+              {totalPrize.toLocaleString()}
             </span>
           </span>
         </div>
@@ -184,7 +189,7 @@ export function ICMCalc() {
                     </td>
                     <td className="px-4 py-3 text-right">
                       <span className="font-mono font-semibold text-emerald-400">
-                        $
+                        {currencySymbol}
                         {icmValue.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,

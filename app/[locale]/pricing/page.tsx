@@ -32,10 +32,9 @@ export default async function PricingPage() {
         <div className="flex flex-col rounded-3xl border border-slate-800 bg-slate-900/50 p-8 text-left shadow-2xl">
           <h2 className="text-xl font-semibold text-slate-200">{t('free.name')}</h2>
           <div className="my-4 flex items-baseline text-5xl font-extrabold text-white">
-            $0
-            <span className="ml-1 text-xl font-medium text-slate-500">/mo</span>
+            {t('free.amount')}
           </div>
-          <p className="mb-6 text-sm text-slate-400">{t('free.price')}</p>
+          <p className="mb-6 text-sm text-slate-400">{t('free.tagline')}</p>
           <ul className="mb-8 flex-1 space-y-4 text-sm text-slate-300">
             <li className="flex items-center gap-3">
               <Check className="h-5 w-5 shrink-0 text-emerald-500" />
@@ -62,12 +61,8 @@ export default async function PricingPage() {
           </div>
           <h2 className="text-xl font-semibold text-emerald-400">{t('pro.name')}</h2>
           <div className="my-4 flex items-baseline text-5xl font-extrabold text-white">
-            $12
-            <span className="ml-1 text-xl font-medium text-slate-500">/mo</span>
+            {t('pro.price')}
           </div>
-          <p className="mb-6 text-sm text-slate-400">
-            {t('pro.yearly', { price: '144' })} · {t('pro.savings', { percent: '20' })}
-          </p>
           <ul className="mb-8 flex-1 space-y-4 text-sm text-slate-300">
             <li className="flex items-center gap-3">
               <Check className="h-5 w-5 shrink-0 text-emerald-500" />
