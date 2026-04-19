@@ -23,3 +23,7 @@ id = "86fb9e18ef0e43a5a719c65fa07455c9"
 
 [ai]
 binding = "AI"
+
+[vars]
+NEXT_PUBLIC_APP_URL = "https://pokerreads.app"
+NEXT_PUBLIC_STRIPE_PRO_PRICE_ID = "price_1TNxAm03IQZJpCYqet69zF0B"
