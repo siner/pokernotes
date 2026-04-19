@@ -10,7 +10,6 @@ export function ICMCalc() {
 
   const totalChips = stacks.reduce((a, b) => a + b, 0);
   const totalPrize = payouts.reduce((a, b) => a + b, 0);
-
   const results = calculateICM(stacks, payouts);
 
   const updateStack = (idx: number, val: number) => {
@@ -25,132 +24,191 @@ export function ICMCalc() {
     setPayouts(newPayouts);
   };
 
+  const inputClass =
+    'w-full rounded-xl border border-slate-700 bg-slate-800/80 px-3 py-2 font-mono text-base text-white placeholder-slate-600 focus:border-emerald-500/60 focus:outline-none focus:ring-1 focus:ring-emerald-500/30';
+
+  const dotGrid = {
+    backgroundImage: 'radial-gradient(circle, rgba(16,185,129,0.04) 1px, transparent 1px)',
+    backgroundSize: '20px 20px',
+  };
+
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <div className="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl">
-        {/* Stacks Section */}
-        <div>
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-medium text-slate-200">Player Stacks</h3>
+      {/* Inputs */}
+      <div
+        className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl"
+        style={dotGrid}
+      >
+        {/* Stacks */}
+        <div className="mb-6">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+              Player Stacks
+            </p>
             <button
               onClick={() => setStacks([...stacks, 1000])}
-              className="flex items-center text-sm text-emerald-500 hover:text-emerald-400"
+              className="flex items-center gap-1 text-xs text-emerald-500 hover:text-emerald-400"
             >
-              <Plus className="mr-1 h-4 w-4" /> Add Player
+              <Plus className="h-3.5 w-3.5" /> Add
             </button>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2">
             {stacks.map((stack, i) => (
-              <div key={`stack-${i}`} className="flex items-center gap-3">
-                <span className="w-6 text-sm text-slate-500">P{i + 1}</span>
+              <div key={`stack-${i}`} className="flex items-center gap-2">
+                <span className="w-7 text-center text-xs font-mono text-slate-500">P{i + 1}</span>
                 <input
                   type="number"
                   min="0"
                   value={stack || ''}
                   onChange={(e) => updateStack(i, Number(e.target.value))}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-800/80 px-3 py-2 text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className={inputClass}
                 />
                 <button
                   onClick={() => setStacks(stacks.filter((_, idx) => idx !== i))}
                   disabled={stacks.length <= 2}
-                  className="text-slate-500 hover:text-red-400 disabled:opacity-50"
+                  className="text-slate-600 hover:text-red-400 disabled:opacity-30"
                   aria-label="Remove player"
                 >
-                  <Trash2 className="h-5 w-5" />
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             ))}
           </div>
         </div>
 
-        <hr className="border-slate-800" />
+        <div className="my-5 border-t border-slate-800/80" />
 
-        {/* Payouts Section */}
+        {/* Payouts */}
         <div>
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-medium text-slate-200">Payout Structure ($)</h3>
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+              Payout Structure
+            </p>
             <button
               onClick={() => setPayouts([...payouts, 100])}
-              className="flex items-center text-sm text-emerald-500 hover:text-emerald-400"
+              className="flex items-center gap-1 text-xs text-emerald-500 hover:text-emerald-400"
             >
-              <Plus className="mr-1 h-4 w-4" /> Add Prize
+              <Plus className="h-3.5 w-3.5" /> Add
             </button>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2">
             {payouts.map((prize, i) => (
-              <div key={`prize-${i}`} className="flex items-center gap-3">
-                <span className="w-12 text-sm text-slate-500">{i + 1}st</span>
+              <div key={`prize-${i}`} className="flex items-center gap-2">
+                <span className="w-7 text-center text-xs font-mono text-slate-500">
+                  {i === 0 ? '1st' : i === 1 ? '2nd' : i === 2 ? '3rd' : `${i + 1}th`}
+                </span>
                 <input
                   type="number"
                   min="0"
                   value={prize || ''}
                   onChange={(e) => updatePayout(i, Number(e.target.value))}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-800/80 px-3 py-2 text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className={inputClass}
                 />
                 <button
                   onClick={() => setPayouts(payouts.filter((_, idx) => idx !== i))}
                   disabled={payouts.length <= 1}
-                  className="text-slate-500 hover:text-red-400 disabled:opacity-50"
+                  className="text-slate-600 hover:text-red-400 disabled:opacity-30"
                   aria-label="Remove prize"
                 >
-                  <Trash2 className="h-5 w-5" />
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Totals */}
+        <div className="mt-5 rounded-xl border border-slate-800/60 bg-slate-950/40 px-4 py-3 text-xs text-slate-500">
+          <span>
+            Total chips:{' '}
+            <span className="font-mono font-semibold text-slate-300">
+              {totalChips.toLocaleString()}
+            </span>
+          </span>
+          <span className="mx-3 text-slate-700">·</span>
+          <span>
+            Prize pool:{' '}
+            <span className="font-mono font-semibold text-slate-300">
+              ${totalPrize.toLocaleString()}
+            </span>
+          </span>
+        </div>
       </div>
 
-      {/* Results Output */}
-      <div className="rounded-2xl border border-emerald-900/50 bg-slate-900/50 p-6 shadow-xl">
-        <h3 className="mb-6 text-lg font-medium text-emerald-400">ICM Model Results</h3>
-
-        <div className="mb-6 grid grid-cols-2 gap-4 rounded-xl bg-slate-800/50 p-4 text-sm text-slate-400">
-          <div>
-            Total Chips In Play:{' '}
-            <span className="font-semibold text-white">{totalChips.toLocaleString()}</span>
-          </div>
-          <div>
-            Remaining Prizepool:{' '}
-            <span className="font-semibold text-white">${totalPrize.toLocaleString()}</span>
-          </div>
+      {/* Results */}
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+            ICM Model Results
+          </p>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
+        <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950/60">
           <table className="w-full text-left text-sm">
-            <thead className="bg-slate-800/50 text-slate-400">
-              <tr>
-                <th className="px-4 py-3 font-medium">Player</th>
-                <th className="px-4 py-3 font-medium">Chips</th>
-                <th className="px-4 py-3 font-medium text-right">Real Value (ICM)</th>
-                <th className="px-4 py-3 font-medium text-right">% of Pool</th>
+            <thead>
+              <tr className="border-b border-slate-800">
+                <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  Player
+                </th>
+                <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  Chips
+                </th>
+                <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  ICM Value
+                </th>
+                <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  % Pool
+                </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800">
+            <tbody className="divide-y divide-slate-800/60">
               {stacks.map((stack, i) => {
-                const icmValue = results[i] || 0;
+                const icmValue = results[i] ?? 0;
+                const chipPct = totalChips > 0 ? (stack / totalChips) * 100 : 0;
                 const poolPct = totalPrize > 0 ? (icmValue / totalPrize) * 100 : 0;
+                const isChipLeader = i === stacks.indexOf(Math.max(...stacks));
                 return (
-                  <tr
-                    key={`res-${i}`}
-                    className="text-slate-300 transition-colors hover:bg-slate-800/20"
-                  >
-                    <td className="px-4 py-3">Player {i + 1}</td>
-                    <td className="px-4 py-3 font-mono">{stack.toLocaleString()}</td>
-                    <td className="px-4 py-3 text-right font-semibold text-emerald-400">
-                      $
-                      {icmValue.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
+                  <tr key={`res-${i}`} className="transition-colors hover:bg-slate-800/20">
+                    <td className="px-4 py-3 text-slate-400">
+                      P{i + 1}
+                      {isChipLeader && (
+                        <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-amber-500/70">
+                          lead
+                        </span>
+                      )}
                     </td>
-                    <td className="px-4 py-3 text-right text-slate-500">{poolPct.toFixed(1)}%</td>
+                    <td className="px-4 py-3">
+                      <div className="font-mono text-sm text-slate-300">
+                        {stack.toLocaleString()}
+                      </div>
+                      <div className="text-[10px] text-slate-600">{chipPct.toFixed(1)}% chips</div>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <span className="font-mono font-semibold text-emerald-400">
+                        $
+                        {icmValue.toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-right font-mono text-xs text-slate-500">
+                      {poolPct.toFixed(1)}%
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
+
+        {stacks.length > 0 && results.length > 0 && (
+          <p className="mt-3 text-xs text-slate-600">
+            ICM redistributes chip-EV into dollar-EV accounting for payout structure — chips ≠
+            dollars near the bubble.
+          </p>
+        )}
       </div>
     </div>
   );

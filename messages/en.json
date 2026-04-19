@@ -131,14 +131,13 @@
       "potOdds": "Pot Odds",
       "pushFold": "Push/Fold",
       "icm": "ICM",
-      "handRankings": "Hand Rankings"
+      "breakEven": "Break-Even"
     },
     "potOdds": {
       "title": "Pot Odds Calculator",
-      "metaDescription": "Free pot odds calculator for poker. Calculate the equity you need to make a profitable call.",
+      "metaDescription": "Calculate minimum required equity based on pot odds to make profitable calls in poker.",
       "potSize": "Pot size",
       "metaTitle": "Pot Odds Calculator | PokerReads",
-      "metaDescription": "Calculate minimum required equity based on pot odds to make profitable calls in poker.",
       "howTo": "How to use the Pot Odds Calculator",
       "desc1": "Pot odds represent the ratio of the current size of the pot to the cost of a contemplated call. Knowing your pot odds is crucial for making mathematically profitable decisions in poker.",
       "li1": "Current Pot Size: The total amount of money in the pot, including the bets placed in the current round.",
@@ -161,10 +160,17 @@
       "desc1": "The Independent Chip Model (ICM) calculates a mathematical evaluation of a player's chip stack based on the payout structure of a tournament. It helps determine the real monetary value of your chips at any given moment.",
       "desc2": "This is especially important at the final table or near the bubble, when chip values become heavily decoupled from linearly equivalent dollars. Players use ICM to negotiate equitable chops or evaluate decisions with high payout variance."
     },
-    "handRankings": {
-      "title": "Poker Hand Rankings",
-      "metaTitle": "Poker Hand Rankings | PokerReads",
-      "metaDescription": "Official poker hand rankings from Royal Flush to High Card."
+    "breakEven": {
+      "title": "Break-Even & MDF Calculator",
+      "metaTitle": "Break-Even & MDF Calculator | PokerReads",
+      "metaDescription": "Calculate the break-even percentage for bluffs and the Minimum Defense Frequency (MDF) to protect your range.",
+      "howTo": "How to use the Break-Even & MDF Calculator",
+      "desc1": "Every bet you make — whether a value bet or a bluff — has a break-even point. The break-even percentage tells you how often your bet needs to work (opponent folds) for it to be immediately profitable as a pure bluff.",
+      "li1title": "Break-Even % (attacker)",
+      "li1": "The percentage of the time your bluff must succeed to break even. Calculated as Bet / (Pot + Bet).",
+      "li2title": "MDF (defender)",
+      "li2": "Minimum Defense Frequency — the portion of your range you must continue with (call or raise) to prevent the opponent from profiting with any two cards.",
+      "desc2": "MDF = 1 − Break-Even%. If you fold more than the MDF, your opponent can bluff any two cards at a profit. Use this alongside pot odds to build balanced, unexploitable ranges."
     }
   },
   "ai": {

@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tools/pot-odds',
     '/tools/push-fold',
     '/tools/icm',
-    '/tools/hand-rankings',
+    '/tools/break-even',
   ];
 
   const sitemapEntries: MetadataRoute.Sitemap = [];

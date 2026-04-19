@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { HandRankings } from '@/components/tools/HandRankings';
+import { BreakEvenCalc } from '@/components/tools/BreakEvenCalc';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -8,7 +8,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'tools.handRankings' });
+  const t = await getTranslations({ locale, namespace: 'tools.breakEven' });
 
   return {
     title: t('title'),
@@ -16,15 +16,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function HandRankingsPage() {
-  const t = await getTranslations('tools.handRankings');
+export default async function BreakEvenPage() {
+  const t = await getTranslations('tools.breakEven');
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
     name: t('title'),
     description: t('metaDescription'),
-    applicationCategory: 'EducationalApplication',
+    applicationCategory: 'FinanceApplication',
     operatingSystem: 'Any',
     offers: {
       '@type': 'Offer',
@@ -47,8 +47,22 @@ export default async function HandRankingsPage() {
       </header>
 
       <main>
-        <HandRankings />
+        <BreakEvenCalc />
       </main>
+
+      <section className="prose prose-invert prose-emerald mt-12 max-w-none text-slate-300">
+        <h2>{t('howTo')}</h2>
+        <p>{t('desc1')}</p>
+        <ul>
+          <li>
+            <strong>{t('li1title')}:</strong> {t('li1')}
+          </li>
+          <li>
+            <strong>{t('li2title')}:</strong> {t('li2')}
+          </li>
+        </ul>
+        <p>{t('desc2')}</p>
+      </section>
     </div>
   );
 }

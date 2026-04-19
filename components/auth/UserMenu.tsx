@@ -39,16 +39,16 @@ export function UserMenu() {
 
   if (!session?.user) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3">
         <Link
           href="/login"
-          className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+          className="rounded-lg px-2.5 py-1.5 text-sm font-medium text-slate-200 transition-colors hover:bg-white/5 hover:text-white"
         >
           {t('signIn')}
         </Link>
         <Link
           href="/signup"
-          className="rounded-lg bg-emerald-500 px-3 py-1.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:shadow-emerald-500/40"
+          className="hidden sm:block rounded-lg bg-emerald-500 px-3 py-1.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:shadow-emerald-500/40"
         >
           {t('signUp')}
         </Link>

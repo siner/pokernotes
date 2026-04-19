@@ -8,11 +8,18 @@ export function PushFoldChart() {
   const [position, setPosition] = useState<Position>('BTN');
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-4 sm:p-6 shadow-xl">
-      <div className="mb-8 grid gap-4 sm:grid-cols-2">
+    <div
+      className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-4 shadow-xl sm:p-6"
+      style={{
+        backgroundImage: 'radial-gradient(circle, rgba(16,185,129,0.04) 1px, transparent 1px)',
+        backgroundSize: '20px 20px',
+      }}
+    >
+      <div className="mb-6 grid gap-5 sm:grid-cols-2">
+        {/* BB slider */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-slate-300">
-            Stack Size (Big Blinds)
+          <label className="mb-3 block text-xs font-semibold uppercase tracking-widest text-slate-500">
+            Stack Size
           </label>
           <div className="flex items-center gap-4">
             <input
@@ -23,24 +30,32 @@ export function PushFoldChart() {
               onChange={(e) => setBb(Number(e.target.value))}
               className="w-full accent-emerald-500"
             />
-            <span className="min-w-[48px] rounded-lg bg-slate-800 px-3 py-1 text-center font-mono text-emerald-400">
+            <div className="min-w-[56px] rounded-lg border border-slate-700 bg-slate-950/60 px-3 py-1.5 text-center font-mono text-sm font-bold text-emerald-400">
               {bb}bb
-            </span>
+            </div>
+          </div>
+          <div className="mt-1 flex justify-between text-[10px] text-slate-600">
+            <span>1bb</span>
+            <span>10bb</span>
+            <span>20bb</span>
           </div>
         </div>
 
+        {/* Position selector */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-slate-300">Your Position</label>
-          <div className="flex flex-wrap gap-2">
+          <label className="mb-3 block text-xs font-semibold uppercase tracking-widest text-slate-500">
+            Your Position
+          </label>
+          <div className="flex flex-wrap gap-1.5">
             {POSITIONS.map((pos) => (
               <button
                 key={pos}
                 type="button"
                 onClick={() => setPosition(pos)}
-                className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-lg border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors ${
                   position === pos
-                    ? 'border-emerald-500 bg-emerald-500/20 text-emerald-400'
-                    : 'border-slate-700 bg-slate-800 text-slate-400 hover:border-slate-600 hover:text-white'
+                    ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-400'
+                    : 'border-slate-700 bg-slate-800/60 text-slate-500 hover:border-slate-600 hover:text-slate-300'
                 }`}
               >
                 {pos}
@@ -50,23 +65,21 @@ export function PushFoldChart() {
         </div>
       </div>
 
+      {/* Hand grid */}
       <div className="overflow-x-auto">
-        <div className="inline-grid w-full min-w-[600px] grid-cols-13 gap-0.5 rounded-xl border border-slate-700 bg-slate-800 p-0.5">
+        <div className="inline-grid w-full min-w-[520px] grid-cols-13 gap-0.5 rounded-xl border border-slate-800 bg-slate-950 p-0.5">
           {RANKS.map((r1, i) =>
             RANKS.map((r2, j) => {
-              // Diagonal: Pairs
-              // Top-Right: Suited
-              // Bottom-Left: Offsuit
-              let handStr: string;
               const isPair = i === j;
               const isSuited = j > i;
+              let handStr: string;
 
               if (isPair) {
                 handStr = `${r1}${r2}`;
               } else if (isSuited) {
                 handStr = `${r1}${r2}s`;
               } else {
-                handStr = `${r2}${r1}o`; // Note order inversion so high card is first in offsuit
+                handStr = `${r2}${r1}o`;
               }
 
               const isPushing = shouldPush(handStr, bb, position);
@@ -74,10 +87,10 @@ export function PushFoldChart() {
               return (
                 <div
                   key={handStr}
-                  className={`flex aspect-square items-center justify-center rounded-sm text-[10px] sm:text-xs font-semibold ${
+                  className={`flex aspect-square items-center justify-center rounded-sm text-[9px] font-semibold sm:text-[10px] ${
                     isPushing
-                      ? 'bg-emerald-500/80 text-white shadow-inner shadow-emerald-400/50'
-                      : 'bg-slate-900/60 text-slate-500 hover:bg-slate-800 hover:text-slate-400'
+                      ? 'bg-emerald-500/75 text-white'
+                      : 'bg-slate-900/80 text-slate-600 hover:bg-slate-800/80 hover:text-slate-500'
                   }`}
                   title={handStr}
                 >
@@ -89,14 +102,20 @@ export function PushFoldChart() {
         </div>
       </div>
 
-      <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
-        <div className="flex items-center gap-2">
-          <span className="block h-3 w-3 rounded-sm bg-emerald-500/80" />
-          <span>Push All-in</span>
+      {/* Legend */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center gap-4 text-xs text-slate-400">
+          <div className="flex items-center gap-1.5">
+            <span className="block h-3 w-3 rounded-sm bg-emerald-500/75" />
+            <span>Push All-in</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="block h-3 w-3 rounded-sm border border-slate-700 bg-slate-900/80" />
+            <span>Fold</span>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="block h-3 w-3 rounded-sm bg-slate-900/60 border border-slate-700" />
-          <span>Fold</span>
+        <div className="text-[10px] text-slate-600">
+          Top-right = suited · Bottom-left = offsuit · Diagonal = pairs
         </div>
       </div>
     </div>

@@ -131,14 +131,13 @@
       "potOdds": "Pot Odds",
       "pushFold": "Push/Fold",
       "icm": "ICM",
-      "handRankings": "Manos"
+      "breakEven": "Break-Even"
     },
     "potOdds": {
       "title": "Calculadora de Pot Odds",
-      "metaDescription": "Calculadora de pot odds gratis para poker. Calcula el equity necesario para pagar de forma rentable.",
+      "metaDescription": "Calcula el capital mínimo requerido basado en las pot odds para tomar decisiones rentables en poker.",
       "potSize": "Tamaño del bote",
       "metaTitle": "Calculadora de Pot Odds | PokerReads",
-      "metaDescription": "Calcula el capital mínimo requerido basado en las pot odds para tomar decisiones rentables en poker.",
       "howTo": "Cómo usar la Calculadora de Pot Odds",
       "desc1": "Las 'Pot odds' representan la proporción entre el tamaño actual del bote y el coste de la apuesta que intentas igualar. Conocer tus pot odds es crucial para tomar decisiones matemáticamente rentables.",
       "li1": "Tamaño del Bote: La cantidad total de dinero que hay en la mesa, incluyendo las apuestas de la ronda actual.",
@@ -161,10 +160,17 @@
       "desc1": "El modelo ICM calcula la evaluación matemática y real en divisa/dólares del stack de cada jugador basándose en la estructura de pagos de un torneo.",
       "desc2": "Esto se vuelve vital en la fina línea que separa una mesa final en la burbuja de premios o frente a choques donde la recompensa económica varía brutalmente. Se utiliza habitualmente para negociar pactos justos en las ciegas finales."
     },
-    "handRankings": {
-      "title": "Ranking de Manos",
-      "metaTitle": "Ranking de Manos | PokerReads",
-      "metaDescription": "Tabla oficial de fuerzas del poker: desde la Escalera Real a la Carta Alta."
+    "breakEven": {
+      "title": "Calculadora Break-Even y FDM",
+      "metaTitle": "Calculadora Break-Even y FDM | PokerReads",
+      "metaDescription": "Calcula el porcentaje de break-even para bluffs y la Frecuencia Mínima de Defensa (FDM) para proteger tu rango.",
+      "howTo": "Cómo usar la calculadora Break-Even y FDM",
+      "desc1": "Cada apuesta que realizas — ya sea de valor o un bluff — tiene un punto de equilibrio. El porcentaje de break-even te indica con qué frecuencia tu apuesta debe funcionar (el rival foldea) para ser inmediatamente rentable como bluff puro.",
+      "li1title": "Break-Even % (atacante)",
+      "li1": "El porcentaje de veces que tu bluff debe tener éxito para alcanzar el break-even. Se calcula como Apuesta / (Bote + Apuesta).",
+      "li2title": "FDM (defensor)",
+      "li2": "Frecuencia Mínima de Defensa — la parte de tu rango con la que debes continuar (call o raise) para evitar que el rival sea rentable con cualquier mano.",
+      "desc2": "FDM = 1 − Break-Even%. Si foldeas más del FDM, tu rival puede hacer bluff con cualquier mano de forma rentable. Úsalo junto a los pot odds para construir rangos equilibrados e inexplotables."
     }
   },
   "ai": {

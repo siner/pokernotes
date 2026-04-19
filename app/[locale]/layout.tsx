@@ -115,7 +115,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                 PokerReads
               </span>
             </Link>
-            <nav className="flex flex-1 items-center gap-1 sm:gap-2">
+            <nav className="flex flex-1 items-center gap-0.5 sm:gap-2">
               <Link
                 href="/tools/pot-odds"
                 className="rounded-lg px-2 sm:px-3 py-1.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
@@ -129,7 +129,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                 {t('pricing')}
               </Link>
             </nav>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 sm:gap-3">
               <LanguageSwitcher />
               <div className="h-5 w-px bg-white/10 hidden sm:block"></div>
               <UserMenu />

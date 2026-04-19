@@ -7,7 +7,7 @@ const TOOLS = [
   { key: 'potOdds', href: '/tools/pot-odds' },
   { key: 'pushFold', href: '/tools/push-fold' },
   { key: 'icm', href: '/tools/icm' },
-  { key: 'handRankings', href: '/tools/hand-rankings' },
+  { key: 'breakEven', href: '/tools/break-even' },
 ] as const;
 
 export function ToolsNav() {

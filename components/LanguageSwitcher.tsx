@@ -30,8 +30,8 @@ export function LanguageSwitcher() {
           aria-pressed={locale === loc}
           aria-label={`Switch to ${LOCALE_LABELS[loc as Locale]}`}
           className={[
-            'rounded-md px-2.5 py-1 text-xs font-semibold transition-colors',
-            'min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0',
+            'rounded-md px-2 py-1 text-xs font-semibold transition-colors',
+            'min-h-[36px] min-w-[36px] sm:min-h-0 sm:min-w-0',
             locale === loc
               ? 'bg-emerald-500 text-white'
               : 'text-slate-400 hover:bg-slate-700 hover:text-slate-100',
