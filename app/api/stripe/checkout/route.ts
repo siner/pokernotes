@@ -24,8 +24,7 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Stripe configuration missing' }, { status: 500 });
     }
 
-    // @ts-ignore - Ignore apiVersion warning, it defaults correctly but TS complains based on version
-    const stripe = new Stripe(stripeKey as string);
+    const stripe = new Stripe(stripeKey);
 
     let priceId = '';
     try {

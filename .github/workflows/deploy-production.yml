@@ -34,7 +34,7 @@ jobs:
 
       - name: Apply D1 migrations (production)
         run: |
-          if [ -d "migrations" ] && [ "$(ls -A migrations/*.sql 2>/dev/null)" ]; then
+          if [ -d "lib/db/migrations" ] && ls lib/db/migrations/*.sql 2>/dev/null | grep -q .; then
             pnpm exec wrangler d1 migrations apply pokerreads-db --remote
           else
             echo "No migrations found, skipping"

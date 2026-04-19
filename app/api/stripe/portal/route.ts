@@ -25,8 +25,7 @@ export async function POST() {
       return Response.json({ error: 'Stripe configuration missing' }, { status: 500 });
     }
 
-    // @ts-ignore
-    const stripe = new Stripe(stripeKey as string);
+    const stripe = new Stripe(stripeKey);
 
     // Fetch the customer ID from the database
     const userRecord = await db

@@ -12,7 +12,7 @@ export function UpgradeButton({ children }: { children: React.ReactNode }) {
 
   const handleUpgrade = async () => {
     if (!session?.user) {
-      router.push('/login?redirect=/pricing');
+      router.push('/login?callbackUrl=/pricing');
       return;
     }
 

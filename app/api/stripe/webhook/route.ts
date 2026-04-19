@@ -16,8 +16,7 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Webhook Error: Missing config' }, { status: 400 });
     }
 
-    // @ts-ignore
-    const stripe = new Stripe(stripeKey as string);
+    const stripe = new Stripe(stripeKey);
     const signature = request.headers.get('stripe-signature') as string;
     const body = await request.text();
 
