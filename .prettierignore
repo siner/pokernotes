@@ -6,3 +6,5 @@ dist
 coverage
 playwright-report
 *.md
+public/sw.js
+public/sw.js.map
