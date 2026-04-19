@@ -79,7 +79,7 @@ export function UserMenu() {
             <p className="truncate text-sm font-medium text-slate-200">{user.name}</p>
             <p className="truncate text-xs text-slate-500">{user.email}</p>
           </div>
-          
+
           <Link
             href="/settings"
             onClick={() => setIsOpen(false)}
@@ -88,7 +88,7 @@ export function UserMenu() {
             <Settings className="h-4 w-4" />
             {t('settings')}
           </Link>
-          
+
           <button
             onClick={handleSignOut}
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300 mt-1"

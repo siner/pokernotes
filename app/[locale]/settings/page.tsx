@@ -32,7 +32,11 @@ export default async function SettingsPage() {
     const session = await auth.api.getSession({ headers: await headers() });
 
     if (session?.user) {
-      const dbUser = await db.select({ tier: users.tier }).from(users).where(eq(users.id, session.user.id)).get();
+      const dbUser = await db
+        .select({ tier: users.tier })
+        .from(users)
+        .where(eq(users.id, session.user.id))
+        .get();
       if (dbUser) {
         tier = dbUser.tier;
       }
@@ -43,7 +47,9 @@ export default async function SettingsPage() {
 
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-      <Suspense fallback={<div className="h-[50vh] flex items-center justify-center">Cargando...</div>}>
+      <Suspense
+        fallback={<div className="h-[50vh] flex items-center justify-center">Cargando...</div>}
+      >
         <SettingsClient initialTier={tier} />
       </Suspense>
     </main>

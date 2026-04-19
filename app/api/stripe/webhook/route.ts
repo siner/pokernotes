@@ -7,7 +7,7 @@ import Stripe from 'stripe';
 export async function POST(request: Request) {
   try {
     const { env } = await getCloudflareContext({ async: true });
-    
+
     const stripeKey = process.env.STRIPE_SECRET_KEY || env.STRIPE_SECRET_KEY;
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || env.STRIPE_WEBHOOK_SECRET;
 
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        
+
         // The client_reference_id contains our internal user ID
         const userId = session.client_reference_id;
         if (!userId) {
@@ -47,8 +47,11 @@ export async function POST(request: Request) {
         // Ensure we save the customer ID and immediately upgrade them to avoid race conditions.
         // We use insert().onConflictDoUpdate() because the row in `users` might not exist yet if BetterAuth hasn't synced it.
         if (session.customer) {
-          const email = session.customer_email || session.customer_details?.email || `temp-${userId}@pokernotes.invalid`;
-          
+          const email =
+            session.customer_email ||
+            session.customer_details?.email ||
+            `temp-${userId}@pokernotes.invalid`;
+
           await db
             .insert(users)
             .values({
@@ -56,27 +59,27 @@ export async function POST(request: Request) {
               email: email,
               stripeCustomerId: session.customer as string,
               tier: 'pro',
-              subscriptionStatus: 'active'
+              subscriptionStatus: 'active',
             })
             .onConflictDoUpdate({
               target: users.id,
               set: {
                 stripeCustomerId: session.customer as string,
                 tier: 'pro',
-                subscriptionStatus: 'active'
-              }
+                subscriptionStatus: 'active',
+              },
             });
         }
         break;
       }
-      
+
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
-        
+
         const status = subscription.status;
         const tier = status === 'active' || status === 'trialing' ? 'pro' : 'free';
-        
+
         await db
           .update(users)
           .set({
@@ -87,11 +90,11 @@ export async function POST(request: Request) {
           .where(eq(users.stripeCustomerId, customerId));
         break;
       }
-      
+
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
-        
+
         await db
           .update(users)
           .set({

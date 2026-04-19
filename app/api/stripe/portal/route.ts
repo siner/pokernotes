@@ -29,7 +29,8 @@ export async function POST() {
     const stripe = new Stripe(stripeKey as string);
 
     // Fetch the customer ID from the database
-    const userRecord = await db.select({ stripeCustomerId: users.stripeCustomerId })
+    const userRecord = await db
+      .select({ stripeCustomerId: users.stripeCustomerId })
       .from(users)
       .where(eq(users.id, session.user.id))
       .get();
@@ -38,7 +39,8 @@ export async function POST() {
       return Response.json({ error: 'No Stripe customer found' }, { status: 404 });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const appUrl =
+      process.env.NEXT_PUBLIC_APP_URL || env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: userRecord.stripeCustomerId,

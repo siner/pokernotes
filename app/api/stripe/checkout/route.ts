@@ -34,13 +34,17 @@ export async function POST(request: Request) {
     } catch {
       // fallback
     }
-    
+
     if (!priceId) {
       // Provide a dev fallback or expect it from request
-      priceId = process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || 'price_12345';
+      priceId =
+        process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID ||
+        env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID ||
+        'price_12345';
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const appUrl =
+      process.env.NEXT_PUBLIC_APP_URL || env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
     const checkoutSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

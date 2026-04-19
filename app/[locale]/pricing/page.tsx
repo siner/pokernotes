@@ -88,9 +88,7 @@ export default async function PricingPage() {
               <span>{t('pro.feature4')}</span>
             </li>
           </ul>
-          <UpgradeButton>
-            {t('pro.cta')}
-          </UpgradeButton>
+          <UpgradeButton>{t('pro.cta')}</UpgradeButton>
         </div>
       </div>
     </div>
