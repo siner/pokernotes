@@ -1,5 +1,5 @@
 {
-  "name": "pokernotes",
+  "name": "pokerreads",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -22,9 +22,9 @@
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test --grep @smoke",
     "db:generate": "drizzle-kit generate",
-    "db:migrate:local": "wrangler d1 migrations apply pokernotes-db --local",
-    "db:migrate:staging": "wrangler d1 migrations apply pokernotes-db-staging --remote",
-    "db:migrate:prod": "wrangler d1 migrations apply pokernotes-db --remote",
+    "db:migrate:local": "wrangler d1 migrations apply pokerreads-db --local",
+    "db:migrate:staging": "wrangler d1 migrations apply pokerreads-db-staging --remote",
+    "db:migrate:prod": "wrangler d1 migrations apply pokerreads-db --remote",
     "i18n:check": "node scripts/check-translations.mjs",
     "prepare": "husky"
   },

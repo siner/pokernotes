@@ -1,6 +1,6 @@
 {
-  "name": "PokerNotes",
-  "short_name": "PokerNotes",
+  "name": "PokerReads",
+  "short_name": "PokerReads",
   "description": "Live poker player notes & tools — AI-powered opponent tracking",
   "display": "standalone",
   "orientation": "portrait",

@@ -1,4 +1,4 @@
-# PokerNotes — Technical Architecture
+# PokerReads — Technical Architecture
 
 ## 1. Technology Decisions
 
@@ -33,7 +33,7 @@
 ## 2. Repository Structure
 
 ```
-pokernotes/
+pokerreads/
 ├── app/                          # Next.js App Router
 │   ├── [locale]/                 # i18n route segment (en/es) — see 08-I18N.md
 │   │   ├── (marketing)/          # Public pages (landing, about)
@@ -268,8 +268,8 @@ JSON format:
 ### manifest.json
 ```json
 {
-  "name": "PokerNotes",
-  "short_name": "PokerNotes",
+  "name": "PokerReads",
+  "short_name": "PokerReads",
   "description": "Live poker player notes & tools",
   "display": "standalone",
   "orientation": "portrait",
@@ -291,18 +291,18 @@ JSON format:
 
 ### wrangler.toml
 ```toml
-name = "pokernotes"
+name = "pokerreads"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "pokernotes-db"
+database_name = "pokerreads-db"
 database_id = "<your-d1-id>"
 
 [[r2_buckets]]
 binding = "PLAYER_PHOTOS"
-bucket_name = "pokernotes-photos"
+bucket_name = "pokerreads-photos"
 
 [[kv_namespaces]]
 binding = "RATE_LIMITS"

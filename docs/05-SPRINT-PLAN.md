@@ -1,4 +1,4 @@
-# PokerNotes — Sprint Plan & Roadmap
+# PokerReads — Sprint Plan & Roadmap
 
 ## Timeline Overview
 
@@ -68,7 +68,7 @@
 - [ ] **Verify `/en` and `/es` both render correctly in production Cloudflare deployment**
 
 ### Deliverable
-Empty "Hello PokerNotes" app live at both staging and production URLs, installable as PWA, with a **fully working CI/CD pipeline that blocks bad code from merging**.
+Empty "Hello PokerReads" app live at both staging and production URLs, installable as PWA, with a **fully working CI/CD pipeline that blocks bad code from merging**.
 
 ---
 
@@ -251,13 +251,13 @@ Full SaaS experience: free users can sign up, upgrade to Pro, sync across device
 - [ ] Pricing page final
 - [ ] Privacy policy + Terms of service
 - [ ] GDPR cookie banner (if needed)
-- [ ] Support email setup (`support@pokernotes.app`)
+- [ ] Support email setup (`support@pokerreads.app`)
 - [ ] ProductHunt launch assets
 - [ ] Twitter/X thread draft
 - [ ] Reddit post drafts for r/poker, r/livepoker
 
 ### Deliverable
-**Launch day.** Live at pokernotes.app (or similar), ready to accept users.
+**Launch day.** Live at pokerreads.app (or similar), ready to accept users.
 
 ---
 

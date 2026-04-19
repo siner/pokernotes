@@ -1,8 +1,8 @@
-# PokerNotes — Product Requirements Document (PRD)
+# PokerReads — Product Requirements Document (PRD)
 
 ## 1. Overview
 
-**Product Name:** PokerNotes  
+**Product Name:** PokerReads  
 **Tagline:** Your live poker companion. Read players, win more.  
 **Target Platform:** Mobile-first PWA (Progressive Web App), installable on iOS and Android  
 **Target Market:** Live poker players (English-speaking, international)  
@@ -18,7 +18,7 @@ Live poker players need to track reads and tendencies on opponents during sessio
 - Existing poker tools are built for online play, not live
 - No fast, mobile-optimized tool exists for in-session live player tracking
 
-**PokerNotes** solves this by offering a fast, discreet, AI-powered note-taking tool specifically for live poker, with free utility calculators to drive organic traffic.
+**PokerReads** solves this by offering a fast, discreet, AI-powered note-taking tool specifically for live poker, with free utility calculators to drive organic traffic.
 
 ---
 
@@ -62,7 +62,7 @@ Live poker players need to track reads and tendencies on opponents during sessio
 - Cloud sync across devices (Cloudflare D1)
 - Player photos (Cloudflare R2) — discreet capture
 - Full note history per player with timestamps
-- Share a player profile with another PokerNotes user (link or username)
+- Share a player profile with another PokerReads user (link or username)
 - Export notes (CSV, PDF)
 - Cross-session player recognition ("seen this player before")
 
@@ -111,7 +111,7 @@ All calculators are:
 
 - Installable on iOS (Safari "Add to Home Screen") and Android (Chrome install prompt)
 - Works fully offline for free tier (IndexedDB, no network required)
-- App manifest with PokerNotes branding
+- App manifest with PokerReads branding
 - Service worker for asset caching
 - Fast load: target < 2s on mobile 3G
 
@@ -165,7 +165,7 @@ All calculators are:
 
 1. **Pro subscription**: $5/month via Stripe
 2. **Affiliate links**: Subtle placements on calculator pages linking to poker rooms (GGPoker, PokerStars, 888poker) — high CPA commissions
-3. **Future**: B2B license for cardrooms (share PokerNotes with your poker club members)
+3. **Future**: B2B license for cardrooms (share PokerReads with your poker club members)
 
 ---
 

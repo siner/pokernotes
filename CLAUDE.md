@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-This file is the persistent context for Claude Code when working on PokerNotes. Read this first, every session.
+This file is the persistent context for Claude Code when working on PokerReads. Read this first, every session.
 
 ---
 
 ## Project Summary
 
-**PokerNotes** is a mobile-first PWA for live poker players. Core features:
+**PokerReads** is a mobile-first PWA for live poker players. Core features:
 - AI-powered note-taking on opponents (Cloudflare Workers AI)
 - Free utility calculators (pot odds, ICM, push/fold, hand rankings)
 - Pro tier with cloud sync, photos, sharing

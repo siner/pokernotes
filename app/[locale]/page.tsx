@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'landing.hero' });
 
   return {
-    title: 'PokerNotes — Live Poker Player Notes & Calculators',
+    title: 'PokerReads — Live Poker Player Notes & Calculators',
     description: t('subtitle'),
   };
 }

@@ -37,7 +37,7 @@ export interface LocalSession {
   createdAt: Date;
 }
 
-interface PokerNotesDB extends DBSchema {
+interface PokerReadsDB extends DBSchema {
   players: {
     key: string;
     value: LocalPlayer;
@@ -55,14 +55,14 @@ interface PokerNotesDB extends DBSchema {
   };
 }
 
-const DB_NAME = 'pokernotes';
+const DB_NAME = 'pokerreads';
 const DB_VERSION = 1;
 
-let dbPromise: Promise<IDBPDatabase<PokerNotesDB>> | null = null;
+let dbPromise: Promise<IDBPDatabase<PokerReadsDB>> | null = null;
 
-function getDB(): Promise<IDBPDatabase<PokerNotesDB>> {
+function getDB(): Promise<IDBPDatabase<PokerReadsDB>> {
   if (!dbPromise) {
-    dbPromise = openDB<PokerNotesDB>(DB_NAME, DB_VERSION, {
+    dbPromise = openDB<PokerReadsDB>(DB_NAME, DB_VERSION, {
       upgrade(db) {
         const playerStore = db.createObjectStore('players', { keyPath: 'id' });
         playerStore.createIndex('by-last-seen', 'lastSeenAt');

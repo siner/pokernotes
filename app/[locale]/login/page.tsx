@@ -21,7 +21,7 @@ export default function LoginPage() {
             <Spade className="h-6 w-6 fill-current" />
           </span>
           <div>
-            <h1 className="text-xl font-bold text-white">PokerNotes</h1>
+            <h1 className="text-xl font-bold text-white">PokerReads</h1>
             <p className="mt-1 text-sm text-slate-500">Pro</p>
           </div>
         </div>

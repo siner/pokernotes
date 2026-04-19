@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { WifiOff } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Offline | PokerNotes',
+  title: 'Offline | PokerReads',
 };
 
 export default async function OfflinePage() {

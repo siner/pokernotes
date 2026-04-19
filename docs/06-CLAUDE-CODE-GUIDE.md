@@ -1,6 +1,6 @@
-# PokerNotes — Claude Code Implementation Guide
+# PokerReads — Claude Code Implementation Guide
 
-This document is a handoff guide for working with **Claude Code** to build PokerNotes. It contains project conventions, prompting patterns, and task breakdowns optimized for AI-assisted development.
+This document is a handoff guide for working with **Claude Code** to build PokerReads. It contains project conventions, prompting patterns, and task breakdowns optimized for AI-assisted development.
 
 ---
 
@@ -76,7 +76,7 @@ Follow the sprint plan in `05-SPRINT-PLAN.md`. Within each sprint, work in this 
 
 ### Good prompt template
 ```
-Context: Working on PokerNotes, Sprint 2, task "Create AI structure-note endpoint"
+Context: Working on PokerReads, Sprint 2, task "Create AI structure-note endpoint"
 File: app/api/ai/structure-note/route.ts
 
 Requirements:
@@ -158,13 +158,13 @@ Please implement with error handling and inline comments.
 
 ### First deploy
 - [ ] Cloudflare account created with payment method (Workers AI requires)
-- [ ] D1 database created: `wrangler d1 create pokernotes-db`
+- [ ] D1 database created: `wrangler d1 create pokerreads-db`
 - [ ] KV namespace created: `wrangler kv:namespace create RATE_LIMITS`
-- [ ] R2 bucket created: `wrangler r2 bucket create pokernotes-photos`
+- [ ] R2 bucket created: `wrangler r2 bucket create pokerreads-photos`
 - [ ] IDs added to `wrangler.toml`
 - [ ] Environment variables added to Cloudflare Pages dashboard
 - [ ] Custom domain configured + DNS pointing to Cloudflare
-- [ ] Drizzle migration applied: `wrangler d1 migrations apply pokernotes-db`
+- [ ] Drizzle migration applied: `wrangler d1 migrations apply pokerreads-db`
 - [ ] Stripe webhook URL configured
 
 ### Every deploy
@@ -198,7 +198,7 @@ Please implement with error handling and inline comments.
 When starting Sprint 0 with Claude Code, open with:
 
 ```
-I'm building PokerNotes, a live poker companion PWA using Next.js 15 
+I'm building PokerReads, a live poker companion PWA using Next.js 15 
 and the full Cloudflare stack (Pages, Workers, D1, R2, KV, Workers AI).
 Launching in English and Spanish from day one.
 

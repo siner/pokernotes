@@ -50,7 +50,7 @@ export async function POST(request: Request) {
           const email =
             session.customer_email ||
             session.customer_details?.email ||
-            `temp-${userId}@pokernotes.invalid`;
+            `temp-${userId}@pokerreads.invalid`;
 
           await db
             .insert(users)
