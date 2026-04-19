@@ -11,6 +11,7 @@ binding = "ASSETS"
 binding = "DB"
 database_name = "pokernotes-db"
 database_id = "b5bb070c-00be-4110-ba6f-8fc9909dc4de"
+migrations_dir = "lib/db/migrations"
 
 [[r2_buckets]]
 binding = "PLAYER_PHOTOS"
