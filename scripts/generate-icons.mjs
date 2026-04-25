@@ -31,14 +31,19 @@ const svg512 = `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="
 </svg>`;
 
 // Write favicon SVG
-writeFileSync(join(publicDir, 'favicon.svg'), svg512.replace(`width="${SIZE}" height="${SIZE}"`, 'width="32" height="32"'));
+writeFileSync(
+  join(publicDir, 'favicon.svg'),
+  svg512.replace(`width="${SIZE}" height="${SIZE}"`, 'width="32" height="32"')
+);
 console.log('✓ favicon.svg');
 
 // Render 512px PNG via qlmanage
 const svgTmp = join(iconsDir, '_source.svg');
 const png512 = join(iconsDir, 'icon-512.png');
 writeFileSync(svgTmp, svg512);
-execSync(`qlmanage -t -s ${SIZE} -o "${iconsDir}" "${svgTmp}" 2>/dev/null && mv "${svgTmp}.png" "${png512}"`);
+execSync(
+  `qlmanage -t -s ${SIZE} -o "${iconsDir}" "${svgTmp}" 2>/dev/null && mv "${svgTmp}.png" "${png512}"`
+);
 execSync(`rm -f "${svgTmp}"`);
 console.log('✓ icon-512.png (512x512)');
 
