@@ -18,7 +18,7 @@ export type AuthResult = { ok: true; ctx: ProUserContext } | { ok: false; respon
 export async function requireProUser(request: Request): Promise<AuthResult> {
   const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
-  const auth = getAuth(db);
+  const auth = getAuth(db, env);
 
   const session = await auth.api.getSession({ headers: request.headers });
   if (!session?.user) {

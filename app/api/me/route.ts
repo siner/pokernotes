@@ -14,7 +14,7 @@ export interface MeResponse {
 export async function GET(request: Request) {
   const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
-  const auth = getAuth(db);
+  const auth = getAuth(db, env);
 
   const session = await auth.api.getSession({ headers: request.headers });
 
