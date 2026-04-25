@@ -1,10 +1,10 @@
 'use client';
 
 import { User, StickyNote } from 'lucide-react';
-import { type LocalPlayer } from '@/lib/storage/local';
+import { type Player } from '@/lib/storage';
 
 interface PlayerChipProps {
-  player: LocalPlayer;
+  player: Player;
   noteCount: number;
   onClick: () => void;
 }

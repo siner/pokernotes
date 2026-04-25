@@ -2,10 +2,10 @@
 
 import { User, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { type LocalPlayer } from '@/lib/storage/local';
+import { type Player } from '@/lib/storage';
 
 interface PlayerCardProps {
-  player: LocalPlayer;
+  player: Player;
   onDelete: (id: string) => void;
   onClick: (id: string) => void;
 }

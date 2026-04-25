@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { Clock, ChevronRight, StickyNote, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { getAllSessions, getNotesForSession, type LocalSession } from '@/lib/storage/local';
+import { useStorage, type Session } from '@/lib/storage';
 import { formatSessionDuration } from '@/lib/utils/duration';
 
 interface SessionSummary {
-  session: LocalSession;
+  session: Session;
   noteCount: number;
   playerCount: number;
   duration: string;
@@ -17,18 +17,19 @@ interface SessionSummary {
 export function SessionList() {
   const t = useTranslations('session.list');
   const tCommon = useTranslations('common');
+  const storage = useStorage();
 
   const [sessions, setSessions] = useState<SessionSummary[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     async function load() {
-      const all = await getAllSessions();
+      const all = await storage.getAllSessions();
       const completed = all.filter((s) => s.endedAt);
 
       const summaries = await Promise.all(
         completed.map(async (s) => {
-          const notes = await getNotesForSession(s.id);
+          const notes = await storage.getNotesForSession(s.id);
           const playerCount = new Set(notes.map((n) => n.playerId)).size;
           return {
             session: s,
@@ -45,7 +46,7 @@ export function SessionList() {
       setLoaded(true);
     }
     load();
-  }, [t]);
+  }, [t, storage]);
 
   if (!loaded) {
     return (

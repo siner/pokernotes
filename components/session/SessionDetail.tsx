@@ -4,19 +4,12 @@ import { useState, useEffect } from 'react';
 import { ArrowLeft, Clock, Users, StickyNote, Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import {
-  getSession,
-  getNotesForSession,
-  getPlayer,
-  type LocalSession,
-  type LocalNote,
-  type LocalPlayer,
-} from '@/lib/storage/local';
+import { useStorage, type Session, type Note, type Player } from '@/lib/storage';
 import { formatSessionDuration } from '@/lib/utils/duration';
 
 interface PlayerWithNotes {
-  player: LocalPlayer;
-  notes: LocalNote[];
+  player: Player;
+  notes: Note[];
 }
 
 interface SessionDetailProps {
@@ -28,12 +21,16 @@ export function SessionDetail({ sessionId }: SessionDetailProps) {
   const tList = useTranslations('session.list');
   const tCommon = useTranslations('common');
 
-  const [session, setSession] = useState<LocalSession | null | undefined>(undefined);
+  const storage = useStorage();
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [playersWithNotes, setPlayersWithNotes] = useState<PlayerWithNotes[]>([]);
 
   useEffect(() => {
     async function load() {
-      const [s, notes] = await Promise.all([getSession(sessionId), getNotesForSession(sessionId)]);
+      const [s, notes] = await Promise.all([
+        storage.getSession(sessionId),
+        storage.getNotesForSession(sessionId),
+      ]);
       if (!s) {
         setSession(null);
         return;
@@ -41,7 +38,7 @@ export function SessionDetail({ sessionId }: SessionDetailProps) {
       setSession(s);
 
       // Group notes by player and load player data
-      const byPlayer = new Map<string, LocalNote[]>();
+      const byPlayer = new Map<string, Note[]>();
       for (const note of notes) {
         const arr = byPlayer.get(note.playerId) ?? [];
         arr.push(note);
@@ -50,7 +47,7 @@ export function SessionDetail({ sessionId }: SessionDetailProps) {
 
       const items = await Promise.all(
         Array.from(byPlayer.entries()).map(async ([playerId, playerNotes]) => {
-          const player = await getPlayer(playerId);
+          const player = await storage.getPlayer(playerId);
           return player ? { player, notes: playerNotes } : null;
         })
       );
@@ -58,7 +55,7 @@ export function SessionDetail({ sessionId }: SessionDetailProps) {
       setPlayersWithNotes(items.filter((x): x is PlayerWithNotes => x !== null));
     }
     load();
-  }, [sessionId]);
+  }, [sessionId, storage]);
 
   if (session === undefined) {
     return (
