@@ -103,6 +103,22 @@ export async function POST(request: Request) {
           .where(eq(users.stripeCustomerId, customerId));
         break;
       }
+
+      case 'invoice.payment_failed': {
+        // Renewal failed. Mark past_due but keep tier=pro — Stripe retries over
+        // the dunning window, and on final failure sends subscription.deleted
+        // which downgrades. Auto-downgrading on first failure punishes users
+        // for transient card issues.
+        const invoice = event.data.object as Stripe.Invoice;
+        const customerId = invoice.customer as string;
+        if (customerId) {
+          await db
+            .update(users)
+            .set({ subscriptionStatus: 'past_due' })
+            .where(eq(users.stripeCustomerId, customerId));
+        }
+        break;
+      }
     }
 
     return Response.json({ received: true });

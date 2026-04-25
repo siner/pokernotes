@@ -10,7 +10,7 @@ export async function POST() {
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-    const auth = getAuth(db);
+    const auth = getAuth(db, env);
 
     const session = await auth.api.getSession({
       headers: await headers(),

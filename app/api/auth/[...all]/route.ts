@@ -5,7 +5,7 @@ import { getAuth } from '@/lib/auth';
 async function handler(request: Request): Promise<Response> {
   const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
-  const auth = getAuth(db);
+  const auth = getAuth(db, env);
   return auth.handler(request);
 }
 

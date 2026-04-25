@@ -5,12 +5,13 @@ import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { signIn } from '@/lib/auth/client';
+import { safeInternalPath } from '@/lib/utils/safePath';
 
 export function LoginForm() {
   const t = useTranslations('auth');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') ?? '/notes';
+  const callbackUrl = safeInternalPath(searchParams.get('callbackUrl'), '/notes');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
