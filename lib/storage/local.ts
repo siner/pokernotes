@@ -1,6 +1,22 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import type { Player, Note, Session, StorageAdapter } from './types';
 
+export type PendingOp =
+  | { kind: 'savePlayer'; entity: Player }
+  | { kind: 'deletePlayer'; id: string }
+  | { kind: 'saveNote'; entity: Note }
+  | { kind: 'deleteNote'; id: string }
+  | { kind: 'saveSession'; entity: Session }
+  | { kind: 'deleteSession'; id: string };
+
+export interface PendingRecord {
+  id: string;
+  op: PendingOp;
+  createdAt: Date;
+  attempts: number;
+  lastError?: string;
+}
+
 interface PokerReadsDB extends DBSchema {
   players: {
     key: string;
@@ -17,31 +33,92 @@ interface PokerReadsDB extends DBSchema {
     value: Session;
     indexes: { 'by-started-at': Date };
   };
+  pending: {
+    key: string;
+    value: PendingRecord;
+    indexes: { 'by-created-at': Date };
+  };
 }
 
 const DB_NAME = 'pokerreads';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 let dbPromise: Promise<IDBPDatabase<PokerReadsDB>> | null = null;
 
 function getDB(): Promise<IDBPDatabase<PokerReadsDB>> {
   if (!dbPromise) {
     dbPromise = openDB<PokerReadsDB>(DB_NAME, DB_VERSION, {
-      upgrade(db) {
-        const playerStore = db.createObjectStore('players', { keyPath: 'id' });
-        playerStore.createIndex('by-last-seen', 'lastSeenAt');
-        playerStore.createIndex('by-nickname', 'nickname');
+      upgrade(db, oldVersion) {
+        if (oldVersion < 1) {
+          const playerStore = db.createObjectStore('players', { keyPath: 'id' });
+          playerStore.createIndex('by-last-seen', 'lastSeenAt');
+          playerStore.createIndex('by-nickname', 'nickname');
 
-        const noteStore = db.createObjectStore('notes', { keyPath: 'id' });
-        noteStore.createIndex('by-player', 'playerId');
-        noteStore.createIndex('by-session', 'sessionId');
+          const noteStore = db.createObjectStore('notes', { keyPath: 'id' });
+          noteStore.createIndex('by-player', 'playerId');
+          noteStore.createIndex('by-session', 'sessionId');
 
-        const sessionStore = db.createObjectStore('sessions', { keyPath: 'id' });
-        sessionStore.createIndex('by-started-at', 'startedAt');
+          const sessionStore = db.createObjectStore('sessions', { keyPath: 'id' });
+          sessionStore.createIndex('by-started-at', 'startedAt');
+        }
+        if (oldVersion < 2) {
+          const pendingStore = db.createObjectStore('pending', { keyPath: 'id' });
+          pendingStore.createIndex('by-created-at', 'createdAt');
+        }
       },
     });
   }
   return dbPromise;
+}
+
+// ─── Pending queue (used by hybrid adapter) ─────────────────────────────────
+
+export async function enqueuePending(op: PendingOp): Promise<void> {
+  const db = await getDB();
+  const record: PendingRecord = {
+    id: globalThis.crypto.randomUUID(),
+    op,
+    createdAt: new Date(),
+    attempts: 0,
+  };
+  await db.put('pending', record);
+}
+
+export async function getAllPending(): Promise<PendingRecord[]> {
+  const db = await getDB();
+  return db.getAllFromIndex('pending', 'by-created-at');
+}
+
+export async function deletePending(id: string): Promise<void> {
+  const db = await getDB();
+  await db.delete('pending', id);
+}
+
+export async function updatePending(record: PendingRecord): Promise<void> {
+  const db = await getDB();
+  await db.put('pending', record);
+}
+
+// ─── Bulk overwrite (used by sync pull) ─────────────────────────────────────
+
+export async function replaceLocalState(state: {
+  players: Player[];
+  notes: Note[];
+  sessions: Session[];
+}): Promise<void> {
+  const db = await getDB();
+  const tx = db.transaction(['players', 'notes', 'sessions'], 'readwrite');
+  await Promise.all([
+    tx.objectStore('players').clear(),
+    tx.objectStore('notes').clear(),
+    tx.objectStore('sessions').clear(),
+  ]);
+  await Promise.all([
+    ...state.players.map((p) => tx.objectStore('players').put(p)),
+    ...state.notes.map((n) => tx.objectStore('notes').put(n)),
+    ...state.sessions.map((s) => tx.objectStore('sessions').put(s)),
+  ]);
+  await tx.done;
 }
 
 export const localAdapter: StorageAdapter = {

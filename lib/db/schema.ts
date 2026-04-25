@@ -100,6 +100,10 @@ export const pokerSessions = sqliteTable('poker_sessions', {
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
     .$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  deletedAt: integer('deleted_at', { mode: 'timestamp' }),
 });
 
 // ─────────────────────────────────────────
@@ -124,6 +128,7 @@ export const players = sqliteTable('players', {
   updatedAt: integer('updated_at', { mode: 'timestamp' })
     .notNull()
     .$defaultFn(() => new Date()),
+  deletedAt: integer('deleted_at', { mode: 'timestamp' }),
 });
 
 // ─────────────────────────────────────────
@@ -157,6 +162,10 @@ export const notes = sqliteTable('notes', {
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
     .$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  deletedAt: integer('deleted_at', { mode: 'timestamp' }),
 });
 
 // ─────────────────────────────────────────
