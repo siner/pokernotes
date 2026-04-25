@@ -8,18 +8,13 @@ import { Link } from '@/i18n/navigation';
 import { PlayerChip } from './PlayerChip';
 import { QuickNoteSheet } from './QuickNoteSheet';
 import {
+  useStorage,
   getActiveSessionId,
   setActiveSessionId,
-  getSession,
-  saveSession,
-  getAllPlayers,
-  savePlayer,
-  saveNote,
-  getNotesForPlayer,
-  type LocalSession,
-  type LocalPlayer,
-  type LocalNote,
-} from '@/lib/storage/local';
+  type Session,
+  type Player,
+  type Note,
+} from '@/lib/storage';
 
 interface SessionStats {
   noteCount: number;
@@ -29,13 +24,14 @@ export function SessionView() {
   const t = useTranslations('session');
   const tCommon = useTranslations('common');
   const router = useRouter();
+  const storage = useStorage();
 
-  const [session, setSession] = useState<LocalSession | null | undefined>(undefined);
-  const [tablePlayers, setTablePlayers] = useState<LocalPlayer[]>([]);
-  const [allPlayers, setAllPlayers] = useState<LocalPlayer[]>([]);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const [tablePlayers, setTablePlayers] = useState<Player[]>([]);
+  const [allPlayers, setAllPlayers] = useState<Player[]>([]);
   const [statsMap, setStatsMap] = useState<Record<string, SessionStats>>({});
   const [searchQuery, setSearchQuery] = useState('');
-  const [activePlayer, setActivePlayer] = useState<LocalPlayer | null>(null);
+  const [activePlayer, setActivePlayer] = useState<Player | null>(null);
   const [showEndConfirm, setShowEndConfirm] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [sessionDuration, setSessionDuration] = useState('');
@@ -48,28 +44,28 @@ export function SessionView() {
       setSession(null);
       return;
     }
-    const s = await getSession(sessionId);
+    const s = await storage.getSession(sessionId);
     setSession(s ?? null);
-  }, [sessionId]);
+  }, [sessionId, storage]);
 
   const loadPlayers = useCallback(async () => {
-    const all = await getAllPlayers();
+    const all = await storage.getAllPlayers();
     setAllPlayers(all);
-  }, []);
+  }, [storage]);
 
   const loadStats = useCallback(
-    async (players: LocalPlayer[]) => {
+    async (players: Player[]) => {
       if (!sessionId) return;
       const entries = await Promise.all(
         players.map(async (p) => {
-          const notes = await getNotesForPlayer(p.id);
+          const notes = await storage.getNotesForPlayer(p.id);
           const sessionNotes = notes.filter((n) => n.sessionId === sessionId);
           return [p.id, { noteCount: sessionNotes.length }] as const;
         })
       );
       setStatsMap(Object.fromEntries(entries));
     },
-    [sessionId]
+    [sessionId, storage]
   );
 
   useEffect(() => {
@@ -99,7 +95,7 @@ export function SessionView() {
       )
     : [];
 
-  async function addPlayerToTable(player: LocalPlayer) {
+  async function addPlayerToTable(player: Player) {
     if (tablePlayerIds.has(player.id)) return;
     setTablePlayers((prev) => [...prev, player]);
     setSearchQuery('');
@@ -109,7 +105,7 @@ export function SessionView() {
     const nickname = searchQuery.trim();
     if (!nickname) return;
     const now = new Date();
-    const newPlayer: LocalPlayer = {
+    const newPlayer: Player = {
       id: globalThis.crypto.randomUUID(),
       nickname,
       tags: [],
@@ -117,19 +113,19 @@ export function SessionView() {
       createdAt: now,
       updatedAt: now,
     };
-    await savePlayer(newPlayer);
+    await storage.savePlayer(newPlayer);
     setAllPlayers((prev) => [newPlayer, ...prev]);
     setTablePlayers((prev) => [...prev, newPlayer]);
     setSearchQuery('');
   }
 
-  async function handleSaveNote(noteData: Omit<LocalNote, 'id' | 'createdAt'>) {
-    const note: LocalNote = {
+  async function handleSaveNote(noteData: Omit<Note, 'id' | 'createdAt'>) {
+    const note: Note = {
       ...noteData,
       id: globalThis.crypto.randomUUID(),
       createdAt: new Date(),
     };
-    await saveNote(note);
+    await storage.saveNote(note);
 
     // Update player stats
     const player = tablePlayers.find((p) => p.id === noteData.playerId);
@@ -137,7 +133,7 @@ export function SessionView() {
       const merged = noteData.aiSuggestedTags.length
         ? Array.from(new Set([...player.tags, ...noteData.aiSuggestedTags]))
         : player.tags;
-      await savePlayer({
+      await storage.savePlayer({
         ...player,
         tags: merged,
         timesPlayed: player.timesPlayed + 1,
@@ -163,7 +159,7 @@ export function SessionView() {
     const duration = formatDuration(session.startedAt!, t);
 
     const ended = { ...session, endedAt: new Date() };
-    await saveSession(ended);
+    await storage.saveSession(ended);
     setActiveSessionId(null);
 
     setSummaryData({ duration, players: tablePlayers.length, notes: totalNotes });

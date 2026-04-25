@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { X, Sparkles, Loader2 } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
-import { type LocalPlayer, type LocalNote } from '@/lib/storage/local';
+import { type Player, type Note } from '@/lib/storage';
 
 interface AiResult {
   structuredSummary: string;
@@ -13,9 +13,9 @@ interface AiResult {
 }
 
 interface QuickNoteSheetProps {
-  player: LocalPlayer;
+  player: Player;
   sessionId: string;
-  onSave: (note: Omit<LocalNote, 'id' | 'createdAt'>) => Promise<void>;
+  onSave: (note: Omit<Note, 'id' | 'createdAt'>) => Promise<void>;
   onClose: () => void;
 }
 

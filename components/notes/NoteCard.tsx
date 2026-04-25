@@ -2,10 +2,10 @@
 
 import { Trash2, Sparkles, Clock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { type LocalNote } from '@/lib/storage/local';
+import { type Note } from '@/lib/storage';
 
 interface NoteCardProps {
-  note: LocalNote;
+  note: Note;
   onDelete: (id: string) => void;
   sessionName?: string;
 }

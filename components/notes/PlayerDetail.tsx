@@ -6,17 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { NoteCard } from './NoteCard';
 import { NoteComposer } from './NoteComposer';
-import {
-  getPlayer,
-  getNotesForPlayer,
-  getAllSessions,
-  savePlayer,
-  saveNote,
-  deleteNote,
-  type LocalPlayer,
-  type LocalNote,
-  type LocalSession,
-} from '@/lib/storage/local';
+import { useStorage, type Player, type Note, type Session } from '@/lib/storage';
 import { PLAYER_TAGS } from '@/lib/constants/tags';
 
 interface PlayerDetailProps {
@@ -30,9 +20,10 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
   const tTags = useTranslations('tags');
   const tCommon = useTranslations('common');
 
-  const [player, setPlayer] = useState<LocalPlayer | null | undefined>(undefined);
-  const [notes, setNotes] = useState<LocalNote[]>([]);
-  const [sessionMap, setSessionMap] = useState<Record<string, LocalSession>>({});
+  const storage = useStorage();
+  const [player, setPlayer] = useState<Player | null | undefined>(undefined);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [sessionMap, setSessionMap] = useState<Record<string, Session>>({});
   const [tab, setTab] = useState<Tab>('notes');
   const [showComposer, setShowComposer] = useState(false);
 
@@ -44,46 +35,46 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
 
   const load = useCallback(async () => {
     const [p, n, sessions] = await Promise.all([
-      getPlayer(playerId),
-      getNotesForPlayer(playerId),
-      getAllSessions(),
+      storage.getPlayer(playerId),
+      storage.getNotesForPlayer(playerId),
+      storage.getAllSessions(),
     ]);
     setPlayer(p ?? null);
     setNotes(n);
     setSessionMap(Object.fromEntries(sessions.map((s) => [s.id, s])));
-  }, [playerId]);
+  }, [playerId, storage]);
 
   useEffect(() => {
     load();
   }, [load]);
 
-  async function handleSaveNote(noteData: Omit<LocalNote, 'id' | 'createdAt'>) {
-    const note: LocalNote = {
+  async function handleSaveNote(noteData: Omit<Note, 'id' | 'createdAt'>) {
+    const note: Note = {
       ...noteData,
       id: globalThis.crypto.randomUUID(),
       createdAt: new Date(),
     };
-    await saveNote(note);
+    await storage.saveNote(note);
 
     // If note has AI tags, merge them into player tags
     if (note.aiSuggestedTags.length > 0 && player) {
       const merged = Array.from(new Set([...player.tags, ...note.aiSuggestedTags]));
-      const updated: LocalPlayer = {
+      const updated: Player = {
         ...player,
         tags: merged,
         timesPlayed: player.timesPlayed + 1,
         lastSeenAt: new Date(),
         updatedAt: new Date(),
       };
-      await savePlayer(updated);
+      await storage.savePlayer(updated);
     } else if (player) {
-      const updated: LocalPlayer = {
+      const updated: Player = {
         ...player,
         timesPlayed: player.timesPlayed + 1,
         lastSeenAt: new Date(),
         updatedAt: new Date(),
       };
-      await savePlayer(updated);
+      await storage.savePlayer(updated);
     }
 
     await load();
@@ -91,42 +82,42 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
   }
 
   async function handleDeleteNote(id: string) {
-    await deleteNote(id);
+    await storage.deleteNote(id);
     setNotes((prev) => prev.filter((n) => n.id !== id));
   }
 
   async function handleToggleTag(tag: string) {
     if (!player) return;
     const has = player.tags.includes(tag);
-    const updated: LocalPlayer = {
+    const updated: Player = {
       ...player,
       tags: has ? player.tags.filter((t) => t !== tag) : [...player.tags, tag],
       updatedAt: new Date(),
     };
-    await savePlayer(updated);
+    await storage.savePlayer(updated);
     setPlayer(updated);
   }
 
   async function handleSaveNickname() {
     if (!player || !nicknameInput.trim()) return;
-    const updated: LocalPlayer = {
+    const updated: Player = {
       ...player,
       nickname: nicknameInput.trim(),
       updatedAt: new Date(),
     };
-    await savePlayer(updated);
+    await storage.savePlayer(updated);
     setPlayer(updated);
     setEditingNickname(false);
   }
 
   async function handleSaveDescription() {
     if (!player) return;
-    const updated: LocalPlayer = {
+    const updated: Player = {
       ...player,
       description: descriptionInput.trim() || undefined,
       updatedAt: new Date(),
     };
-    await savePlayer(updated);
+    await storage.savePlayer(updated);
     setPlayer(updated);
     setEditingDescription(false);
   }

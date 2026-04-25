@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Sparkles, Loader2, X } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
-import { type LocalNote } from '@/lib/storage/local';
+import { type Note } from '@/lib/storage';
 
 interface AiResult {
   structuredSummary: string;
@@ -14,7 +14,7 @@ interface AiResult {
 
 interface NoteComposerProps {
   playerId: string;
-  onSave: (note: Omit<LocalNote, 'id' | 'createdAt'>) => Promise<void>;
+  onSave: (note: Omit<Note, 'id' | 'createdAt'>) => Promise<void>;
   onClose: () => void;
 }
 

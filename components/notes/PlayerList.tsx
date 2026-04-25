@@ -8,13 +8,8 @@ import { Link } from '@/i18n/navigation';
 import { PlayerCard } from './PlayerCard';
 import { AddPlayerModal } from './AddPlayerModal';
 import { StartSessionModal } from '@/components/session/StartSessionModal';
-import {
-  getAllPlayers,
-  savePlayer,
-  deletePlayer,
-  getActiveSessionId,
-  type LocalPlayer,
-} from '@/lib/storage/local';
+import { useStorage, getActiveSessionId, type Player } from '@/lib/storage';
+import { useUserTier } from '@/lib/auth/useUserTier';
 
 const FREE_TIER_LIMIT = 20;
 
@@ -23,20 +18,22 @@ export function PlayerList() {
   const tCommon = useTranslations('common');
   const tSession = useTranslations('session');
 
-  const [players, setPlayers] = useState<LocalPlayer[]>([]);
+  const storage = useStorage();
+  const { tier } = useUserTier();
+  const [players, setPlayers] = useState<Player[]>([]);
   const [query, setQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showStartSession, setShowStartSession] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<LocalPlayer | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Player | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [activeSessionId, setActiveSessionIdState] = useState<string | null>(null);
   const router = useRouter();
 
   const loadPlayers = useCallback(async () => {
-    const all = await getAllPlayers();
+    const all = await storage.getAllPlayers();
     setPlayers(all);
     setLoaded(true);
-  }, []);
+  }, [storage]);
 
   useEffect(() => {
     loadPlayers();
@@ -49,7 +46,7 @@ export function PlayerList() {
 
   async function handleAdd(data: { nickname: string; description: string; tags: string[] }) {
     const now = new Date();
-    const player: LocalPlayer = {
+    const player: Player = {
       id: globalThis.crypto.randomUUID(),
       nickname: data.nickname,
       description: data.description || undefined,
@@ -58,14 +55,14 @@ export function PlayerList() {
       createdAt: now,
       updatedAt: now,
     };
-    await savePlayer(player);
+    await storage.savePlayer(player);
     await loadPlayers();
     setShowAddModal(false);
   }
 
   async function handleDeleteConfirm() {
     if (!deleteTarget) return;
-    await deletePlayer(deleteTarget.id);
+    await storage.deletePlayer(deleteTarget.id);
     await loadPlayers();
     setDeleteTarget(null);
   }
@@ -74,7 +71,7 @@ export function PlayerList() {
     router.push(`/notes/${id}`);
   }
 
-  const atLimit = players.length >= FREE_TIER_LIMIT;
+  const atLimit = tier === 'free' && players.length >= FREE_TIER_LIMIT;
 
   if (!loaded) {
     return (

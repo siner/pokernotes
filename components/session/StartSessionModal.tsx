@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
-import { saveSession, setActiveSessionId, type LocalSession } from '@/lib/storage/local';
+import { useStorage, setActiveSessionId, type Session } from '@/lib/storage';
 
 interface StartSessionModalProps {
   onClose: () => void;
@@ -14,17 +14,18 @@ export function StartSessionModal({ onClose }: StartSessionModalProps) {
   const t = useTranslations('session.startModal');
   const tCommon = useTranslations('common');
   const router = useRouter();
+  const storage = useStorage();
   const [name, setName] = useState('');
 
   async function handleStart() {
     const now = new Date();
-    const session: LocalSession = {
+    const session: Session = {
       id: globalThis.crypto.randomUUID(),
       name: name.trim() || undefined,
       startedAt: now,
       createdAt: now,
     };
-    await saveSession(session);
+    await storage.saveSession(session);
     setActiveSessionId(session.id);
     onClose();
     router.push('/session');

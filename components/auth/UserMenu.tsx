@@ -3,6 +3,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useSession, signOut } from '@/lib/auth/client';
+import { resetUserTierCache } from '@/lib/auth/useUserTier';
 import { Link, useRouter } from '@/i18n/navigation';
 import { LogOut, Settings, Loader2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
@@ -26,6 +27,7 @@ export function UserMenu() {
 
   const handleSignOut = async () => {
     await signOut();
+    resetUserTierCache();
     router.push('/');
   };
 
