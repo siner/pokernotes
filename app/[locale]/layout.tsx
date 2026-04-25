@@ -10,6 +10,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { PwaInstallPrompt } from '@/components/PwaInstallPrompt';
 import { Footer } from '@/components/Footer';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { SyncBootstrap } from '@/components/SyncBootstrap';
 import '@/app/globals.css';
 
 const syne = Syne({
@@ -138,6 +139,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <main className="pt-14 flex-1 flex flex-col">{children}</main>
           <Footer />
           <PwaInstallPrompt />
+          <SyncBootstrap />
         </NextIntlClientProvider>
       </body>
     </html>

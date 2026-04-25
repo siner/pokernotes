@@ -1,14 +1,20 @@
 'use client';
 
+import { useMemo } from 'react';
 import { localAdapter } from './local';
+import { hybridAdapter } from './hybrid';
+import { useUserTier } from '@/lib/auth/useUserTier';
 import type { StorageAdapter } from './types';
 
 export type { Player, Note, Session, StorageAdapter } from './types';
 export { getActiveSessionId, setActiveSessionId } from './local';
 
-// Today this always returns the local (IndexedDB) adapter.
-// In Sprint 5 it will branch on tier to return a hybrid adapter that
-// also write-throughs to D1 via /api/* routes.
 export function useStorage(): StorageAdapter {
-  return localAdapter;
+  const { tier, isLoading } = useUserTier();
+  // While tier is loading we default to local — the safe choice if the user
+  // turns out to be free, and harmless if pro (sync bootstrap will run after).
+  return useMemo(() => {
+    if (isLoading) return localAdapter;
+    return tier === 'pro' ? hybridAdapter : localAdapter;
+  }, [tier, isLoading]);
 }

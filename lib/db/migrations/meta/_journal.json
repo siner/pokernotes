@@ -15,6 +15,13 @@
       "when": 1776586557394,
       "tag": "0001_curious_preak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1777133419807,
+      "tag": "0002_broad_raza",
+      "breakpoints": true
     }
   ]
 }
