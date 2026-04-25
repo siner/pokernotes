@@ -54,7 +54,7 @@ export async function POST(request: Request) {
           lastSeenAt: p.lastSeenAt,
           updatedAt: p.updatedAt,
         },
-        setWhere: sql`excluded.updated_at > ${players.updatedAt}`,
+        setWhere: sql`${players.userId} = ${userId} AND excluded.updated_at > ${players.updatedAt}`,
       });
   }
 
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
           notes: s.notes,
           updatedAt: s.updatedAt,
         },
-        setWhere: sql`excluded.updated_at > ${pokerSessions.updatedAt}`,
+        setWhere: sql`${pokerSessions.userId} = ${userId} AND excluded.updated_at > ${pokerSessions.updatedAt}`,
       });
   }
 
@@ -118,7 +118,7 @@ export async function POST(request: Request) {
           aiProcessed: n.aiProcessed,
           updatedAt: n.updatedAt,
         },
-        setWhere: sql`excluded.updated_at > ${notes.updatedAt}`,
+        setWhere: sql`${notes.userId} = ${userId} AND excluded.updated_at > ${notes.updatedAt}`,
       });
   }
 

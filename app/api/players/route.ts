@@ -1,4 +1,4 @@
-import { and, eq, isNull } from 'drizzle-orm';
+import { and, eq, isNull, sql } from 'drizzle-orm';
 import { players } from '@/lib/db/schema';
 import { requireProUser } from '@/lib/auth/requireProUser';
 import { PlayerPayloadSchema } from '@/lib/sync/schemas';
@@ -66,6 +66,8 @@ export async function POST(request: Request) {
         updatedAt: p.updatedAt,
         deletedAt: null,
       },
+      // Cross-tenant write guard: only the row's owner can update it.
+      setWhere: sql`${players.userId} = ${userId}`,
     });
 
   return Response.json({ ok: true }, { status: 201 });
