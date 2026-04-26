@@ -18,8 +18,11 @@ function kvSecondaryStorage(kv: KVNamespace) {
       return kv.get(key);
     },
     async set(key: string, value: string, ttl?: number) {
-      if (ttl) {
-        await kv.put(key, value, { expirationTtl: ttl });
+      if (ttl && ttl > 0) {
+        // Cloudflare KV requires expirationTtl >= 60s; Better Auth uses shorter
+        // windows (e.g. 10s) for rate limit counters. Clamping widens the window
+        // slightly, which only makes rate limiting stricter — acceptable.
+        await kv.put(key, value, { expirationTtl: Math.max(ttl, 60) });
       } else {
         await kv.put(key, value);
       }
