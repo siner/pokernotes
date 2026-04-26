@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useSession } from '@/lib/auth/client';
 import { useRouter } from '@/i18n/navigation';
 import { Loader2, Zap, CheckCircle2, Download } from 'lucide-react';
+import { DeleteAccountSection } from '@/components/account/DeleteAccountSection';
 import { useEffect, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
@@ -189,6 +190,8 @@ export function SettingsClient({ initialTier }: { initialTier: string }) {
           {t('exportCsv')}
         </button>
       </div>
+
+      <DeleteAccountSection />
     </div>
   );
 }

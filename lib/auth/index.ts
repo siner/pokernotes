@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import type { AppDB } from '@/lib/db';
 import * as schema from '@/lib/db/schema';
+import { sendEmail } from '@/lib/email';
 
 interface AuthEnv {
   RATE_LIMITS?: KVNamespace;
@@ -49,6 +50,24 @@ export function getAuth(db: AppDB, env?: AuthEnv) {
     }),
     emailAndPassword: {
       enabled: true,
+      revokeSessionsOnPasswordReset: true,
+      sendResetPassword: async ({ user, url }) => {
+        await sendEmail({
+          to: user.email,
+          subject: 'Reset your PokerReads password',
+          text: [
+            `Hi${user.name ? ' ' + user.name : ''},`,
+            '',
+            'You requested to reset your PokerReads password. Open this link to choose a new one (expires in 1 hour):',
+            '',
+            url,
+            '',
+            "If you didn't ask for this, you can safely ignore this email — your password won't change.",
+            '',
+            '— PokerReads',
+          ].join('\n'),
+        });
+      },
     },
     socialProviders: {
       google: {

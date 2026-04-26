@@ -324,6 +324,32 @@
     "orContinueWith": "o continúa con",
     "noAccount": "¿No tienes cuenta?",
     "hasAccount": "¿Ya tienes cuenta?",
+    "forgotPasswordLink": "¿Olvidaste tu contraseña?",
+    "forgotPassword": {
+      "metaTitle": "Restablecer contraseña | PokerReads",
+      "title": "Restablecer contraseña",
+      "description": "Introduce tu email y te enviaremos un enlace para elegir una nueva contraseña.",
+      "submit": "Enviar enlace",
+      "sending": "Enviando…",
+      "success": "Si existe una cuenta con ese email, recibirás el enlace en breve.",
+      "error": "Algo ha fallado. Inténtalo de nuevo.",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "resetPassword": {
+      "metaTitle": "Nueva contraseña | PokerReads",
+      "title": "Elige una nueva contraseña",
+      "newPassword": "Nueva contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Restablecer contraseña",
+      "resetting": "Restableciendo…",
+      "success": "Contraseña restablecida. Redirigiendo al inicio de sesión…",
+      "missingToken": "A este enlace le falta el token. Solicita uno nuevo.",
+      "invalidToken": "Este enlace no es válido o ha caducado. Solicita uno nuevo.",
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "passwordTooShort": "La contraseña debe tener al menos 8 caracteres.",
+      "error": "Algo ha fallado. Inténtalo de nuevo.",
+      "requestNew": "Solicitar un enlace nuevo"
+    },
     "errors": {
       "invalidCredentials": "Email o contraseña incorrectos",
       "signUpFailed": "No se pudo crear la cuenta. Inténtalo de nuevo."
@@ -344,7 +370,16 @@
     "exportCsv": "Exportar CSV",
     "exportCsvDescription": "Descarga todos tus jugadores y notas en un archivo CSV.",
     "exportCsvProOnly": "Exportar está disponible con PokerReads Pro.",
-    "exportError": "Error al exportar. Inténtalo de nuevo."
+    "exportError": "Error al exportar. Inténtalo de nuevo.",
+    "dangerZone": "Zona peligrosa",
+    "deleteAccount": "Eliminar cuenta",
+    "deleteAccountDescription": "Elimina permanentemente tu cuenta y todos tus datos: jugadores, notas, sesiones y fotos. Esta acción no se puede deshacer. Si tienes una suscripción activa, se cancelará.",
+    "deleteAccountConfirm": "Escribe {word} para confirmar",
+    "deleteAccountConfirmWord": "ELIMINAR",
+    "deleteAccountAction": "Eliminar mi cuenta",
+    "deleteAccountDeleting": "Eliminando…",
+    "deleteAccountCancel": "Cancelar",
+    "deleteAccountError": "No se pudo eliminar tu cuenta. Inténtalo de nuevo."
   },
   "legal": {
     "privacy": {

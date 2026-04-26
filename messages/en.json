@@ -324,6 +324,32 @@
     "orContinueWith": "or continue with",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
+    "forgotPasswordLink": "Forgot password?",
+    "forgotPassword": {
+      "metaTitle": "Reset password | PokerReads",
+      "title": "Reset your password",
+      "description": "Enter your email and we'll send you a link to choose a new password.",
+      "submit": "Send reset link",
+      "sending": "Sending…",
+      "success": "If an account exists with that email, you'll receive a reset link shortly.",
+      "error": "Something went wrong. Please try again.",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "metaTitle": "Choose new password | PokerReads",
+      "title": "Choose a new password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "submit": "Reset password",
+      "resetting": "Resetting…",
+      "success": "Password reset. Redirecting to sign in…",
+      "missingToken": "This reset link is missing a token. Request a new one.",
+      "invalidToken": "This reset link is invalid or has expired. Request a new one.",
+      "passwordMismatch": "Passwords don't match.",
+      "passwordTooShort": "Password must be at least 8 characters.",
+      "error": "Something went wrong. Please try again.",
+      "requestNew": "Request a new link"
+    },
     "errors": {
       "invalidCredentials": "Invalid email or password",
       "signUpFailed": "Could not create account. Try again."
@@ -344,7 +370,16 @@
     "exportCsv": "Export CSV",
     "exportCsvDescription": "Download all your players and notes as a CSV file.",
     "exportCsvProOnly": "Export is available with PokerReads Pro.",
-    "exportError": "Export failed. Please try again."
+    "exportError": "Export failed. Please try again.",
+    "dangerZone": "Danger zone",
+    "deleteAccount": "Delete account",
+    "deleteAccountDescription": "Permanently delete your account and all your data: players, notes, sessions, and photos. This cannot be undone. Your active subscription, if any, will be cancelled.",
+    "deleteAccountConfirm": "Type {word} to confirm",
+    "deleteAccountConfirmWord": "DELETE",
+    "deleteAccountAction": "Delete my account",
+    "deleteAccountDeleting": "Deleting…",
+    "deleteAccountCancel": "Cancel",
+    "deleteAccountError": "Could not delete your account. Please try again."
   },
   "legal": {
     "privacy": {

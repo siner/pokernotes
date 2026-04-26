@@ -61,7 +61,12 @@ export function LoginForm() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-medium text-slate-400">{t('password')}</label>
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-medium text-slate-400">{t('password')}</label>
+          <Link href="/forgot-password" className="text-xs text-slate-500 hover:text-emerald-400">
+            {t('forgotPasswordLink')}
+          </Link>
+        </div>
         <input
           type="password"
           value={password}
