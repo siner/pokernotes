@@ -11,6 +11,7 @@ import { PwaInstallPrompt } from '@/components/PwaInstallPrompt';
 import { Footer } from '@/components/Footer';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { SyncBootstrap } from '@/components/SyncBootstrap';
+import { SyncIndicator } from '@/components/SyncIndicator';
 import '@/app/globals.css';
 
 const syne = Syne({
@@ -131,6 +132,7 @@ export default async function LocaleLayout({ children, params }: Props) {
               </Link>
             </nav>
             <div className="flex items-center gap-1.5 sm:gap-3">
+              <SyncIndicator />
               <LanguageSwitcher />
               <div className="h-5 w-px bg-white/10 hidden sm:block"></div>
               <UserMenu />

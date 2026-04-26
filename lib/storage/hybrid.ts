@@ -1,5 +1,6 @@
 import { localAdapter, enqueuePending, getAllPending, deletePending, updatePending } from './local';
 import { cloudAdapter, CloudError } from './cloud';
+import { setPendingCount, syncOpEnd, syncOpStart } from './syncState';
 import type { PendingOp } from './local';
 import type { StorageAdapter } from './types';
 
@@ -30,16 +31,27 @@ async function tryCloud(op: PendingOp): Promise<void> {
   }
 }
 
+async function refreshPendingCount(): Promise<void> {
+  const pending = await getAllPending();
+  setPendingCount(pending.length);
+}
+
 async function dispatch(op: PendingOp): Promise<void> {
+  syncOpStart();
   try {
     await tryCloud(op);
+    await refreshPendingCount();
+    syncOpEnd();
   } catch (err) {
     // 4xx (except 409) means the request itself is bad — don't enqueue, just surface.
     if (err instanceof CloudError && err.status >= 400 && err.status < 500 && err.status !== 409) {
       console.error('[hybrid] cloud rejected op', op.kind, err.status);
+      syncOpEnd(err);
       return;
     }
     await enqueuePending(op);
+    await refreshPendingCount();
+    syncOpEnd();
     void drainPending();
   }
 }
@@ -47,6 +59,8 @@ async function dispatch(op: PendingOp): Promise<void> {
 export async function drainPending(): Promise<void> {
   if (draining) return;
   draining = true;
+  syncOpStart();
+  let lastError: unknown;
   try {
     const records = await getAllPending();
     for (const record of records) {
@@ -54,6 +68,7 @@ export async function drainPending(): Promise<void> {
         await tryCloud(record.op);
         await deletePending(record.id);
       } catch (err) {
+        lastError = err;
         const attempts = record.attempts + 1;
         if (attempts >= MAX_ATTEMPTS) {
           console.error('[hybrid] giving up on op after retries', record.op.kind, err);
@@ -70,6 +85,8 @@ export async function drainPending(): Promise<void> {
       }
     }
   } finally {
+    await refreshPendingCount();
+    syncOpEnd(lastError);
     draining = false;
   }
 }
