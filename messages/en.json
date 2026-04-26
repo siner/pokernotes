@@ -355,6 +355,17 @@
       "signUpFailed": "Could not create account. Try again."
     }
   },
+  "sync": {
+    "synced": "Synced",
+    "syncing": "Syncing…",
+    "pending": "{count, plural, one {# pending} other {# pending}}",
+    "error": "Sync error",
+    "offline": "Offline",
+    "lastSynced": "Last synced at {time}",
+    "neverSynced": "Not synced yet",
+    "syncNow": "Sync now",
+    "syncDescription": "Pull the latest changes from your other devices."
+  },
   "settings": {
     "metaTitle": "Settings | PokerReads",
     "title": "Account Settings",
