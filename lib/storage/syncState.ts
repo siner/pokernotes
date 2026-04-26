@@ -15,9 +15,14 @@ let lastSyncedAt: Date | null = null;
 let lastError: string | null = null;
 let online = typeof navigator !== 'undefined' ? navigator.onLine : true;
 
+// Cached snapshot. useSyncExternalStore requires getSnapshot() to return a
+// stable reference when the underlying state hasn't changed; otherwise React
+// triggers re-renders forever (React error #185).
+let snapshot: SyncState = computeSnapshot();
+
 const listeners = new Set<Listener>();
 
-function compute(): SyncState {
+function computeSnapshot(): SyncState {
   let status: SyncStatus;
   if (!online) status = 'offline';
   else if (inFlight > 0) status = 'syncing';
@@ -28,18 +33,20 @@ function compute(): SyncState {
   return { status, pendingCount, lastSyncedAt, lastError };
 }
 
-function notify(): void {
-  const s = compute();
-  for (const l of listeners) l(s);
+function refresh(): void {
+  snapshot = computeSnapshot();
+  for (const l of listeners) l(snapshot);
 }
 
 export function getSyncState(): SyncState {
-  return compute();
+  return snapshot;
 }
 
+// Note: do NOT invoke the listener on subscribe — React reads the initial
+// state via getSnapshot. Calling here would trigger an immediate re-render
+// loop with useSyncExternalStore.
 export function subscribeSyncState(listener: Listener): () => void {
   listeners.add(listener);
-  listener(compute());
   return () => {
     listeners.delete(listener);
   };
@@ -47,7 +54,7 @@ export function subscribeSyncState(listener: Listener): () => void {
 
 export function syncOpStart(): void {
   inFlight++;
-  notify();
+  refresh();
 }
 
 export function syncOpEnd(error?: unknown): void {
@@ -58,27 +65,30 @@ export function syncOpEnd(error?: unknown): void {
     lastError = null;
     if (inFlight === 0) lastSyncedAt = new Date();
   }
-  notify();
+  refresh();
 }
 
 export function setPendingCount(count: number): void {
   if (count === pendingCount) return;
   pendingCount = count;
-  notify();
+  refresh();
 }
 
 export function clearSyncError(): void {
+  if (lastError === null) return;
   lastError = null;
-  notify();
+  refresh();
 }
 
 if (typeof window !== 'undefined') {
   window.addEventListener('online', () => {
+    if (online) return;
     online = true;
-    notify();
+    refresh();
   });
   window.addEventListener('offline', () => {
+    if (!online) return;
     online = false;
-    notify();
+    refresh();
   });
 }
