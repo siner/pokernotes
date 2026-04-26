@@ -32,7 +32,7 @@ export function SyncIndicator() {
   const { icon, label, tone } = renderState(state.status, state.pendingCount, t);
 
   return (
-    <div className="relative">
+    <div className="relative hidden sm:block">
       <button
         type="button"
         onClick={handleClick}
@@ -41,7 +41,7 @@ export function SyncIndicator() {
         className={`flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium transition-colors ${tone}`}
       >
         {icon}
-        <span className="hidden sm:inline">{label}</span>
+        <span>{label}</span>
       </button>
 
       {showDetail && state.lastError && (

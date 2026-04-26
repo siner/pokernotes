@@ -1,17 +1,51 @@
 import { z } from 'zod';
 
 const dateLike = z.union([z.string(), z.number(), z.date()]).transform((v) => new Date(v));
-const optionalDateLike = dateLike.optional();
+
+// D1 returns SQL NULL → JSON null for unset columns. Round-tripping through
+// the client (sync pull → IndexedDB → sync push) preserves nulls. Use these
+// helpers to accept null|undefined and normalize to undefined so handlers
+// downstream don't have to care.
+const optStr = (max: number) =>
+  z
+    .string()
+    .max(max)
+    .nullish()
+    .transform((v) => v ?? undefined);
+
+const optNonEmptyStr = (max: number) =>
+  z
+    .string()
+    .min(1)
+    .max(max)
+    .nullish()
+    .transform((v) => v ?? undefined);
+
+const optDateLike = z
+  .union([z.string(), z.number(), z.date(), z.null()])
+  .nullish()
+  .transform((v) => (v === null || v === undefined ? undefined : new Date(v)));
+
+const optStrArray = z
+  .array(z.string())
+  .nullish()
+  .transform((v) => v ?? []);
+
+const optBool = (defaultValue: boolean) =>
+  z
+    .boolean()
+    .nullish()
+    .transform((v) => v ?? defaultValue);
 
 export const PlayerPayloadSchema = z.object({
   id: z.string().min(1),
   nickname: z.string().min(1).max(100),
-  description: z.string().max(2000).optional(),
-  photoUrl: z.string().min(1).max(500).optional(),
-  tags: z.array(z.string()).default([]),
+  description: optStr(2000),
+  photoUrl: optNonEmptyStr(500),
+  tags: optStrArray,
   timesPlayed: z.number().int().nonnegative().default(0),
-  firstSeenAt: optionalDateLike,
-  lastSeenAt: optionalDateLike,
+  firstSeenAt: optDateLike,
+  lastSeenAt: optDateLike,
   createdAt: dateLike,
   updatedAt: dateLike,
 });
@@ -23,25 +57,25 @@ export const PlayerPatchSchema = PlayerPayloadSchema.partial().extend({
 export const NotePayloadSchema = z.object({
   id: z.string().min(1),
   playerId: z.string().min(1),
-  sessionId: z.string().optional(),
-  rawNote: z.string().max(4000).optional(),
-  structuredSummary: z.string().max(4000).optional(),
-  preflopTendency: z.string().max(2000).optional(),
-  postflopTendency: z.string().max(2000).optional(),
-  aiSuggestedTags: z.array(z.string()).default([]),
-  aiProcessed: z.boolean().default(false),
+  sessionId: optStr(200),
+  rawNote: optStr(4000),
+  structuredSummary: optStr(4000),
+  preflopTendency: optStr(2000),
+  postflopTendency: optStr(2000),
+  aiSuggestedTags: optStrArray,
+  aiProcessed: optBool(false),
   createdAt: dateLike,
   updatedAt: dateLike,
 });
 
 export const SessionPayloadSchema = z.object({
   id: z.string().min(1),
-  name: z.string().max(200).optional(),
-  venue: z.string().max(200).optional(),
-  gameType: z.string().max(100).optional(),
-  startedAt: optionalDateLike,
-  endedAt: optionalDateLike,
-  notes: z.string().max(4000).optional(),
+  name: optStr(200),
+  venue: optStr(200),
+  gameType: optStr(100),
+  startedAt: optDateLike,
+  endedAt: optDateLike,
+  notes: optStr(4000),
   createdAt: dateLike,
   updatedAt: dateLike,
 });
