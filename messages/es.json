@@ -329,7 +329,12 @@
     "freePlan": "Gratis",
     "proPlan": "Pro",
     "upgradeToPro": "Pasarse a Pro",
-    "memberSince": "Miembro desde {date}"
+    "memberSince": "Miembro desde {date}",
+    "data": "Datos y exportación",
+    "exportCsv": "Exportar CSV",
+    "exportCsvDescription": "Descarga todos tus jugadores y notas en un archivo CSV.",
+    "exportCsvProOnly": "Exportar está disponible con PokerReads Pro.",
+    "exportError": "Error al exportar. Inténtalo de nuevo."
   },
   "legal": {
     "privacy": {

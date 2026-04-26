@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useSession } from '@/lib/auth/client';
 import { useRouter } from '@/i18n/navigation';
-import { Loader2, Zap, CheckCircle2 } from 'lucide-react';
+import { Loader2, Zap, CheckCircle2, Download } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
@@ -15,6 +15,8 @@ export function SettingsClient({ initialTier }: { initialTier: string }) {
   const searchParams = useSearchParams();
   const checkoutSuccess = searchParams.get('checkout') === 'success';
   const [loadingPortal, setLoadingPortal] = useState(false);
+  const [loadingExport, setLoadingExport] = useState(false);
+  const [exportError, setExportError] = useState(false);
 
   useEffect(() => {
     if (!isPending && !session?.user) {
@@ -32,6 +34,31 @@ export function SettingsClient({ initialTier }: { initialTier: string }) {
 
   const { user } = session;
   const isPro = initialTier === 'pro';
+
+  const handleExport = async () => {
+    setLoadingExport(true);
+    setExportError(false);
+    try {
+      const res = await fetch('/api/export');
+      if (!res.ok) {
+        setExportError(true);
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pokerreads-export-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      setExportError(true);
+    } finally {
+      setLoadingExport(false);
+    }
+  };
 
   const handleManageBilling = async () => {
     setLoadingPortal(true);
@@ -134,6 +161,33 @@ export function SettingsClient({ initialTier }: { initialTier: string }) {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Data & Export Card */}
+      <div className="rounded-2xl border border-white/5 bg-[#0a110d] p-6 shadow-xl">
+        <h2 className="mb-2 text-xl font-semibold text-white">{t('data')}</h2>
+        <p className="mb-4 text-sm text-slate-400">
+          {isPro ? t('exportCsvDescription') : t('exportCsvProOnly')}
+        </p>
+
+        {exportError && (
+          <p className="mb-3 text-sm text-red-400" role="alert">
+            {t('exportError')}
+          </p>
+        )}
+
+        <button
+          onClick={handleExport}
+          disabled={!isPro || loadingExport}
+          className="flex items-center justify-center gap-2 rounded-lg bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {loadingExport ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Download className="h-4 w-4" />
+          )}
+          {t('exportCsv')}
+        </button>
       </div>
     </div>
   );
