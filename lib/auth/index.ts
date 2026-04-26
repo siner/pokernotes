@@ -34,11 +34,23 @@ function kvSecondaryStorage(kv: KVNamespace) {
   };
 }
 
+function resolveSecret(): string {
+  const secret = process.env.BETTER_AUTH_SECRET;
+  if (secret) return secret;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'BETTER_AUTH_SECRET is required in production. ' +
+        'Set it via `wrangler secret put BETTER_AUTH_SECRET`.'
+    );
+  }
+  return 'dev-secret-change-me';
+}
+
 export function getAuth(db: AppDB, env?: AuthEnv) {
   const kv = env?.RATE_LIMITS;
   return betterAuth({
     baseURL: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
-    secret: process.env.BETTER_AUTH_SECRET ?? 'dev-secret-change-me',
+    secret: resolveSecret(),
     database: drizzleAdapter(db, {
       provider: 'sqlite',
       schema: {

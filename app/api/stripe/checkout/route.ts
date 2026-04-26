@@ -24,22 +24,24 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Stripe configuration missing' }, { status: 500 });
     }
 
-    const stripe = new Stripe(stripeKey);
+    const stripe = new Stripe(stripeKey, { apiVersion: '2025-02-24.acacia' });
 
     let priceId = '';
     try {
       const body = (await request.json()) as { priceId?: string };
       if (body.priceId) priceId = body.priceId;
     } catch {
-      // fallback
+      // No body / not JSON — fall through to env default.
     }
 
     if (!priceId) {
-      // Provide a dev fallback or expect it from request
       priceId =
-        process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID ||
-        env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID ||
-        'price_12345';
+        process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || '';
+    }
+
+    if (!priceId) {
+      console.error('Missing NEXT_PUBLIC_STRIPE_PRO_PRICE_ID and no priceId in request body');
+      return Response.json({ error: 'Stripe price not configured' }, { status: 500 });
     }
 
     const appUrl =

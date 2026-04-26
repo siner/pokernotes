@@ -192,6 +192,17 @@ export const sharedPlayers = sqliteTable('shared_players', {
 });
 
 // ─────────────────────────────────────────
+// STRIPE WEBHOOK IDEMPOTENCY
+// ─────────────────────────────────────────
+
+export const processedStripeEvents = sqliteTable('processed_stripe_events', {
+  eventId: text('event_id').primaryKey(),
+  processedAt: integer('processed_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+});
+
+// ─────────────────────────────────────────
 // AI USAGE LOG (for analytics + rate limiting fallback)
 // ─────────────────────────────────────────
 
