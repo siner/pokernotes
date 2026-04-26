@@ -100,6 +100,16 @@
       "timesPlayed": "{count, plural, one {# session} other {# sessions}}",
       "lastSeen": "Last seen {date}",
       "deleteNote": "Delete note",
+      "photo": {
+        "alt": "Photo of {name}",
+        "add": "Add photo",
+        "replace": "Replace photo",
+        "delete": "Delete photo",
+        "uploading": "Uploading…",
+        "proOnly": "Photos are a Pro feature",
+        "tooLarge": "Image is too large after compression. Try a smaller one.",
+        "uploadFailed": "Upload failed. Please try again."
+      },
       "tabs": {
         "notes": "Notes",
         "info": "Info"

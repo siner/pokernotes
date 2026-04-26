@@ -33,8 +33,12 @@ export function PlayerCard({ player, onDelete, onClick }: PlayerCardProps) {
       className="group relative flex min-h-[72px] cursor-pointer items-start gap-4 rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-4 transition-colors hover:border-slate-700 hover:bg-slate-900 active:bg-slate-800"
     >
       {/* Avatar */}
-      <div className="mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-slate-800 text-slate-500">
-        <User size={20} />
+      <div className="mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-800 text-slate-500">
+        {player.photoUrl ? (
+          <img src={player.photoUrl} alt="" className="h-full w-full object-cover" loading="lazy" />
+        ) : (
+          <User size={20} />
+        )}
       </div>
 
       {/* Content */}

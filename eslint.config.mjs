@@ -23,6 +23,11 @@ const browserGlobals = {
   navigator: 'readonly',
   fetch: 'readonly',
   Event: 'readonly',
+  Image: 'readonly',
+  HTMLImageElement: 'readonly',
+  HTMLInputElement: 'readonly',
+  HTMLCanvasElement: 'readonly',
+  HTMLAnchorElement: 'readonly',
   React: 'readonly',
   JSX: 'readonly',
 };
@@ -32,6 +37,9 @@ const edgeGlobals = {
   Response: 'readonly',
   Request: 'readonly',
   Headers: 'readonly',
+  FormData: 'readonly',
+  File: 'readonly',
+  Blob: 'readonly',
   ServiceWorkerGlobalScope: 'readonly',
   // Cloudflare bindings (typed via types/cloudflare.d.ts)
   D1Database: 'readonly',
