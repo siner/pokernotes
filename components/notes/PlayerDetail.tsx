@@ -6,7 +6,9 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { NoteCard } from './NoteCard';
 import { NoteComposer } from './NoteComposer';
+import { PlayerPhoto } from './PlayerPhoto';
 import { useStorage, type Player, type Note, type Session } from '@/lib/storage';
+import { useUserTier } from '@/lib/auth/useUserTier';
 import { PLAYER_TAGS } from '@/lib/constants/tags';
 
 interface PlayerDetailProps {
@@ -21,6 +23,8 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
   const tCommon = useTranslations('common');
 
   const storage = useStorage();
+  const { tier } = useUserTier();
+  const isPro = tier === 'pro';
   const [player, setPlayer] = useState<Player | null | undefined>(undefined);
   const [notes, setNotes] = useState<Note[]>([]);
   const [sessionMap, setSessionMap] = useState<Record<string, Session>>({});
@@ -166,54 +170,60 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
 
       {/* Player header */}
       <div className="mb-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-        {/* Nickname */}
-        <div className="mb-1 flex items-start gap-2">
-          {editingNickname ? (
-            <div className="flex flex-1 items-center gap-2">
-              <input
-                value={nicknameInput}
-                onChange={(e) => setNicknameInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSaveNickname()}
-                autoFocus
-                className="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xl font-bold text-white focus:border-emerald-500 focus:outline-none"
-              />
-              <button
-                onClick={handleSaveNickname}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-emerald-400 hover:bg-emerald-500/10"
-              >
-                <Check size={16} />
-              </button>
-              <button
-                onClick={() => setEditingNickname(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800"
-              >
-                <X size={16} />
-              </button>
-            </div>
-          ) : (
-            <>
-              <h1 className="flex-1 text-2xl font-bold text-white">{player.nickname}</h1>
-              <button
-                onClick={() => {
-                  setNicknameInput(player.nickname);
-                  setEditingNickname(true);
-                }}
-                aria-label={t('editNickname')}
-                className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-800 hover:text-slate-300"
-              >
-                <Pencil size={15} />
-              </button>
-            </>
-          )}
-        </div>
+        <div className="mb-4 flex items-start gap-4">
+          {isPro && <PlayerPhoto player={player} onChange={setPlayer} />}
 
-        {/* Stats */}
-        <p className="mb-4 text-xs text-slate-500">
-          {t('timesPlayed', { count: player.timesPlayed })}
-          {lastSeenLabel && <> · {lastSeenLabel}</>}
-          {' · '}
-          {t('noteCount', { count: notes.length })}
-        </p>
+          <div className="min-w-0 flex-1">
+            {/* Nickname */}
+            <div className="mb-1 flex items-start gap-2">
+              {editingNickname ? (
+                <div className="flex flex-1 items-center gap-2">
+                  <input
+                    value={nicknameInput}
+                    onChange={(e) => setNicknameInput(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSaveNickname()}
+                    autoFocus
+                    className="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xl font-bold text-white focus:border-emerald-500 focus:outline-none"
+                  />
+                  <button
+                    onClick={handleSaveNickname}
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-emerald-400 hover:bg-emerald-500/10"
+                  >
+                    <Check size={16} />
+                  </button>
+                  <button
+                    onClick={() => setEditingNickname(false)}
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <h1 className="flex-1 text-2xl font-bold text-white">{player.nickname}</h1>
+                  <button
+                    onClick={() => {
+                      setNicknameInput(player.nickname);
+                      setEditingNickname(true);
+                    }}
+                    aria-label={t('editNickname')}
+                    className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                  >
+                    <Pencil size={15} />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Stats */}
+            <p className="text-xs text-slate-500">
+              {t('timesPlayed', { count: player.timesPlayed })}
+              {lastSeenLabel && <> · {lastSeenLabel}</>}
+              {' · '}
+              {t('noteCount', { count: notes.length })}
+            </p>
+          </div>
+        </div>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5">

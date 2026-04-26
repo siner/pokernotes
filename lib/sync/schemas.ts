@@ -7,7 +7,7 @@ export const PlayerPayloadSchema = z.object({
   id: z.string().min(1),
   nickname: z.string().min(1).max(100),
   description: z.string().max(2000).optional(),
-  photoUrl: z.string().url().optional(),
+  photoUrl: z.string().min(1).max(500).optional(),
   tags: z.array(z.string()).default([]),
   timesPlayed: z.number().int().nonnegative().default(0),
   firstSeenAt: optionalDateLike,
