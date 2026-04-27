@@ -7,6 +7,9 @@ import {
   rateLimitKey,
   RATE_LIMITS,
 } from '@/lib/ai/noteStructurer';
+import { logger } from '@/lib/logger';
+
+const ROUTE = 'ai.structure-note';
 
 const RequestSchema = z.object({
   note: z.string().min(1).max(2000),
@@ -103,7 +106,7 @@ export async function POST(request: Request) {
     }
   }
 
-  console.error('AI structure-note failed after retries', lastError);
+  logger.error('AI structuring failed after retries', { route: ROUTE, locale }, lastError);
   return Response.json({ error: 'ai_processing_failed' }, { status: 502 });
 }
 

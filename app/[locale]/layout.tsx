@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -143,6 +144,16 @@ export default async function LocaleLayout({ children, params }: Props) {
           <PwaInstallPrompt />
           <SyncBootstrap />
         </NextIntlClientProvider>
+        {process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN && (
+          <Script
+            id="cf-beacon"
+            strategy="afterInteractive"
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({
+              token: process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN,
+            })}
+          />
+        )}
       </body>
     </html>
   );
