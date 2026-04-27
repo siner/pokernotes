@@ -88,11 +88,17 @@ export function getAuth(db: AppDB, env?: AuthEnv) {
         enabled: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
       },
     },
+    session: {
+      // Signed cookie that lets Better Auth skip the D1 lookup on most reads.
+      // Worker pricing is per-CPU-ms so saving the round-trip pays off; 5min
+      // is short enough that revoke-on-password-reset still flushes promptly.
+      cookieCache: { enabled: true, maxAge: 5 * 60 },
+      ...(kv && { storeSessionInDatabase: true }),
+    },
     // KV-backed rate limiter. Defaults to memory which is a no-op on Workers.
     // Sessions stay in D1 (storeSessionInDatabase) — only rate counters use KV.
     ...(kv && {
       secondaryStorage: kvSecondaryStorage(kv),
-      session: { storeSessionInDatabase: true },
       rateLimit: {
         enabled: true,
         storage: 'secondary-storage' as const,
