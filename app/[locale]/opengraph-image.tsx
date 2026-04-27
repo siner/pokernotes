@@ -1,6 +1,8 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+// No `runtime = 'edge'` — OpenNext Cloudflare can't bundle edge routes
+// alongside the default function. ImageResponse uses Web APIs only, so it
+// runs fine under the default runtime on Workers.
 export const alt = 'PokerReads — AI-powered live poker notes';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
