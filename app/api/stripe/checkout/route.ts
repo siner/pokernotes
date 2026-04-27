@@ -1,6 +1,8 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { getDb } from '@/lib/db';
 import { getAuth } from '@/lib/auth';
+import { users } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 import { logger } from '@/lib/logger';
@@ -53,6 +55,15 @@ export async function POST(request: Request) {
     const appUrl =
       process.env.NEXT_PUBLIC_APP_URL || env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
+    // Reuse the Stripe customer if we already created one for this user
+    // (e.g. they cancelled and are resubscribing). Passing customer_email
+    // instead would create a duplicate Customer record on Stripe's side.
+    const existing = await db
+      .select({ stripeCustomerId: users.stripeCustomerId })
+      .from(users)
+      .where(eq(users.id, session.user.id))
+      .get();
+
     const checkoutSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
@@ -65,7 +76,9 @@ export async function POST(request: Request) {
       success_url: `${appUrl}/settings?checkout=success`,
       cancel_url: `${appUrl}/pricing?checkout=cancelled`,
       client_reference_id: session.user.id,
-      customer_email: session.user.email,
+      ...(existing?.stripeCustomerId
+        ? { customer: existing.stripeCustomerId }
+        : { customer_email: session.user.email }),
     });
 
     return Response.json({ url: checkoutSession.url });
