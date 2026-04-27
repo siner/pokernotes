@@ -3,6 +3,9 @@ import { getDb } from '@/lib/db';
 import { processedStripeEvents, users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import Stripe from 'stripe';
+import { logger } from '@/lib/logger';
+
+const ROUTE = 'stripe.webhook';
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +15,7 @@ export async function POST(request: Request) {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || env.STRIPE_WEBHOOK_SECRET;
 
     if (!stripeKey || !webhookSecret) {
-      console.error('Missing Stripe server configuration');
+      logger.error('missing stripe server configuration', { route: ROUTE });
       return Response.json({ error: 'Webhook Error: Missing config' }, { status: 400 });
     }
 
@@ -25,8 +28,8 @@ export async function POST(request: Request) {
     try {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret as string);
     } catch (err) {
+      logger.error('webhook signature verification failed', { route: ROUTE }, err);
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      console.error(`Webhook signature verification failed.`, errorMessage);
       return Response.json({ error: `Webhook Error: ${errorMessage}` }, { status: 400 });
     }
 
@@ -44,21 +47,35 @@ export async function POST(request: Request) {
       .returning({ eventId: processedStripeEvents.eventId });
 
     if (claim.length === 0) {
-      console.log('[stripe] event already processed', event.id, event.type);
+      logger.info('event already processed', {
+        route: ROUTE,
+        eventId: event.id,
+        eventType: event.type,
+      });
       return Response.json({ received: true, deduplicated: true });
     }
 
     try {
       await processEvent(db, event);
+      logger.info('event processed', {
+        route: ROUTE,
+        eventId: event.id,
+        eventType: event.type,
+      });
     } catch (err) {
       // Roll back the claim so the next Stripe retry can re-process.
       await db.delete(processedStripeEvents).where(eq(processedStripeEvents.eventId, event.id));
+      logger.error(
+        'event processing failed; claim rolled back',
+        { route: ROUTE, eventId: event.id, eventType: event.type },
+        err
+      );
       throw err;
     }
 
     return Response.json({ received: true });
   } catch (error) {
-    console.error('Webhook error:', error);
+    logger.error('webhook handler crashed', { route: ROUTE }, error);
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -73,7 +90,10 @@ async function processEvent(db: Db, event: Stripe.Event): Promise<void> {
       // The client_reference_id contains our internal user ID
       const userId = session.client_reference_id;
       if (!userId) {
-        console.error('No client_reference_id found in checkout session');
+        logger.error('checkout.session.completed missing client_reference_id', {
+          route: ROUTE,
+          eventId: event.id,
+        });
         break;
       }
 

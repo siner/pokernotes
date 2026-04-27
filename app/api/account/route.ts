@@ -13,6 +13,9 @@ import {
   pokerSessions,
   users,
 } from '@/lib/db/schema';
+import { logger } from '@/lib/logger';
+
+const ROUTE = 'account.delete';
 
 async function deleteAllR2Photos(bucket: R2Bucket, userId: string): Promise<void> {
   const prefix = `users/${userId}/`;
@@ -54,14 +57,14 @@ export async function DELETE() {
       try {
         await stripe.subscriptions.cancel(userRecord.stripeSubscriptionId);
       } catch (err) {
-        console.warn('[account:delete] stripe subscription cancel failed', err);
+        logger.warn('stripe subscription cancel failed', { route: ROUTE, userId }, err);
       }
     }
     if (userRecord.stripeCustomerId) {
       try {
         await stripe.customers.del(userRecord.stripeCustomerId);
       } catch (err) {
-        console.warn('[account:delete] stripe customer delete failed', err);
+        logger.warn('stripe customer delete failed', { route: ROUTE, userId }, err);
       }
     }
   }
@@ -70,7 +73,7 @@ export async function DELETE() {
   try {
     await deleteAllR2Photos(env.PLAYER_PHOTOS, userId);
   } catch (err) {
-    console.warn('[account:delete] R2 cleanup failed', err);
+    logger.warn('R2 cleanup failed', { route: ROUTE, userId }, err);
   }
 
   // 3. Delete D1 records in dependency order. D1 doesn't enforce FKs by default,
@@ -83,5 +86,6 @@ export async function DELETE() {
   await db.delete(authSessions).where(eq(authSessions.userId, userId));
   await db.delete(authUsers).where(eq(authUsers.id, userId));
 
+  logger.info('account deleted', { route: ROUTE, userId });
   return Response.json({ ok: true });
 }

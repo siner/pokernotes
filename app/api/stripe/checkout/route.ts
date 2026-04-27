@@ -3,6 +3,9 @@ import { getDb } from '@/lib/db';
 import { getAuth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
+import { logger } from '@/lib/logger';
+
+const ROUTE = 'stripe.checkout';
 
 export async function POST(request: Request) {
   try {
@@ -20,7 +23,7 @@ export async function POST(request: Request) {
 
     const stripeKey = process.env.STRIPE_SECRET_KEY || env.STRIPE_SECRET_KEY;
     if (!stripeKey) {
-      console.error('Missing STRIPE_SECRET_KEY');
+      logger.error('missing STRIPE_SECRET_KEY', { route: ROUTE });
       return Response.json({ error: 'Stripe configuration missing' }, { status: 500 });
     }
 
@@ -40,7 +43,10 @@ export async function POST(request: Request) {
     }
 
     if (!priceId) {
-      console.error('Missing NEXT_PUBLIC_STRIPE_PRO_PRICE_ID and no priceId in request body');
+      logger.error('missing NEXT_PUBLIC_STRIPE_PRO_PRICE_ID and no priceId in request body', {
+        route: ROUTE,
+        userId: session.user.id,
+      });
       return Response.json({ error: 'Stripe price not configured' }, { status: 500 });
     }
 
@@ -64,7 +70,7 @@ export async function POST(request: Request) {
 
     return Response.json({ url: checkoutSession.url });
   } catch (error) {
-    console.error('Stripe checkout error:', error);
+    logger.error('checkout handler crashed', { route: ROUTE }, error);
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
