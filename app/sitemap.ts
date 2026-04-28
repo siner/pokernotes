@@ -10,17 +10,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tools/push-fold',
     '/tools/icm',
     '/tools/break-even',
+    '/privacy',
+    '/terms',
   ];
 
   const sitemapEntries: MetadataRoute.Sitemap = [];
 
   for (const locale of locales) {
     for (const route of routes) {
+      const isLegal = route === '/privacy' || route === '/terms';
       sitemapEntries.push({
         url: `${baseUrl}/${locale}${route}`,
         lastModified: new Date(),
-        changeFrequency: route === '' ? 'daily' : 'weekly',
-        priority: route === '' ? 1 : 0.8,
+        changeFrequency: route === '' ? 'daily' : isLegal ? 'yearly' : 'weekly',
+        priority: route === '' ? 1 : isLegal ? 0.3 : 0.8,
       });
     }
   }

@@ -62,20 +62,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: 'PokerReads',
       title: 'PokerReads — Live Poker Player Notes & Calculators',
       description: t('subtitle'),
-      images: [
-        {
-          url: '/og-image.png',
-          width: 1200,
-          height: 630,
-          alt: 'PokerReads — AI-powered live poker notes',
-        },
-      ],
+      // images injected automatically by app/[locale]/opengraph-image.tsx
     },
     twitter: {
       card: 'summary_large_image',
       title: 'PokerReads — Live Poker Player Notes & Calculators',
       description: t('subtitle'),
-      images: ['/og-image.png'],
+      // image inherited from openGraph (Next.js falls back when twitter-image absent)
     },
     icons: {
       icon: [
