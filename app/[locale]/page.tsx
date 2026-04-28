@@ -110,7 +110,7 @@ export default async function HomePage({ params }: Props) {
                 {(t.raw('hero.pills') as string[]).map((feature) => (
                   <span
                     key={feature}
-                    className="rounded-full border border-slate-800 bg-slate-900/80 px-3 py-1 font-mono text-xs text-slate-500"
+                    className="rounded-full border border-slate-800 bg-slate-900/80 px-3 py-1 font-mono text-xs text-slate-400"
                   >
                     {feature}
                   </span>
@@ -221,7 +221,7 @@ export default async function HomePage({ params }: Props) {
               <h3 className="mb-2 text-base font-semibold text-slate-100">
                 {t('features.aiNotes.title')}
               </h3>
-              <p className="text-sm leading-relaxed text-slate-500">
+              <p className="text-sm leading-relaxed text-slate-400">
                 {t('features.aiNotes.description')}
               </p>
             </div>
@@ -233,7 +233,7 @@ export default async function HomePage({ params }: Props) {
               <h3 className="mb-2 text-base font-semibold text-slate-100">
                 {t('features.calculators.title')}
               </h3>
-              <p className="text-sm leading-relaxed text-slate-500">
+              <p className="text-sm leading-relaxed text-slate-400">
                 {t('features.calculators.description')}
               </p>
             </div>
@@ -245,7 +245,7 @@ export default async function HomePage({ params }: Props) {
               <h3 className="mb-2 text-base font-semibold text-slate-100">
                 {t('features.offline.title')}
               </h3>
-              <p className="text-sm leading-relaxed text-slate-500">
+              <p className="text-sm leading-relaxed text-slate-400">
                 {t('features.offline.description')}
               </p>
             </div>

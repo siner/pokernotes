@@ -24,7 +24,7 @@ export default async function OfflinePage() {
       {/* When the user clicks try again, we simply reload the browser to re-attempt the network fetch */}
       <button
         type="button"
-        className="inline-flex min-h-[44px] min-w-[140px] items-center justify-center rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/30 active:scale-95"
+        className="inline-flex min-h-[44px] min-w-[140px] items-center justify-center rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/30 active:scale-95"
       >
         {t('cta')}
       </button>

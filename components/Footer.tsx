@@ -22,7 +22,7 @@ export async function Footer() {
 
           <div>
             <h3 className="mb-4 font-semibold text-slate-200">{t('sectionTools')}</h3>
-            <ul className="space-y-3 text-sm text-slate-500">
+            <ul className="space-y-3 text-sm text-slate-400">
               <li>
                 <Link href="/tools/pot-odds" className="transition-colors hover:text-emerald-400">
                   Pot Odds Calculator
@@ -48,7 +48,7 @@ export async function Footer() {
 
           <div>
             <h3 className="mb-4 font-semibold text-slate-200">{t('sectionProduct')}</h3>
-            <ul className="space-y-3 text-sm text-slate-500">
+            <ul className="space-y-3 text-sm text-slate-400">
               <li>
                 <Link href="/notes" className="transition-colors hover:text-emerald-400">
                   {t('myNotes')}
@@ -64,7 +64,7 @@ export async function Footer() {
 
           <div>
             <h3 className="mb-4 font-semibold text-slate-200">{t('sectionLegal')}</h3>
-            <ul className="space-y-3 text-sm text-slate-500">
+            <ul className="space-y-3 text-sm text-slate-400">
               <li>
                 <Link href="/terms" className="transition-colors hover:text-emerald-400">
                   {t('terms')}
@@ -79,7 +79,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-slate-800 pt-8 text-center text-sm text-slate-500">
+        <div className="mt-16 border-t border-slate-800 pt-8 text-center text-sm text-slate-400">
           {t('copyright', { year: currentYear })}
         </div>
       </div>
