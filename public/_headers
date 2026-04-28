@@ -1,0 +1,15 @@
+# Cloudflare Workers Static Assets — custom cache headers
+# Docs: https://developers.cloudflare.com/workers/static-assets/headers/
+#
+# Defaults (when no rule matches): public, max-age=0, must-revalidate
+# We override only for content-hashed Next.js assets (always safe to cache
+# forever) and for stable PWA icons (cached for 30 days).
+#
+# HTML routes, /api/*, /sw.js, /manifest.json, /favicon.* keep the default
+# revalidation behavior so deploys propagate immediately.
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/icons/*
+  Cache-Control: public, max-age=2592000
