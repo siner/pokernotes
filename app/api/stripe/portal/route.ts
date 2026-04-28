@@ -5,6 +5,9 @@ import { users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
+import { logger } from '@/lib/logger';
+
+const ROUTE = 'stripe.portal';
 
 export async function POST() {
   try {
@@ -22,6 +25,7 @@ export async function POST() {
 
     const stripeKey = process.env.STRIPE_SECRET_KEY || env.STRIPE_SECRET_KEY;
     if (!stripeKey) {
+      logger.error('missing STRIPE_SECRET_KEY', { route: ROUTE });
       return Response.json({ error: 'Stripe configuration missing' }, { status: 500 });
     }
 
@@ -48,7 +52,7 @@ export async function POST() {
 
     return Response.json({ url: portalSession.url });
   } catch (error) {
-    console.error('Stripe portal error:', error);
+    logger.error('portal handler crashed', { route: ROUTE }, error);
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
