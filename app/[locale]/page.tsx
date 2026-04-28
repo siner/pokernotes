@@ -17,11 +17,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function HomePage() {
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
   const t = await getTranslations('landing');
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://pokerreads.app';
+
+  // SoftwareApplication schema. Tells Google we're a free app with paid tier
+  // so it can render rich-result chips (price, rating, etc.) when we earn
+  // them. Free tier has price 0 — the Pro tier is described separately
+  // via aggregateOffer.
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'PokerReads',
+    url: `${baseUrl}/${locale}`,
+    description: t('hero.subtitle'),
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Web, iOS, Android',
+    inLanguage: ['en', 'es'],
+    offers: {
+      '@type': 'AggregateOffer',
+      lowPrice: '0',
+      highPrice: '7',
+      priceCurrency: 'USD',
+      offerCount: 2,
+    },
+  } as const;
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        // schema.org JSON-LD is intentionally rendered as raw JSON to avoid
+        // double-escaping; values come from translations and env, not user input.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       <section className="relative px-6 py-20 lg:py-32">
         {/* Background glows — contained so they don't cause overflow */}
