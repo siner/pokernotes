@@ -89,7 +89,7 @@ export function PwaInstallPrompt() {
       {!isIOS && (
         <button
           onClick={handleInstallClick}
-          className="flex h-9 items-center justify-center rounded-lg bg-emerald-500 px-3 text-sm font-medium text-white transition-colors hover:bg-emerald-400"
+          className="flex h-9 items-center justify-center rounded-lg bg-emerald-500 px-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-400"
         >
           <Download className="mr-1.5 h-4 w-4" />
           Install

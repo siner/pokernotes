@@ -102,6 +102,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <header className="fixed inset-x-0 top-0 z-50 flex h-14 items-center border-b border-white/5 bg-[#060d08]/90 px-4 backdrop-blur-md sm:px-6">
             <Link
               href="/"
+              aria-label="PokerReads"
               className="mr-6 flex items-center gap-2.5 transition-opacity hover:opacity-80"
             >
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500 shadow-lg shadow-emerald-500/30 text-white">

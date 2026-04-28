@@ -33,7 +33,7 @@ export function LanguageSwitcher() {
             'rounded-md px-2 py-1 text-xs font-semibold transition-colors',
             'min-h-[36px] min-w-[36px] sm:min-h-0 sm:min-w-0',
             locale === loc
-              ? 'bg-emerald-500 text-white'
+              ? 'bg-emerald-500 text-slate-950'
               : 'text-slate-400 hover:bg-slate-700 hover:text-slate-100',
           ].join(' ')}
         >
