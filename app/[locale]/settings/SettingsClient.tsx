@@ -6,6 +6,7 @@ import { useRouter } from '@/i18n/navigation';
 import { Loader2, Zap, CheckCircle2, Download } from 'lucide-react';
 import { DeleteAccountSection } from '@/components/account/DeleteAccountSection';
 import { SyncNowCard } from '@/components/account/SyncNowCard';
+import { VerifyEmailBanner } from '@/components/account/VerifyEmailBanner';
 import { useEffect, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
@@ -100,6 +101,8 @@ export function SettingsClient({ initialTier }: { initialTier: string }) {
           {t('memberSince', { date: new Date(user.createdAt).toLocaleDateString() })}
         </p>
       </div>
+
+      <VerifyEmailBanner />
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Profile Card */}
