@@ -97,7 +97,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} suppressHydrationWarning className={`dark ${syne.variable}`}>
-      <body className="min-h-dvh overflow-x-clip bg-[#060d08] text-slate-100 antialiased flex flex-col">
+      <body className="min-h-dvh overflow-x-hidden bg-[#060d08] text-slate-100 antialiased flex flex-col">
         <NextIntlClientProvider messages={messages}>
           <header className="fixed inset-x-0 top-0 z-50 flex h-14 items-center border-b border-white/5 bg-[#060d08]/90 px-4 backdrop-blur-md sm:px-6">
             <Link
@@ -133,7 +133,7 @@ export default async function LocaleLayout({ children, params }: Props) {
               <UserMenu />
             </div>
           </header>
-          <main className="pt-14 flex-1 flex flex-col">{children}</main>
+          <main className="pt-14 flex-1 flex flex-col min-w-0">{children}</main>
           <Footer />
           <PwaInstallPrompt />
           <SyncBootstrap />
