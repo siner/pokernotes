@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, Plus, Pencil, Check, X } from 'lucide-react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { ArrowLeft, Plus, Pencil, Check, X, Clock, StickyNote, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { NoteCard } from './NoteCard';
 import { NoteComposer } from './NoteComposer';
 import { PlayerPhoto } from './PlayerPhoto';
 import { useStorage, type Player, type Note, type Session } from '@/lib/storage';
+import { buildPlayerSessionHistory, syncPlayerStats } from '@/lib/storage/playerStats';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { PLAYER_TAGS } from '@/lib/constants/tags';
 
@@ -43,9 +44,17 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
       storage.getNotesForPlayer(playerId),
       storage.getAllSessions(),
     ]);
-    setPlayer(p ?? null);
+    if (!p) {
+      setPlayer(null);
+      setNotes([]);
+      setSessionMap({});
+      return;
+    }
+    const map = Object.fromEntries(sessions.map((s) => [s.id, s]));
+    const reconciled = await syncPlayerStats(p, n, map, storage);
+    setPlayer(reconciled);
     setNotes(n);
-    setSessionMap(Object.fromEntries(sessions.map((s) => [s.id, s])));
+    setSessionMap(map);
   }, [playerId, storage]);
 
   useEffect(() => {
@@ -60,25 +69,13 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
     };
     await storage.saveNote(note);
 
-    // If note has AI tags, merge them into player tags
-    if (note.aiSuggestedTags.length > 0 && player) {
+    // Merge AI-suggested tags into player.tags (additive). Times played, first/last
+    // seen are reconciled by syncPlayerStats during load() — no manual increment.
+    if (player && note.aiSuggestedTags.length > 0) {
       const merged = Array.from(new Set([...player.tags, ...note.aiSuggestedTags]));
-      const updated: Player = {
-        ...player,
-        tags: merged,
-        timesPlayed: player.timesPlayed + 1,
-        lastSeenAt: new Date(),
-        updatedAt: new Date(),
-      };
-      await storage.savePlayer(updated);
-    } else if (player) {
-      const updated: Player = {
-        ...player,
-        timesPlayed: player.timesPlayed + 1,
-        lastSeenAt: new Date(),
-        updatedAt: new Date(),
-      };
-      await storage.savePlayer(updated);
+      if (merged.length !== player.tags.length) {
+        await storage.savePlayer({ ...player, tags: merged, updatedAt: new Date() });
+      }
     }
 
     await load();
@@ -87,7 +84,7 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
 
   async function handleDeleteNote(id: string) {
     await storage.deleteNote(id);
-    setNotes((prev) => prev.filter((n) => n.id !== id));
+    await load();
   }
 
   async function handleToggleTag(tag: string) {
@@ -125,6 +122,12 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
     setPlayer(updated);
     setEditingDescription(false);
   }
+
+  // Cross-session history derived from the player's notes
+  const sessionHistory = useMemo(
+    () => buildPlayerSessionHistory(notes, sessionMap),
+    [notes, sessionMap]
+  );
 
   // Loading state
   if (player === undefined) {
@@ -361,6 +364,58 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
               {t('infoSection.addedOn')}: {player.createdAt.toLocaleDateString()}
             </p>
           </div>
+        </div>
+      )}
+
+      {tab === 'info' && (
+        <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            {t('infoSection.sessionsHistoryTitle')}
+          </p>
+          {sessionHistory.length === 0 ? (
+            <p className="text-sm text-slate-600">{t('infoSection.sessionsHistoryEmpty')}</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {sessionHistory.map(({ session, noteCount }) => {
+                const name =
+                  session.name ??
+                  t('infoSection.unnamedSession', {
+                    date:
+                      session.startedAt?.toLocaleDateString(undefined, {
+                        month: 'short',
+                        day: 'numeric',
+                      }) ?? '',
+                  });
+                const dateLabel = session.startedAt?.toLocaleDateString(undefined, {
+                  weekday: 'short',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                });
+                return (
+                  <Link
+                    key={session.id}
+                    href={`/sessions/${session.id}`}
+                    className="flex items-center gap-3 rounded-lg border border-slate-800/60 bg-slate-950/40 px-3 py-2.5 transition-colors hover:border-slate-700 hover:bg-slate-950/70"
+                  >
+                    <Clock size={14} className="shrink-0 text-slate-600" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-white">{name}</p>
+                      <p className="text-xs text-slate-500">
+                        {dateLabel}
+                        {session.venue && <> · {session.venue}</>}
+                      </p>
+                    </div>
+                    <span className="flex items-center gap-1 font-mono text-[11px] text-slate-500">
+                      <StickyNote size={11} />
+                      {noteCount}
+                    </span>
+                    <ChevronRight size={14} className="shrink-0 text-slate-600" />
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 

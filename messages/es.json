@@ -118,7 +118,10 @@
         "description": "Descripción",
         "descriptionEmpty": "Sin descripción",
         "firstSeen": "Primera vez visto",
-        "addedOn": "Añadido el"
+        "addedOn": "Añadido el",
+        "sessionsHistoryTitle": "Historial de sesiones",
+        "sessionsHistoryEmpty": "Aún no hay sesiones registradas con este jugador.",
+        "unnamedSession": "Sesión {date}"
       }
     },
     "composer": {
@@ -239,6 +242,9 @@
       "empty": "Todavía no hay jugadores",
       "emptyHint": "Usa el buscador para añadir jugadores a esta sesión.",
       "addSearch": "Buscar o añadir jugador..."
+    },
+    "search": {
+      "seenBefore": "{count, plural, one {visto 1×} other {visto #×}}"
     },
     "quickNote": {
       "title": "Nota sobre {name}",

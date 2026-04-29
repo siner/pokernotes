@@ -127,22 +127,26 @@ export function SessionView() {
     };
     await storage.saveNote(note);
 
-    // Update player stats
+    // Update player stats. Only bump `timesPlayed` if this is the first note for
+    // this player in the current session — otherwise we'd count one session many
+    // times. PlayerDetail's syncPlayerStats reconciles any drift on next view.
     const player = tablePlayers.find((p) => p.id === noteData.playerId);
     if (player) {
       const merged = noteData.aiSuggestedTags.length
         ? Array.from(new Set([...player.tags, ...noteData.aiSuggestedTags]))
         : player.tags;
+      const firstInSession = (statsMap[player.id]?.noteCount ?? 0) === 0;
+      const nextTimesPlayed = firstInSession ? player.timesPlayed + 1 : player.timesPlayed;
       await storage.savePlayer({
         ...player,
         tags: merged,
-        timesPlayed: player.timesPlayed + 1,
+        timesPlayed: nextTimesPlayed,
         lastSeenAt: new Date(),
         updatedAt: new Date(),
       });
       setTablePlayers((prev) =>
         prev.map((p) =>
-          p.id === player.id ? { ...p, tags: merged, timesPlayed: p.timesPlayed + 1 } : p
+          p.id === player.id ? { ...p, tags: merged, timesPlayed: nextTimesPlayed } : p
         )
       );
     }
@@ -254,6 +258,11 @@ export function SessionView() {
               className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-white hover:bg-slate-800"
             >
               <span className="flex-1 font-medium">{p.nickname}</span>
+              {p.timesPlayed >= 1 && (
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[11px] text-emerald-400">
+                  {t('search.seenBefore', { count: p.timesPlayed })}
+                </span>
+              )}
               {p.tags.length > 0 && (
                 <span className="font-mono text-xs text-slate-500">{p.tags[0]}</span>
               )}
