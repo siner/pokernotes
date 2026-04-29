@@ -84,7 +84,7 @@ Only add `"use client"` when the component needs interactivity, browser APIs, or
 
 ### 6. Privacy-aware
 - Player descriptions and notes are private by design
-- No analytics that track individual users beyond essentials (Cloudflare Web Analytics only)
+- No analytics that track individual users beyond essentials. Two cookieless, GDPR-friendly providers in parallel: **Cloudflare Web Analytics** (network-level, free) and **Umami** (self-hosted at `umami.franmoreno.com`, gives finer page/event detail). Both load only when their `NEXT_PUBLIC_*` env vars are set so dev stays clean.
 - GDPR: account deletion truly deletes all user data
 
 ### 7. Offline-first for free tier
@@ -242,6 +242,9 @@ STRIPE_PRICE_ID_YEARLY=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ADMIN_EMAILS=                # Comma-separated emails allowed at /admin (empty = no admins)
+NEXT_PUBLIC_CF_ANALYTICS_TOKEN=  # Cloudflare Web Analytics token (optional)
+NEXT_PUBLIC_UMAMI_SCRIPT_URL=    # e.g. https://umami.franmoreno.com/script.js (optional)
+NEXT_PUBLIC_UMAMI_WEBSITE_ID=    # Umami website UUID (optional, paired with the URL above)
 ```
 
 Cloudflare bindings (in `wrangler.toml`, not env): `DB`, `PLAYER_PHOTOS`, `RATE_LIMITS`, `AI`.
