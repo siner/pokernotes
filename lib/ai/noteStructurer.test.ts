@@ -67,9 +67,35 @@ describe('buildSystemPrompt', () => {
     expect(prompt).toContain('calling-station');
   });
 
-  it('sets language to Spanish when locale is es', () => {
+  it('emits a strong English directive twice for en', () => {
+    const prompt = buildSystemPrompt('en');
+    const matches = prompt.match(/OUTPUT LANGUAGE: ENGLISH/g) ?? [];
+    expect(matches.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('emits a strong Spanish directive twice for es', () => {
     const prompt = buildSystemPrompt('es');
-    expect(prompt).toContain('Spanish');
+    const matches = prompt.match(/IDIOMA DE SALIDA: ESPAÑOL/g) ?? [];
+    expect(matches.length).toBeGreaterThanOrEqual(2);
+    expect(prompt).not.toContain('OUTPUT LANGUAGE: ENGLISH');
+  });
+
+  it('embeds a one-shot example in the target language for en', () => {
+    const prompt = buildSystemPrompt('en');
+    expect(prompt).toContain('Loose-passive caller');
+    expect(prompt).not.toContain('Pagador pasivo');
+  });
+
+  it('embeds a one-shot example in the target language for es', () => {
+    const prompt = buildSystemPrompt('es');
+    expect(prompt).toContain('Pagador pasivo');
+    expect(prompt).not.toContain('Loose-passive caller');
+  });
+
+  it('keeps tag keys untranslated (they are stable identifiers)', () => {
+    const prompt = buildSystemPrompt('es');
+    expect(prompt).toContain('calling-station');
+    expect(prompt).toContain('Approved tags');
   });
 });
 
