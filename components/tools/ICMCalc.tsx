@@ -40,7 +40,7 @@ export function ICMCalc() {
     <div className="grid gap-6">
       {/* Inputs */}
       <div
-        className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl grid gap-6 md:grid-cols-2"
+        className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-4 shadow-xl grid gap-6 sm:p-6 md:grid-cols-2"
         style={dotGrid}
       >
         {/* Stacks */}
@@ -120,14 +120,16 @@ export function ICMCalc() {
         </div>
 
         {/* Totals */}
-        <div className="mt-5 rounded-xl border border-slate-800/60 bg-slate-950/40 px-4 py-3 text-xs text-slate-500">
+        <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-slate-800/60 bg-slate-950/40 px-4 py-3 text-xs text-slate-500 md:col-span-2">
           <span>
             Total chips:{' '}
             <span className="font-mono font-semibold text-slate-300">
               {totalChips.toLocaleString()}
             </span>
           </span>
-          <span className="mx-3 text-slate-700">·</span>
+          <span className="text-slate-700" aria-hidden="true">
+            ·
+          </span>
           <span>
             Prize pool:{' '}
             <span className="font-mono font-semibold text-slate-300">
@@ -139,7 +141,7 @@ export function ICMCalc() {
       </div>
 
       {/* Results */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl">
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-4 shadow-xl sm:p-6">
         <div className="mb-4 flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
@@ -147,8 +149,8 @@ export function ICMCalc() {
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950/60">
-          <table className="w-full text-left text-sm">
+        <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+          <table className="w-full min-w-[420px] text-left text-sm">
             <thead>
               <tr className="border-b border-slate-800">
                 <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-slate-500">

@@ -36,13 +36,13 @@ export function PotOddsCalc() {
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl"
+      className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-4 shadow-xl sm:p-6"
       style={{
         backgroundImage: 'radial-gradient(circle, rgba(16,185,129,0.04) 1px, transparent 1px)',
         backgroundSize: '20px 20px',
       }}
     >
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
         {/* Inputs */}
         <div className="space-y-5">
           <div>
@@ -74,15 +74,21 @@ export function PotOddsCalc() {
           </div>
 
           {hasValues && (
-            <div className="rounded-xl border border-slate-800/60 bg-slate-950/40 px-4 py-3 text-sm text-slate-500">
-              Total pot if called:{' '}
-              <span className="font-mono font-semibold text-slate-300">
-                {totalPot.toLocaleString()}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-slate-800/60 bg-slate-950/40 px-4 py-3 text-sm text-slate-500">
+              <span>
+                Total pot if called:{' '}
+                <span className="font-mono font-semibold text-slate-300">
+                  {totalPot.toLocaleString()}
+                </span>
               </span>
-              <span className="mx-3 text-slate-700">·</span>
-              Odds ratio:{' '}
-              <span className="font-mono font-semibold text-slate-300">
-                {hasValues ? `${odds.toFixed(1)} : 1` : '—'}
+              <span className="text-slate-700" aria-hidden="true">
+                ·
+              </span>
+              <span>
+                Odds ratio:{' '}
+                <span className="font-mono font-semibold text-slate-300">
+                  {hasValues ? `${odds.toFixed(1)} : 1` : '—'}
+                </span>
               </span>
             </div>
           )}
@@ -90,14 +96,14 @@ export function PotOddsCalc() {
 
         {/* Result */}
         <div className="flex flex-col gap-4">
-          <div className="flex-1 rounded-xl border border-slate-800 bg-slate-950/60 p-5">
+          <div className="flex-1 rounded-xl border border-slate-800 bg-slate-950/60 p-4 sm:p-5">
             <div className="mb-1 flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
                 Required Equity
               </p>
             </div>
-            <p className={`font-mono text-5xl font-bold tracking-tight ${equityColor}`}>
+            <p className={`font-mono text-4xl font-bold tracking-tight sm:text-5xl ${equityColor}`}>
               {hasValues ? `${percent.toFixed(1)}%` : '—'}
             </p>
             <p className="mt-2 text-xs text-slate-600">
