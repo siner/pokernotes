@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Plus, Search, Users, Play } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
@@ -8,8 +8,9 @@ import { Link } from '@/i18n/navigation';
 import { PlayerCard } from './PlayerCard';
 import { AddPlayerModal } from './AddPlayerModal';
 import { StartSessionModal } from '@/components/session/StartSessionModal';
-import { useStorage, getActiveSessionId, type Player } from '@/lib/storage';
+import { useStorage, getActiveSessionId, type Player, type Note } from '@/lib/storage';
 import { useUserTier } from '@/lib/auth/useUserTier';
+import { searchPlayers } from '@/lib/search/searchPlayers';
 
 const FREE_TIER_LIMIT = 20;
 
@@ -21,6 +22,7 @@ export function PlayerList() {
   const storage = useStorage();
   const { tier } = useUserTier();
   const [players, setPlayers] = useState<Player[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
   const [query, setQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showStartSession, setShowStartSession] = useState(false);
@@ -30,8 +32,12 @@ export function PlayerList() {
   const router = useRouter();
 
   const loadPlayers = useCallback(async () => {
-    const all = await storage.getAllPlayers();
-    setPlayers(all);
+    const [allPlayers, allNotes] = await Promise.all([
+      storage.getAllPlayers(),
+      storage.getAllNotes(),
+    ]);
+    setPlayers(allPlayers);
+    setNotes(allNotes);
     setLoaded(true);
   }, [storage]);
 
@@ -40,9 +46,7 @@ export function PlayerList() {
     setActiveSessionIdState(getActiveSessionId());
   }, [loadPlayers]);
 
-  const filtered = query.trim()
-    ? players.filter((p) => p.nickname.toLowerCase().includes(query.toLowerCase().trim()))
-    : players;
+  const matches = useMemo(() => searchPlayers(players, notes, query), [players, notes, query]);
 
   async function handleAdd(data: { nickname: string; description: string; tags: string[] }) {
     const now = new Date();
@@ -169,17 +173,18 @@ export function PlayerList() {
       )}
 
       {/* Search no results */}
-      {players.length > 0 && filtered.length === 0 && (
+      {players.length > 0 && matches.length === 0 && (
         <p className="py-10 text-center text-sm text-slate-500">{t('search.noResults')}</p>
       )}
 
       {/* Player list */}
-      {filtered.length > 0 && (
+      {matches.length > 0 && (
         <div className="flex flex-col gap-2">
-          {filtered.map((player) => (
+          {matches.map(({ player, noteMatchCount }) => (
             <PlayerCard
               key={player.id}
               player={player}
+              noteMatchCount={query.trim() ? noteMatchCount : undefined}
               onDelete={(id) => setDeleteTarget(players.find((p) => p.id === id) ?? null)}
               onClick={handlePlayerClick}
             />

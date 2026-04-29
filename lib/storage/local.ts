@@ -163,6 +163,11 @@ export const localAdapter: StorageAdapter = {
 
   // ─── Notes ────────────────────────────────────────────────────────────────
 
+  async getAllNotes() {
+    const db = await getDB();
+    return db.getAll('notes');
+  },
+
   async getNotesForPlayer(playerId) {
     const db = await getDB();
     const notes = await db.getAllFromIndex('notes', 'by-player', playerId);
