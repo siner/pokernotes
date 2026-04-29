@@ -58,7 +58,10 @@ export async function POST(request: Request) {
       set: {
         nickname: p.nickname,
         description: p.description,
-        photoUrl: p.photoUrl,
+        // photoUrl is intentionally NOT updated here. The photo route owns it
+        // (uploads + deletes); a generic savePlayer dispatch can carry stale
+        // photoUrl values from devices that haven't bootstrapped yet, which
+        // used to wipe a freshly uploaded photo.
         tags: p.tags,
         timesPlayed: p.timesPlayed,
         firstSeenAt: p.firstSeenAt,
@@ -66,8 +69,10 @@ export async function POST(request: Request) {
         updatedAt: p.updatedAt,
         deletedAt: null,
       },
-      // Cross-tenant write guard: only the row's owner can update it.
-      setWhere: sql`${players.userId} = ${userId}`,
+      // Cross-tenant write guard + LWW: never accept a write with an older
+      // updatedAt than what's already in D1 (stale dispatches from other tabs
+      // or devices). Mirrors the guard in /api/sync/import.
+      setWhere: sql`${players.userId} = ${userId} AND excluded.updated_at > ${players.updatedAt}`,
     });
 
   return Response.json({ ok: true }, { status: 201 });

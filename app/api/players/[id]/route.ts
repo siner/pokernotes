@@ -1,4 +1,4 @@
-import { and, eq, isNull } from 'drizzle-orm';
+import { and, eq, gt, isNull, sql } from 'drizzle-orm';
 import { players } from '@/lib/db/schema';
 import { requireProUser } from '@/lib/auth/requireProUser';
 import { PlayerPatchSchema } from '@/lib/sync/schemas';
@@ -50,17 +50,28 @@ export async function PATCH(request: Request, { params }: Params) {
     .set({
       nickname: patch.nickname,
       description: patch.description,
-      photoUrl: patch.photoUrl,
+      // photoUrl is owned by the photo upload route; PATCH must not mutate it.
       tags: patch.tags,
       timesPlayed: patch.timesPlayed,
       firstSeenAt: patch.firstSeenAt,
       lastSeenAt: patch.lastSeenAt,
       updatedAt: patch.updatedAt,
     })
-    .where(and(eq(players.id, id), eq(players.userId, userId)))
+    // LWW: only apply if the incoming updatedAt is newer than what's stored.
+    .where(
+      and(
+        eq(players.id, id),
+        eq(players.userId, userId),
+        gt(sql`${patch.updatedAt}`, players.updatedAt)
+      )
+    )
     .returning({ id: players.id });
 
-  if (result.length === 0) return Response.json({ error: 'not_found' }, { status: 404 });
+  if (result.length === 0) {
+    // Either the row doesn't exist, doesn't belong to this user, or the patch
+    // is stale (a newer updatedAt is already in D1). All map to "no-op".
+    return Response.json({ error: 'not_found_or_stale' }, { status: 404 });
+  }
   return Response.json({ ok: true });
 }
 
