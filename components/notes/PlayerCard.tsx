@@ -8,9 +8,10 @@ interface PlayerCardProps {
   player: Player;
   onDelete: (id: string) => void;
   onClick: (id: string) => void;
+  noteMatchCount?: number;
 }
 
-export function PlayerCard({ player, onDelete, onClick }: PlayerCardProps) {
+export function PlayerCard({ player, onDelete, onClick, noteMatchCount }: PlayerCardProps) {
   const t = useTranslations('notes');
 
   const lastSeenLabel = player.lastSeenAt
@@ -72,6 +73,12 @@ export function PlayerCard({ player, onDelete, onClick }: PlayerCardProps) {
             </>
           )}
         </p>
+
+        {noteMatchCount !== undefined && noteMatchCount > 0 && (
+          <p className="mt-1 text-xs text-emerald-400/80">
+            {t('search.noteMatches', { count: noteMatchCount })}
+          </p>
+        )}
       </div>
 
       {/* Delete button */}

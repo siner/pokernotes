@@ -44,6 +44,7 @@ export interface StorageAdapter {
   countPlayers(): Promise<number>;
 
   // Notes
+  getAllNotes(): Promise<Note[]>;
   getNotesForPlayer(playerId: string): Promise<Note[]>;
   getNotesForSession(sessionId: string): Promise<Note[]>;
   saveNote(note: Note): Promise<void>;

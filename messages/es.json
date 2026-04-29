@@ -54,8 +54,9 @@
     "title": "Mis Notas",
     "addPlayer": "Añadir jugador",
     "search": {
-      "placeholder": "Buscar jugadores...",
-      "noResults": "Ningún jugador coincide con tu búsqueda"
+      "placeholder": "Buscar por nombre, etiqueta o nota...",
+      "noResults": "Ningún jugador coincide con tu búsqueda",
+      "noteMatches": "{count, plural, one {Coincide en # nota} other {Coincide en # notas}}"
     },
     "empty": {
       "title": "Aún no hay jugadores registrados",
