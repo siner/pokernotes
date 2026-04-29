@@ -142,6 +142,7 @@
   "tools": {
     "nav": {
       "potOdds": "Pot Odds",
+      "equity": "Equity",
       "pushFold": "Push/Fold",
       "icm": "ICM",
       "breakEven": "Break-Even"
@@ -173,6 +174,37 @@
       "desc1": "The Independent Chip Model (ICM) calculates a mathematical evaluation of a player's chip stack based on the payout structure of a tournament. It helps determine the real monetary value of your chips at any given moment.",
       "desc2": "This is especially important at the final table or near the bubble, when chip values become heavily decoupled from linearly equivalent dollars. Players use ICM to negotiate equitable chops or evaluate decisions with high payout variance.",
       "currencySymbol": "$"
+    },
+    "equity": {
+      "title": "Hand Equity Calculator",
+      "metaTitle": "Hand Equity Calculator | PokerReads",
+      "metaDescription": "Calculate the win % between two or more poker hands at any street — preflop, flop, turn or river.",
+      "handsTitle": "Hands",
+      "boardTitle": "Board",
+      "handLabel": "Hand {n}",
+      "addHand": "Add hand",
+      "removeHand": "Remove hand {n}",
+      "reset": "Reset",
+      "flop": "Flop",
+      "turn": "Turn",
+      "river": "River",
+      "flopCard": "Flop {n}",
+      "hint": "Pick at least two complete hands to see equities. The board is optional.",
+      "calculating": "Running simulation…",
+      "invalidBoard": "Board must have 0, 3, 4 or 5 cards.",
+      "equityTitle": "Equity",
+      "exhaustive": "Exhaustive — {n} runouts",
+      "monteCarlo": "Monte Carlo — {n} samples",
+      "tieShare": "{pct}% chopped",
+      "pickerHandTitle": "Hand {n} — card {card}",
+      "pickerBoardTitle": "Board — {card}",
+      "howTo": "How to use the Equity Calculator",
+      "desc1": "Equity is the share of the pot a hand expects to win, given the cards still to come. Knowing it for hand-vs-hand spots is essential for studying all-in decisions, semi-bluffs and post-flop confrontations.",
+      "li1title": "Hands",
+      "li1": "Pick the hole cards for two or more players. The calculator supports up to 9 hands at once.",
+      "li2title": "Board",
+      "li2": "Optionally lock in the flop, turn or river to see how equity shifts as the board runs out.",
+      "desc2": "Post-flop scenarios are evaluated exhaustively over every remaining runout. Preflop and other large samples use Monte Carlo simulation (around 8,000 trials), accurate to roughly ±0.5%."
     },
     "breakEven": {
       "title": "Break-Even & MDF Calculator",

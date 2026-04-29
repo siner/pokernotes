@@ -29,6 +29,11 @@ export async function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools/equity" className="transition-colors hover:text-emerald-400">
+                  Hand Equity Calculator
+                </Link>
+              </li>
+              <li>
                 <Link href="/tools/push-fold" className="transition-colors hover:text-emerald-400">
                   Push/Fold Nash Chart
                 </Link>

@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/pricing',
     '/tools/pot-odds',
+    '/tools/equity',
     '/tools/push-fold',
     '/tools/icm',
     '/tools/break-even',
