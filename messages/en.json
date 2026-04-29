@@ -118,7 +118,10 @@
         "description": "Description",
         "descriptionEmpty": "No description added",
         "firstSeen": "First seen",
-        "addedOn": "Added"
+        "addedOn": "Added",
+        "sessionsHistoryTitle": "Sessions history",
+        "sessionsHistoryEmpty": "No sessions recorded for this player yet.",
+        "unnamedSession": "Session {date}"
       }
     },
     "composer": {
@@ -271,6 +274,9 @@
       "empty": "No players added yet",
       "emptyHint": "Search below to add players to this session.",
       "addSearch": "Search or add player..."
+    },
+    "search": {
+      "seenBefore": "{count, plural, one {seen 1×} other {seen #×}}"
     },
     "quickNote": {
       "title": "Note on {name}",
