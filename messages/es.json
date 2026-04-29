@@ -447,5 +447,45 @@
       "metaDescription": "Términos de servicio de PokerReads. Reglas y normativas para usar nuestra app.",
       "content": "Al usar PokerReads, aceptas nuestros términos. Ofrecemos herramientas de toma de notas para jugadores de poker en vivo mediante IA."
     }
+  },
+  "admin": {
+    "metaTitle": "Admin | PokerReads",
+    "title": "Admin",
+    "subtitle": "Resumen de solo lectura de usuarios, uso de IA y crecimiento.",
+    "backToApp": "Volver a la app",
+    "signedInAs": "Sesión iniciada como {email}",
+    "kpis": {
+      "title": "Resumen",
+      "totalUsers": "Usuarios totales",
+      "tierBreakdown": "{free} free · {pro} pro",
+      "proUsers": "Usuarios Pro",
+      "conversion": "{pct}% conversión",
+      "signups7d": "Altas (7d)",
+      "signups30d": "{count} en últimos 30d",
+      "notesTotal": "Notas totales",
+      "playersAndSessions": "{players} jugadores · {sessions} sesiones"
+    },
+    "ai": {
+      "title": "Uso de IA (últimos 30 días)",
+      "totalCalls30d": "Llamadas totales",
+      "successRate": "Tasa de éxito",
+      "failed": "Fallidas",
+      "uniqueUsers": "Usuarios distintos",
+      "last14Days": "Últimos 14 días",
+      "topUsers": "Top usuarios",
+      "unknownUser": "(usuario eliminado)",
+      "noData": "Aún no hay llamadas de IA registradas en los últimos 30 días."
+    },
+    "users": {
+      "title": "Altas recientes",
+      "empty": "Aún no hay usuarios.",
+      "cols": {
+        "email": "Email",
+        "tier": "Tier",
+        "locale": "Idioma",
+        "subscription": "Suscripción",
+        "signedUp": "Alta"
+      }
+    }
   }
 }

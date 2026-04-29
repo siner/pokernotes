@@ -241,6 +241,7 @@ STRIPE_PRICE_ID_MONTHLY=
 STRIPE_PRICE_ID_YEARLY=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_APP_URL=http://localhost:3000
+ADMIN_EMAILS=                # Comma-separated emails allowed at /admin (empty = no admins)
 ```
 
 Cloudflare bindings (in `wrangler.toml`, not env): `DB`, `PLAYER_PHOTOS`, `RATE_LIMITS`, `AI`.
