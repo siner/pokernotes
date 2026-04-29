@@ -155,6 +155,11 @@ export const cloudAdapter: StorageAdapter = {
     return rows.length;
   },
 
+  async getAllNotes() {
+    const rows = await get<ApiNote[]>('/api/notes');
+    return rows.map(deserializeNote);
+  },
+
   async getNotesForPlayer(playerId) {
     const rows = await get<ApiNote[]>(`/api/notes?playerId=${encodeURIComponent(playerId)}`);
     return rows.map(deserializeNote);

@@ -96,6 +96,7 @@ export const hybridAdapter: StorageAdapter = {
   getAllPlayers: localAdapter.getAllPlayers,
   getPlayer: localAdapter.getPlayer,
   countPlayers: localAdapter.countPlayers,
+  getAllNotes: localAdapter.getAllNotes,
   getNotesForPlayer: localAdapter.getNotesForPlayer,
   getNotesForSession: localAdapter.getNotesForSession,
   getAllSessions: localAdapter.getAllSessions,
