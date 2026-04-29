@@ -29,6 +29,13 @@
       "when": 1777200823328,
       "tag": "0003_workable_satana",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1777470577274,
+      "tag": "0004_common_caretaker",
+      "breakpoints": true
     }
   ]
 }

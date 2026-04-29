@@ -1,10 +1,10 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
 // ─────────────────────────────────────────
-// BETTER AUTH TABLES
+// USERS (Better Auth managed + app extensions via additionalFields)
 // ─────────────────────────────────────────
 
-export const authUsers = sqliteTable('user', {
+export const users = sqliteTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
@@ -12,6 +12,16 @@ export const authUsers = sqliteTable('user', {
   image: text('image'),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+  // App-specific fields (declared as additionalFields in Better Auth config).
+  tier: text('tier', { enum: ['free', 'pro'] })
+    .notNull()
+    .default('free'),
+  preferredLocale: text('preferred_locale', { enum: ['en', 'es'] })
+    .notNull()
+    .default('en'),
+  stripeCustomerId: text('stripe_customer_id'),
+  stripeSubscriptionId: text('stripe_subscription_id'),
+  subscriptionStatus: text('subscription_status'),
 });
 
 export const authSessions = sqliteTable('session', {
@@ -24,7 +34,7 @@ export const authSessions = sqliteTable('session', {
   userAgent: text('user_agent'),
   userId: text('user_id')
     .notNull()
-    .references(() => authUsers.id, { onDelete: 'cascade' }),
+    .references(() => users.id, { onDelete: 'cascade' }),
 });
 
 export const authAccounts = sqliteTable('account', {
@@ -33,7 +43,7 @@ export const authAccounts = sqliteTable('account', {
   providerId: text('provider_id').notNull(),
   userId: text('user_id')
     .notNull()
-    .references(() => authUsers.id, { onDelete: 'cascade' }),
+    .references(() => users.id, { onDelete: 'cascade' }),
   accessToken: text('access_token'),
   refreshToken: text('refresh_token'),
   idToken: text('id_token'),
@@ -52,34 +62,6 @@ export const authVerifications = sqliteTable('verification', {
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
   createdAt: integer('created_at', { mode: 'timestamp' }),
   updatedAt: integer('updated_at', { mode: 'timestamp' }),
-});
-
-// ─────────────────────────────────────────
-// USERS
-// ─────────────────────────────────────────
-
-export const users = sqliteTable('users', {
-  id: text('id')
-    .primaryKey()
-    .references(() => authUsers.id, { onDelete: 'cascade' }),
-  email: text('email').notNull().unique(),
-  name: text('name'),
-  avatarUrl: text('avatar_url'),
-  tier: text('tier', { enum: ['free', 'pro'] })
-    .notNull()
-    .default('free'),
-  preferredLocale: text('preferred_locale', { enum: ['en', 'es'] })
-    .notNull()
-    .default('en'),
-  stripeCustomerId: text('stripe_customer_id'),
-  stripeSubscriptionId: text('stripe_subscription_id'),
-  subscriptionStatus: text('subscription_status'), // active | canceled | past_due
-  createdAt: integer('created_at', { mode: 'timestamp' })
-    .notNull()
-    .$defaultFn(() => new Date()),
-  updatedAt: integer('updated_at', { mode: 'timestamp' })
-    .notNull()
-    .$defaultFn(() => new Date()),
 });
 
 // ─────────────────────────────────────────
@@ -218,9 +200,3 @@ export const aiUsage = sqliteTable('ai_usage', {
     .notNull()
     .$defaultFn(() => new Date()),
 });
-
-// ─────────────────────────────────────────
-// BETTER AUTH TABLES
-// (Better Auth manages its own schema — see Better Auth docs.
-//  Typical tables: account, session, verification)
-// ─────────────────────────────────────────

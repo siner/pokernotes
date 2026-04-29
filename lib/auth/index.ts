@@ -54,12 +54,43 @@ export function getAuth(db: AppDB, env?: AuthEnv) {
     database: drizzleAdapter(db, {
       provider: 'sqlite',
       schema: {
-        user: schema.authUsers,
+        user: schema.users,
         session: schema.authSessions,
         account: schema.authAccounts,
         verification: schema.authVerifications,
       },
     }),
+    user: {
+      additionalFields: {
+        tier: {
+          type: 'string',
+          required: false,
+          defaultValue: 'free',
+          input: false,
+        },
+        preferredLocale: {
+          type: 'string',
+          required: false,
+          defaultValue: 'en',
+          input: false,
+        },
+        stripeCustomerId: {
+          type: 'string',
+          required: false,
+          input: false,
+        },
+        stripeSubscriptionId: {
+          type: 'string',
+          required: false,
+          input: false,
+        },
+        subscriptionStatus: {
+          type: 'string',
+          required: false,
+          input: false,
+        },
+      },
+    },
     emailAndPassword: {
       enabled: true,
       revokeSessionsOnPasswordReset: true,
