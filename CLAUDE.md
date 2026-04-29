@@ -155,8 +155,8 @@ Pre-push hook runs:
 ### Pull request
 1. Push to `feat/*` branch
 2. Open PR to `dev`
-3. CI must pass (lint, typecheck, tests, build, preview deploy)
-4. Self-review on the preview URL
+3. CI must pass (lint, typecheck, tests, build)
+4. Self-review locally with `pnpm preview:cf` (or against staging once merged)
 5. Merge to `dev` → auto-deploy to staging
 6. When sprint is complete, PR from `dev` to `main` → production deploy
 

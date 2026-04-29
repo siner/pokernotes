@@ -41,7 +41,7 @@ export function NoteCard({ note, onDelete, sessionName }: NoteCardProps) {
         <button
           onClick={() => onDelete(note.id)}
           aria-label={t('deleteNote')}
-          className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-600 opacity-0 transition-all hover:bg-red-500/10 hover:text-red-400 group-hover:opacity-100 focus:opacity-100"
+          className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-all hover:bg-red-500/10 hover:text-red-400 focus:opacity-100 sm:text-slate-600 sm:opacity-0 sm:group-hover:opacity-100"
         >
           <Trash2 size={14} />
         </button>

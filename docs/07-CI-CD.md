@@ -1,6 +1,6 @@
 # PokerReads — CI/CD Pipeline
 
-Complete GitHub Actions pipeline for PokerReads: quality gates, testing, preview deployments, and production deploys to Cloudflare Pages.
+Complete GitHub Actions pipeline for PokerReads: quality gates, testing, and production deploys to Cloudflare Pages. Per-PR preview deploys were removed — they leaked one Worker per PR on the Cloudflare account.
 
 ---
 
@@ -75,9 +75,8 @@ Complete GitHub Actions pipeline for PokerReads: quality gates, testing, preview
 3. **test-unit** — Vitest unit tests
 4. **test-integration** — API routes with mocked Cloudflare bindings (miniflare)
 5. **build** — `next build` to catch build errors
-6. **preview-deploy** — Deploy to Cloudflare Pages preview URL
 
-Post preview URL as a comment on the PR.
+Per-PR preview deploys were removed: they created one `pokerreads-pr-<n>` Worker per PR and were never cleaned up. Self-review happens against staging after merging to `dev`.
 
 ### 3.2 `deploy-staging.yml` — Staging Deploy
 
@@ -213,41 +212,6 @@ jobs:
       - run: pnpm build
         env:
           NEXT_PUBLIC_APP_URL: https://pokerreads.app
-
-  preview-deploy:
-    needs: [lint, typecheck, test-unit, test-integration, build]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build:cf
-      - name: Deploy to Cloudflare Pages (preview)
-        uses: cloudflare/wrangler-action@v3
-        id: deploy
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .vercel/output/static --project-name=pokerreads --branch=${{ github.head_ref }}
-      - name: Comment preview URL on PR
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `🚀 Preview deployed: ${{ steps.deploy.outputs.deployment-url }}`
-            })
 ```
 
 ### `.github/workflows/deploy-staging.yml`
@@ -553,8 +517,6 @@ This catches issues before they hit CI.
 **GitHub Actions (free tier for public repos):** unlimited minutes. For private repos, 2,000 minutes/month free. The full pipeline uses ~5–10 minutes per PR and ~5 minutes per deploy — well within free limits at MVP scale.
 
 **Cloudflare Pages:** unlimited deploys on free tier.
-
-**Preview environments:** each PR gets its own preview URL, free on Cloudflare Pages.
 
 ---
 

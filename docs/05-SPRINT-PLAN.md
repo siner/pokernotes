@@ -6,7 +6,7 @@ Los sprints 0–4 están completados. Resumen de lo que está en producción:
 
 | Área | Estado |
 |---|---|
-| CI/CD completo (lint, typecheck, tests, build, preview, production) | ✅ |
+| CI/CD completo (lint, typecheck, tests, build, production) | ✅ |
 | Calculadoras: Pot Odds, Push/Fold, ICM, Break-Even/MDF | ✅ |
 | Landing, Pricing, Privacy, Terms | ✅ |
 | PWA (service worker, manifest, install prompt) | ✅ |
