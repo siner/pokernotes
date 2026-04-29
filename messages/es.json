@@ -398,6 +398,14 @@
     "errors": {
       "invalidCredentials": "Email o contraseña incorrectos",
       "signUpFailed": "No se pudo crear la cuenta. Inténtalo de nuevo."
+    },
+    "verifyEmail": {
+      "bannerTitle": "Verifica tu email",
+      "bannerBody": "Te hemos enviado un enlace de verificación a {email}. Confirmar tu correo nos ayuda a recuperar tu cuenta si pierdes el acceso.",
+      "resend": "Reenviar email",
+      "resending": "Enviando…",
+      "resent": "Email enviado. Revisa tu bandeja.",
+      "resendError": "No se pudo enviar el email. Inténtalo en un momento."
     }
   },
   "sync": {
