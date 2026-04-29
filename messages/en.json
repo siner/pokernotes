@@ -265,7 +265,13 @@
       "durationMinutes": "{minutes}m",
       "durationShort": "< 1m",
       "playerCount": "{count, plural, one {# player} other {# players}}",
-      "noteCount": "{count, plural, one {# note} other {# notes}}"
+      "noteCount": "{count, plural, one {# note} other {# notes}}",
+      "deleteSession": "Delete {name}",
+      "deleteConfirm": {
+        "title": "Delete session?",
+        "message": "Delete \"{name}\"? Notes from this session will keep your reads on those players.",
+        "confirm": "Yes, delete"
+      }
     },
     "detail": {
       "metaTitle": "{name} | PokerReads",
