@@ -64,8 +64,9 @@ export async function POST(request: Request) {
         updatedAt: s.updatedAt,
         deletedAt: null,
       },
-      // Cross-tenant write guard: only the row's owner can update it.
-      setWhere: sql`${pokerSessions.userId} = ${userId}`,
+      // Cross-tenant write guard + LWW: never accept a write with an older
+      // updatedAt than what's already in D1.
+      setWhere: sql`${pokerSessions.userId} = ${userId} AND excluded.updated_at > ${pokerSessions.updatedAt}`,
     });
 
   return Response.json({ ok: true }, { status: 201 });

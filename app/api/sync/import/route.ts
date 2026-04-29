@@ -47,7 +47,9 @@ export async function POST(request: Request) {
         set: {
           nickname: p.nickname,
           description: p.description,
-          photoUrl: p.photoUrl,
+          // photoUrl is owned by the photo upload route, not generic sync.
+          // The values clause above still lets brand-new players land their
+          // photoUrl during the bootstrap insert; updates skip it.
           tags: p.tags,
           timesPlayed: p.timesPlayed,
           firstSeenAt: p.firstSeenAt,
