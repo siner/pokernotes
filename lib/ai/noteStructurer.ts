@@ -21,14 +21,55 @@ export type AiNoteResponse = z.infer<typeof AiNoteResponseSchema>;
 
 const APPROVED_TAGS = ALL_TAGS.join(', ');
 
+interface OneShot {
+  langName: string;
+  langDirective: string;
+  example: { user: string; assistant: string };
+}
+
+const ONE_SHOTS: Record<'en' | 'es', OneShot> = {
+  en: {
+    langName: 'English',
+    langDirective:
+      'OUTPUT LANGUAGE: ENGLISH. The fields structuredSummary, preflopTendency and postflopTendency MUST be written in English, regardless of the language of the input note.',
+    example: {
+      user: 'Analyze this poker note and return JSON:\n\n"Pagó mi all-in en el river con pareja media. Nunca foldea a 3bets."',
+      assistant: JSON.stringify({
+        suggestedTags: ['calling-station', 'sticky'],
+        structuredSummary:
+          'Loose-passive caller who pays off thin value bets and refuses to fold to aggression.',
+        preflopTendency: 'Calls 3bets too wide; rarely folds preflop.',
+        postflopTendency: 'Calls down with marginal pairs even on scary rivers.',
+        confidence: 0.9,
+      }),
+    },
+  },
+  es: {
+    langName: 'Spanish',
+    langDirective:
+      'IDIOMA DE SALIDA: ESPAÑOL. Los campos structuredSummary, preflopTendency y postflopTendency DEBEN escribirse en español, independientemente del idioma de la nota de entrada. Nunca mezcles inglés y español en el mismo campo.',
+    example: {
+      user: 'Analyze this poker note and return JSON:\n\n"Called my river shove with second pair. Never folds to 3bets."',
+      assistant: JSON.stringify({
+        suggestedTags: ['calling-station', 'sticky'],
+        structuredSummary: 'Pagador pasivo: paga apuestas finas y nunca foldea ante presión.',
+        preflopTendency: 'Paga 3bets con manos demasiado amplias; rara vez foldea preflop.',
+        postflopTendency: 'Va hasta el river con pares mediocres incluso en boards peligrosos.',
+        confidence: 0.9,
+      }),
+    },
+  },
+};
+
 export function buildSystemPrompt(locale: 'en' | 'es' = 'en'): string {
-  const lang = locale === 'es' ? 'Spanish' : 'English';
+  const shot = ONE_SHOTS[locale];
   return `You are a poker player profiling assistant. Analyze raw notes about a poker player's behavior and return structured JSON.
+
+${shot.langDirective}
 
 Rules:
 - Return ONLY valid JSON, no markdown fences, no explanation text
-- Write structuredSummary and tendencies in ${lang}
-- Only use tags from the approved list
+- Only use tags from the approved list (English keys, never translate them)
 - Keep summaries concise (1-2 sentences max)
 - If a tendency is unclear, return an empty string
 
@@ -41,7 +82,17 @@ Required JSON format (no deviations):
   "preflopTendency": string,
   "postflopTendency": string,
   "confidence": number
-}`;
+}
+
+Example of the expected output language (${shot.langName}):
+
+USER:
+${shot.example.user}
+
+ASSISTANT:
+${shot.example.assistant}
+
+Reminder: ${shot.langDirective}`;
 }
 
 export function buildUserPrompt(rawNote: string, existingTags: string[] = []): string {
