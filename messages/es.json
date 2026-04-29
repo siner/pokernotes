@@ -139,6 +139,7 @@
   "tools": {
     "nav": {
       "potOdds": "Pot Odds",
+      "equity": "Equity",
       "pushFold": "Push/Fold",
       "icm": "ICM",
       "breakEven": "Break-Even"
@@ -170,6 +171,37 @@
       "desc1": "El modelo ICM calcula la evaluación matemática y real en divisa/dólares del stack de cada jugador basándose en la estructura de pagos de un torneo.",
       "desc2": "Esto se vuelve vital en la fina línea que separa una mesa final en la burbuja de premios o frente a choques donde la recompensa económica varía brutalmente. Se utiliza habitualmente para negociar pactos justos en las ciegas finales.",
       "currencySymbol": "€"
+    },
+    "equity": {
+      "title": "Calculadora de Equity",
+      "metaTitle": "Calculadora de Equity | PokerReads",
+      "metaDescription": "Calcula el % de victoria entre dos o más manos de poker en cualquier calle — preflop, flop, turn o river.",
+      "handsTitle": "Manos",
+      "boardTitle": "Board",
+      "handLabel": "Mano {n}",
+      "addHand": "Añadir mano",
+      "removeHand": "Eliminar mano {n}",
+      "reset": "Reset",
+      "flop": "Flop",
+      "turn": "Turn",
+      "river": "River",
+      "flopCard": "Flop {n}",
+      "hint": "Selecciona al menos dos manos completas para ver las equities. El board es opcional.",
+      "calculating": "Calculando…",
+      "invalidBoard": "El board debe tener 0, 3, 4 o 5 cartas.",
+      "equityTitle": "Equity",
+      "exhaustive": "Exhaustivo — {n} runouts",
+      "monteCarlo": "Monte Carlo — {n} muestras",
+      "tieShare": "{pct}% empate",
+      "pickerHandTitle": "Mano {n} — carta {card}",
+      "pickerBoardTitle": "Board — {card}",
+      "howTo": "Cómo usar la calculadora de Equity",
+      "desc1": "La equity es la parte del bote que una mano espera ganar dadas las cartas que aún quedan por venir. Saberla en spots mano contra mano es esencial para estudiar all-ins, semi-bluffs y choques post-flop.",
+      "li1title": "Manos",
+      "li1": "Selecciona las cartas privadas para dos o más jugadores. La calculadora soporta hasta 9 manos a la vez.",
+      "li2title": "Board",
+      "li2": "Opcionalmente fija el flop, turn o river para ver cómo cambia la equity según se completa el board.",
+      "desc2": "Los escenarios post-flop se evalúan de forma exhaustiva sobre todos los runouts restantes. Preflop y otras muestras grandes usan simulación Monte Carlo (~8.000 iteraciones), con una precisión aproximada de ±0,5%."
     },
     "breakEven": {
       "title": "Calculadora Break-Even y FDM",
