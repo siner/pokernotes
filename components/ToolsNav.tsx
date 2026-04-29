@@ -5,6 +5,7 @@ import { Link, usePathname } from '@/i18n/navigation';
 
 const TOOLS = [
   { key: 'potOdds', href: '/tools/pot-odds' },
+  { key: 'equity', href: '/tools/equity' },
   { key: 'pushFold', href: '/tools/push-fold' },
   { key: 'icm', href: '/tools/icm' },
   { key: 'breakEven', href: '/tools/break-even' },
