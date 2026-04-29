@@ -4,6 +4,8 @@ import { processedStripeEvents, users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import Stripe from 'stripe';
 import { logger } from '@/lib/logger';
+import { sendEmail } from '@/lib/email';
+import { welcomeProTemplate } from '@/lib/email/templates';
 
 const ROUTE = 'stripe.webhook';
 
@@ -106,6 +108,29 @@ async function processEvent(db: Db, event: Stripe.Event): Promise<void> {
             subscriptionStatus: 'active',
           })
           .where(eq(users.id, userId));
+
+        // Welcome email. Email failures must NOT roll back the upgrade —
+        // Stripe would retry the entire event and re-fire side effects.
+        try {
+          const [user] = await db
+            .select({
+              email: users.email,
+              name: users.name,
+              preferredLocale: users.preferredLocale,
+            })
+            .from(users)
+            .where(eq(users.id, userId));
+          if (user?.email) {
+            const tpl = welcomeProTemplate(user.preferredLocale, { name: user.name });
+            await sendEmail({ to: user.email, ...tpl });
+          }
+        } catch (err) {
+          logger.error(
+            'welcome email send failed',
+            { route: ROUTE, eventId: event.id, userId },
+            err
+          );
+        }
       }
       break;
     }
