@@ -4,15 +4,7 @@ import Stripe from 'stripe';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { getDb } from '@/lib/db';
 import { getAuth } from '@/lib/auth';
-import {
-  authAccounts,
-  authSessions,
-  authUsers,
-  notes,
-  players,
-  pokerSessions,
-  users,
-} from '@/lib/db/schema';
+import { authAccounts, authSessions, notes, players, pokerSessions, users } from '@/lib/db/schema';
 import { logger } from '@/lib/logger';
 
 const ROUTE = 'account.delete';
@@ -77,14 +69,13 @@ export async function DELETE() {
   }
 
   // 3. Delete D1 records in dependency order. D1 doesn't enforce FKs by default,
-  //    so cascades from authUsers can't be relied upon — delete explicitly.
+  //    so cascades can't be relied upon — delete explicitly.
   await db.delete(notes).where(eq(notes.userId, userId));
   await db.delete(players).where(eq(players.userId, userId));
   await db.delete(pokerSessions).where(eq(pokerSessions.userId, userId));
-  await db.delete(users).where(eq(users.id, userId));
   await db.delete(authAccounts).where(eq(authAccounts.userId, userId));
   await db.delete(authSessions).where(eq(authSessions.userId, userId));
-  await db.delete(authUsers).where(eq(authUsers.id, userId));
+  await db.delete(users).where(eq(users.id, userId));
 
   logger.info('account deleted', { route: ROUTE, userId });
   return Response.json({ ok: true });

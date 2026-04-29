@@ -97,31 +97,15 @@ async function processEvent(db: Db, event: Stripe.Event): Promise<void> {
         break;
       }
 
-      // Ensure we save the customer ID and immediately upgrade them to avoid race conditions.
-      // We use insert().onConflictDoUpdate() because the row in `users` might not exist yet if BetterAuth hasn't synced it.
       if (session.customer) {
-        const email =
-          session.customer_email ||
-          session.customer_details?.email ||
-          `temp-${userId}@pokerreads.invalid`;
-
         await db
-          .insert(users)
-          .values({
-            id: userId,
-            email: email,
+          .update(users)
+          .set({
             stripeCustomerId: session.customer as string,
             tier: 'pro',
             subscriptionStatus: 'active',
           })
-          .onConflictDoUpdate({
-            target: users.id,
-            set: {
-              stripeCustomerId: session.customer as string,
-              tier: 'pro',
-              subscriptionStatus: 'active',
-            },
-          });
+          .where(eq(users.id, userId));
       }
       break;
     }
