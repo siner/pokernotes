@@ -447,5 +447,45 @@
       "metaDescription": "Terms of service for PokerReads. Rules and regulations for using our app.",
       "content": "By using PokerReads, you agree to our terms. We provide AI-powered note-taking tools for live poker players."
     }
+  },
+  "admin": {
+    "metaTitle": "Admin | PokerReads",
+    "title": "Admin",
+    "subtitle": "Read-only overview of users, AI usage and growth.",
+    "backToApp": "Back to app",
+    "signedInAs": "Signed in as {email}",
+    "kpis": {
+      "title": "Overview",
+      "totalUsers": "Total users",
+      "tierBreakdown": "{free} free · {pro} pro",
+      "proUsers": "Pro users",
+      "conversion": "{pct}% conversion",
+      "signups7d": "Signups (7d)",
+      "signups30d": "{count} in last 30d",
+      "notesTotal": "Total notes",
+      "playersAndSessions": "{players} players · {sessions} sessions"
+    },
+    "ai": {
+      "title": "AI usage (last 30 days)",
+      "totalCalls30d": "Total calls",
+      "successRate": "Success rate",
+      "failed": "Failed",
+      "uniqueUsers": "Distinct users",
+      "last14Days": "Last 14 days",
+      "topUsers": "Top users",
+      "unknownUser": "(deleted user)",
+      "noData": "No AI calls recorded in the last 30 days yet."
+    },
+    "users": {
+      "title": "Recent signups",
+      "empty": "No users yet.",
+      "cols": {
+        "email": "Email",
+        "tier": "Tier",
+        "locale": "Locale",
+        "subscription": "Subscription",
+        "signedUp": "Signed up"
+      }
+    }
   }
 }
