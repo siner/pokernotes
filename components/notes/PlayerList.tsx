@@ -11,6 +11,8 @@ import { StartSessionModal } from '@/components/session/StartSessionModal';
 import { useStorage, getActiveSessionId, type Player, type Note } from '@/lib/storage';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { searchPlayers } from '@/lib/search/searchPlayers';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { LoadingState } from '@/components/ui/LoadingState';
 
 const FREE_TIER_LIMIT = 20;
 
@@ -78,11 +80,7 @@ export function PlayerList() {
   const atLimit = tier === 'free' && players.length >= FREE_TIER_LIMIT;
 
   if (!loaded) {
-    return (
-      <div className="flex h-48 items-center justify-center text-slate-500">
-        {tCommon('loading')}
-      </div>
-    );
+    return <LoadingState label={tCommon('loading')} />;
   }
 
   return (
@@ -156,20 +154,20 @@ export function PlayerList() {
 
       {/* Empty state */}
       {players.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-800 bg-slate-900 text-slate-600">
-            <Users size={32} />
-          </div>
-          <h2 className="mb-2 text-lg font-semibold text-white">{t('empty.title')}</h2>
-          <p className="mb-6 max-w-xs text-sm text-slate-500">{t('empty.description')}</p>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="flex min-h-[44px] items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition-opacity hover:opacity-90"
-          >
-            <Plus size={18} />
-            {t('empty.cta')}
-          </button>
-        </div>
+        <EmptyState
+          Icon={Users}
+          title={t('empty.title')}
+          description={t('empty.description')}
+          cta={
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="flex min-h-[44px] items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition-opacity hover:opacity-90"
+            >
+              <Plus size={18} />
+              {t('empty.cta')}
+            </button>
+          }
+        />
       )}
 
       {/* Search no results */}
@@ -209,13 +207,13 @@ export function PlayerList() {
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="flex-1 rounded-xl border border-slate-700 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800"
+                className="flex min-h-[44px] flex-1 items-center justify-center rounded-xl border border-slate-700 px-3 text-sm font-medium text-slate-300 hover:bg-slate-800"
               >
                 {tCommon('cancel')}
               </button>
               <button
                 onClick={handleDeleteConfirm}
-                className="flex-1 rounded-xl bg-red-500/20 py-2.5 text-sm font-semibold text-red-400 hover:bg-red-500/30"
+                className="flex min-h-[44px] flex-1 items-center justify-center rounded-xl bg-rose-500/20 px-3 text-sm font-semibold text-rose-400 hover:bg-rose-500/30"
               >
                 {t('deleteConfirm.confirm')}
               </button>

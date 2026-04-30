@@ -80,10 +80,10 @@ export function QuickNoteSheet({ player, sessionId, onSave, onClose }: QuickNote
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={handleBackdrop}
     >
-      <div className="w-full max-w-lg rounded-t-2xl border border-slate-800 bg-slate-950 p-5">
+      <div className="w-full max-w-lg rounded-t-2xl border border-slate-800 bg-slate-950 p-5 sm:rounded-2xl">
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-base font-semibold text-white">
@@ -91,8 +91,8 @@ export function QuickNoteSheet({ player, sessionId, onSave, onClose }: QuickNote
           </h3>
           <button
             onClick={onClose}
-            aria-label={tCommon('cancel')}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
+            aria-label={tCommon('close')}
+            className="-mr-2 flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
           >
             <X size={18} />
           </button>

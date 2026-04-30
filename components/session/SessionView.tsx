@@ -15,6 +15,8 @@ import {
   type Player,
   type Note,
 } from '@/lib/storage';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { LoadingState } from '@/components/ui/LoadingState';
 
 interface SessionStats {
   noteCount: number;
@@ -177,29 +179,25 @@ export function SessionView() {
 
   // Loading
   if (session === undefined) {
-    return (
-      <div className="flex h-48 items-center justify-center text-slate-500">
-        {tCommon('loading')}
-      </div>
-    );
+    return <LoadingState label={tCommon('loading')} />;
   }
 
   // No active session
   if (session === null) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-800 bg-slate-900 text-slate-600">
-          <Clock size={32} />
-        </div>
-        <h2 className="mb-2 text-lg font-semibold text-white">{t('noActive.title')}</h2>
-        <p className="mb-6 max-w-xs text-sm text-slate-500">{t('noActive.description')}</p>
-        <Link
-          href="/notes"
-          className="flex min-h-[44px] items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 hover:opacity-90"
-        >
-          {t('noActive.cta')}
-        </Link>
-      </div>
+      <EmptyState
+        Icon={Clock}
+        title={t('noActive.title')}
+        description={t('noActive.description')}
+        cta={
+          <Link
+            href="/notes"
+            className="flex min-h-[44px] items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 hover:opacity-90"
+          >
+            {t('noActive.cta')}
+          </Link>
+        }
+      />
     );
   }
 

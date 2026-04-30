@@ -1,7 +1,17 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { ArrowLeft, Plus, Pencil, Check, X, Clock, StickyNote, ChevronRight } from 'lucide-react';
+import {
+  ArrowLeft,
+  Plus,
+  Pencil,
+  Check,
+  X,
+  Clock,
+  StickyNote,
+  ChevronRight,
+  Layers,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { NoteCard } from './NoteCard';
@@ -13,6 +23,8 @@ import { useStorage, type Player, type Note, type Session, type Hand } from '@/l
 import { buildPlayerSessionHistory, syncPlayerStats } from '@/lib/storage/playerStats';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { PLAYER_TAGS } from '@/lib/constants/tags';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { LoadingState } from '@/components/ui/LoadingState';
 
 interface PlayerDetailProps {
   playerId: string;
@@ -152,11 +164,7 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
 
   // Loading state
   if (player === undefined) {
-    return (
-      <div className="flex h-48 items-center justify-center text-slate-500">
-        {tCommon('loading')}
-      </div>
-    );
+    return <LoadingState label={tCommon('loading')} />;
   }
 
   // Not found
@@ -211,13 +219,15 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
                   />
                   <button
                     onClick={handleSaveNickname}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-emerald-400 hover:bg-emerald-500/10"
+                    aria-label={tCommon('save')}
+                    className="flex h-11 w-11 items-center justify-center rounded-lg text-emerald-400 hover:bg-emerald-500/10"
                   >
                     <Check size={16} />
                   </button>
                   <button
                     onClick={() => setEditingNickname(false)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800"
+                    aria-label={tCommon('cancel')}
+                    className="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800"
                   >
                     <X size={16} />
                   </button>
@@ -231,7 +241,7 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
                       setEditingNickname(true);
                     }}
                     aria-label={t('editNickname')}
-                    className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                    className="-mr-2 flex h-11 w-11 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-800 hover:text-slate-300"
                   >
                     <Pencil size={15} />
                   </button>
@@ -300,10 +310,12 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
           </button>
 
           {notes.length === 0 ? (
-            <div className="py-10 text-center">
-              <p className="mb-1 text-sm font-medium text-slate-400">{t('noNotes')}</p>
-              <p className="text-xs text-slate-600">{t('noNotesHint')}</p>
-            </div>
+            <EmptyState
+              Icon={StickyNote}
+              size="compact"
+              title={t('noNotes')}
+              description={t('noNotesHint')}
+            />
           ) : (
             <div className="flex flex-col gap-3">
               {notes.map((note) => (
@@ -338,9 +350,9 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
                   setEditingDescription(true);
                 }}
                 aria-label={t('editDescription')}
-                className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                className="-mr-2 flex h-11 w-11 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-800 hover:text-slate-300"
               >
-                <Pencil size={13} />
+                <Pencil size={14} />
               </button>
             </div>
 
@@ -465,10 +477,12 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
               </button>
 
               {hands.length === 0 ? (
-                <div className="py-10 text-center">
-                  <p className="mb-1 text-sm font-medium text-slate-400">{tHands('empty.title')}</p>
-                  <p className="text-xs text-slate-600">{tHands('empty.hint')}</p>
-                </div>
+                <EmptyState
+                  Icon={Layers}
+                  size="compact"
+                  title={tHands('empty.title')}
+                  description={tHands('empty.hint')}
+                />
               ) : (
                 <div className="flex flex-col gap-2.5">
                   {hands.map((hand) => (

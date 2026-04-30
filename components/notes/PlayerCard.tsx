@@ -85,7 +85,7 @@ export function PlayerCard({ player, onDelete, onClick, noteMatchCount }: Player
       <button
         onClick={handleDelete}
         aria-label={`Delete ${player.nickname}`}
-        className="ml-1 mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-slate-500 transition-all hover:bg-red-500/10 hover:text-red-400 focus:opacity-100 sm:text-slate-600 sm:opacity-0 sm:group-hover:opacity-100"
+        className="-mr-2 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg text-slate-500 transition-all hover:bg-rose-500/10 hover:text-rose-400 focus:opacity-100 sm:text-slate-600 sm:opacity-0 sm:group-hover:opacity-100"
       >
         <Trash2 size={16} />
       </button>
