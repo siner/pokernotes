@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { headers } from 'next/headers';
 import { Sparkles, Calculator, WifiOff, ArrowRight } from 'lucide-react';
-import { Link } from '@/i18n/navigation';
+import { Link, redirect } from '@/i18n/navigation';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { getDb } from '@/lib/db';
+import { getAuth } from '@/lib/auth';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -17,8 +21,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+async function isAuthenticated(): Promise<boolean> {
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    const db = getDb(env.DB);
+    const auth = getAuth(db);
+    const session = await auth.api.getSession({ headers: await headers() });
+    return !!session?.user;
+  } catch {
+    // Auth resolution can fail transiently (cold start, KV hiccup). Falling
+    // back to the public landing is the safe default — refreshing fixes it.
+    return false;
+  }
+}
+
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
+
+  // Logged-in users skip the marketing landing and land in their workspace.
+  if (await isAuthenticated()) {
+    redirect({ href: '/notes', locale });
+  }
+
   const t = await getTranslations('landing');
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://pokerreads.app';
 
