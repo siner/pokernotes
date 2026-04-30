@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { X, Sparkles, Loader2 } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 import { type Player, type Note } from '@/lib/storage';
+import { useSpeechToText } from '@/lib/speech/useSpeechToText';
+import { MicButton, speechErrorMessage } from '@/components/notes/MicButton';
 
 interface AiResult {
   structuredSummary: string;
@@ -30,6 +32,12 @@ export function QuickNoteSheet({ player, sessionId, onSave, onClose }: QuickNote
   const [aiResult, setAiResult] = useState<AiResult | null>(null);
   const [aiError, setAiError] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  const handleSpeechSegment = useCallback((text: string) => {
+    setRawNote((prev) => (prev ? `${prev.replace(/\s+$/, '')} ${text}` : text));
+  }, []);
+
+  const speech = useSpeechToText({ locale, onFinalSegment: handleSpeechSegment });
 
   async function handleAi() {
     if (!rawNote.trim() || aiLoading) return;
@@ -105,14 +113,43 @@ export function QuickNoteSheet({ player, sessionId, onSave, onClose }: QuickNote
         )}
 
         {/* Textarea */}
-        <textarea
-          value={rawNote}
-          onChange={(e) => setRawNote(e.target.value)}
-          placeholder={tComposer('placeholder')}
-          rows={4}
-          autoFocus
-          className="mb-3 w-full resize-none rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-3 text-sm leading-relaxed text-white placeholder-slate-500 focus:border-slate-600 focus:outline-none"
-        />
+        <div className="relative mb-3">
+          <textarea
+            value={rawNote}
+            onChange={(e) => setRawNote(e.target.value)}
+            placeholder={tComposer('placeholder')}
+            rows={4}
+            autoFocus
+            className="w-full resize-none rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-3 pr-14 text-sm leading-relaxed text-white placeholder-slate-500 focus:border-slate-600 focus:outline-none"
+          />
+          <div className="absolute bottom-2 right-2">
+            <MicButton
+              isSupported={speech.isSupported}
+              isListening={speech.isListening}
+              disabled={aiLoading || saving}
+              onStart={speech.start}
+              onStop={speech.stop}
+            />
+          </div>
+        </div>
+
+        {/* Speech status */}
+        {speech.isListening && (
+          <p className="mb-3 flex items-center gap-2 rounded-lg bg-rose-500/10 px-3 py-2 text-xs text-rose-300">
+            <span
+              aria-hidden="true"
+              className="motion-safe:animate-pulse h-2 w-2 rounded-full bg-rose-400"
+            />
+            <span className="truncate">
+              {speech.interimTranscript || tComposer('micListening')}
+            </span>
+          </p>
+        )}
+        {speech.error && !speech.isListening && (
+          <p className="mb-3 rounded-lg bg-amber-500/10 px-3 py-2 text-xs text-amber-400">
+            {speechErrorMessage(speech.error, tComposer)}
+          </p>
+        )}
 
         {/* AI error */}
         {aiError && (
