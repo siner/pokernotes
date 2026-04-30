@@ -111,6 +111,72 @@ describe('parseAiResponse (hand)', () => {
     // zod min/max should reject — strict by design, retry logic in route handles it.
     expect(() => parseAiResponse(raw)).toThrow();
   });
+
+  it('normalizes position aliases (cutoff → CO, big blind → BB)', () => {
+    const raw = JSON.stringify({
+      title: 'Test',
+      summary: 'Summary',
+      heroPosition: 'cutoff',
+      villainPosition: 'big blind',
+    });
+    const result = parseAiResponse(raw);
+    expect(result.heroPosition).toBe('CO');
+    expect(result.villainPosition).toBe('BB');
+  });
+
+  it('normalizes case-insensitive position aliases', () => {
+    const raw = JSON.stringify({
+      title: 'Test',
+      summary: 'Summary',
+      heroPosition: 'Button',
+      villainPosition: 'HiJack',
+    });
+    const result = parseAiResponse(raw);
+    expect(result.heroPosition).toBe('BTN');
+    expect(result.villainPosition).toBe('HJ');
+  });
+
+  it('keeps already-canonical positions as-is', () => {
+    const raw = JSON.stringify({
+      title: 'Test',
+      summary: 'Summary',
+      heroPosition: 'CO',
+      villainPosition: 'BTN',
+    });
+    const result = parseAiResponse(raw);
+    expect(result.heroPosition).toBe('CO');
+    expect(result.villainPosition).toBe('BTN');
+  });
+
+  it('strips stack sizes from stakes (25BB → empty)', () => {
+    const raw = JSON.stringify({
+      title: 'Test',
+      summary: 'Summary',
+      stakes: '25BB',
+    });
+    const result = parseAiResponse(raw);
+    expect(result.stakes).toBe('');
+  });
+
+  it('strips "80 big blinds" from stakes', () => {
+    const raw = JSON.stringify({
+      title: 'Test',
+      summary: 'Summary',
+      stakes: '80 big blinds',
+    });
+    const result = parseAiResponse(raw);
+    expect(result.stakes).toBe('');
+  });
+
+  it('keeps real cash stakes as-is', () => {
+    const raw = JSON.stringify({
+      title: 'Test',
+      summary: 'Summary',
+      stakes: '2/5',
+    });
+    const result = parseAiResponse(raw);
+    expect(result.stakes).toBe('2/5');
+  });
 });
 
 describe('buildSystemPrompt (hand)', () => {
@@ -156,7 +222,40 @@ describe('buildSystemPrompt (hand)', () => {
 
   it('explicitly forbids inventing details', () => {
     const prompt = buildSystemPrompt('en');
-    expect(prompt).toMatch(/do NOT invent/i);
+    expect(prompt).toMatch(/NEVER invent/i);
+  });
+
+  it('includes negative examples of common AI mistakes', () => {
+    const prompt = buildSystemPrompt('en');
+    // The prompt should include explicit "do NOT do this" anti-patterns
+    expect(prompt).toMatch(/Examples of what NOT to do/i);
+    expect(prompt).toContain('set is the hand type');
+  });
+
+  it('locks position taxonomy with normalization rules', () => {
+    const prompt = buildSystemPrompt('en');
+    expect(prompt).toContain('cutoff');
+    expect(prompt).toContain('"CO"');
+    expect(prompt).toContain('"BTN"');
+    expect(prompt).toMatch(/STRICT TAXONOMY/);
+  });
+
+  it('clarifies stakes vs stack size', () => {
+    const prompt = buildSystemPrompt('en');
+    expect(prompt).toMatch(/IS NOT.*stack size/i);
+    expect(prompt).toContain('25BB');
+  });
+
+  it('forces NLHE default unless explicit PLO signal', () => {
+    const prompt = buildSystemPrompt('en');
+    expect(prompt).toContain('DEFAULT: "nlhe"');
+    expect(prompt).toMatch(/PLO signals/i);
+  });
+
+  it('includes tag selection guidance with action mapping', () => {
+    const prompt = buildSystemPrompt('en');
+    expect(prompt).toContain('value-bet');
+    expect(prompt).toMatch(/bad-beat means hero LOST/i);
   });
 });
 
