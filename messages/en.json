@@ -24,6 +24,13 @@
     "signOut": "Sign out",
     "signUp": "Sign up"
   },
+  "mobileNav": {
+    "label": "Main navigation",
+    "notes": "Notes",
+    "session": "Session",
+    "tools": "Tools",
+    "settings": "Settings"
+  },
   "landing": {
     "hero": {
       "title": "Read your opponents. Win more live poker.",
