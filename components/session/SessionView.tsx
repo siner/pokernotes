@@ -207,7 +207,7 @@ export function SessionView() {
       <div className="mb-5 rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-lg font-bold text-white">
+            <h1 className="text-2xl font-bold text-white">
               {session.name ?? t('header.playerCount', { count: tablePlayers.length })}
             </h1>
             {session.venue && <p className="text-sm text-slate-500">{session.venue}</p>}

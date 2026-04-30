@@ -104,7 +104,7 @@ export function SessionDetail({ sessionId }: SessionDetailProps) {
 
       {/* Session header */}
       <div className="mb-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-        <h1 className="mb-1 text-xl font-bold text-white">{sessionName}</h1>
+        <h1 className="mb-1 text-2xl font-bold text-white">{sessionName}</h1>
         {session.startedAt && (
           <p className="mb-4 text-sm text-slate-500">
             {session.startedAt.toLocaleDateString(undefined, {
