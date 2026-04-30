@@ -7,7 +7,9 @@ import { Link } from '@/i18n/navigation';
 import { NoteCard } from './NoteCard';
 import { NoteComposer } from './NoteComposer';
 import { PlayerPhoto } from './PlayerPhoto';
-import { useStorage, type Player, type Note, type Session } from '@/lib/storage';
+import { HandCard } from '@/components/hands/HandCard';
+import { HandComposer } from '@/components/hands/HandComposer';
+import { useStorage, type Player, type Note, type Session, type Hand } from '@/lib/storage';
 import { buildPlayerSessionHistory, syncPlayerStats } from '@/lib/storage/playerStats';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { PLAYER_TAGS } from '@/lib/constants/tags';
@@ -16,10 +18,11 @@ interface PlayerDetailProps {
   playerId: string;
 }
 
-type Tab = 'notes' | 'info';
+type Tab = 'notes' | 'hands' | 'info';
 
 export function PlayerDetail({ playerId }: PlayerDetailProps) {
   const t = useTranslations('notes.detail');
+  const tHands = useTranslations('hands.player');
   const tTags = useTranslations('tags');
   const tCommon = useTranslations('common');
 
@@ -28,9 +31,11 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
   const isPro = tier === 'pro';
   const [player, setPlayer] = useState<Player | null | undefined>(undefined);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [hands, setHands] = useState<Hand[]>([]);
   const [sessionMap, setSessionMap] = useState<Record<string, Session>>({});
   const [tab, setTab] = useState<Tab>('notes');
   const [showComposer, setShowComposer] = useState(false);
+  const [showHandComposer, setShowHandComposer] = useState(false);
 
   // Inline editing
   const [editingNickname, setEditingNickname] = useState(false);
@@ -39,14 +44,16 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
   const [descriptionInput, setDescriptionInput] = useState('');
 
   const load = useCallback(async () => {
-    const [p, n, sessions] = await Promise.all([
+    const [p, n, sessions, hs] = await Promise.all([
       storage.getPlayer(playerId),
       storage.getNotesForPlayer(playerId),
       storage.getAllSessions(),
+      isPro ? storage.getHandsForPlayer(playerId) : Promise.resolve([] as Hand[]),
     ]);
     if (!p) {
       setPlayer(null);
       setNotes([]);
+      setHands([]);
       setSessionMap({});
       return;
     }
@@ -54,8 +61,9 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
     const reconciled = await syncPlayerStats(p, n, map, storage);
     setPlayer(reconciled);
     setNotes(n);
+    setHands(hs);
     setSessionMap(map);
-  }, [playerId, storage]);
+  }, [playerId, storage, isPro]);
 
   useEffect(() => {
     load();
@@ -85,6 +93,19 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
   async function handleDeleteNote(id: string) {
     await storage.deleteNote(id);
     await load();
+  }
+
+  async function handleSaveHand(handData: Omit<Hand, 'id' | 'createdAt' | 'updatedAt'>) {
+    const now = new Date();
+    const hand: Hand = {
+      ...handData,
+      id: globalThis.crypto.randomUUID(),
+      createdAt: now,
+      updatedAt: now,
+    };
+    await storage.saveHand(hand);
+    await load();
+    setShowHandComposer(false);
   }
 
   async function handleToggleTag(tag: string) {
@@ -254,7 +275,7 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
 
       {/* Tabs */}
       <div className="mb-4 flex gap-0.5 rounded-xl border border-slate-800 bg-slate-900/40 p-1">
-        {(['notes', 'info'] as Tab[]).map((tabKey) => (
+        {(['notes', 'hands', 'info'] as Tab[]).map((tabKey) => (
           <button
             key={tabKey}
             onClick={() => setTab(tabKey)}
@@ -262,7 +283,7 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
               tab === tabKey ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-300'
             }`}
           >
-            {t(`tabs.${tabKey}`)}
+            {tabKey === 'hands' ? tHands('tab') : t(`tabs.${tabKey as 'notes' | 'info'}`)}
           </button>
         ))}
       </div>
@@ -419,12 +440,63 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
         </div>
       )}
 
+      {/* Hands tab */}
+      {tab === 'hands' && (
+        <>
+          {!isPro ? (
+            <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-center">
+              <p className="mb-2 text-sm font-medium text-amber-300">{tHands('proGate.title')}</p>
+              <p className="mb-3 text-xs text-slate-400">{tHands('proGate.description')}</p>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/20 px-3 py-1.5 text-xs font-semibold text-amber-300 hover:bg-amber-500/30"
+              >
+                {tHands('proGate.cta')}
+              </Link>
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={() => setShowHandComposer(true)}
+                className="mb-4 flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl border border-dashed border-slate-700 bg-slate-900/40 text-sm font-medium text-slate-400 transition-colors hover:border-emerald-500/40 hover:text-emerald-400"
+              >
+                <Plus size={16} />
+                {tHands('addHand')}
+              </button>
+
+              {hands.length === 0 ? (
+                <div className="py-10 text-center">
+                  <p className="mb-1 text-sm font-medium text-slate-400">{tHands('empty.title')}</p>
+                  <p className="text-xs text-slate-600">{tHands('empty.hint')}</p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2.5">
+                  {hands.map((hand) => (
+                    <HandCard key={hand.id} hand={hand} />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </>
+      )}
+
       {/* Note composer modal */}
       {showComposer && (
         <NoteComposer
           playerId={playerId}
           onSave={handleSaveNote}
           onClose={() => setShowComposer(false)}
+        />
+      )}
+
+      {/* Hand composer modal */}
+      {showHandComposer && (
+        <HandComposer
+          playerId={playerId}
+          playerNickname={player.nickname}
+          onSave={handleSaveHand}
+          onClose={() => setShowHandComposer(false)}
         />
       )}
     </>

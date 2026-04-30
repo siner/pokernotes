@@ -147,6 +147,72 @@
       "micError": "Dictation failed. Try again."
     }
   },
+  "hands": {
+    "player": {
+      "tab": "Hands",
+      "addHand": "Add hand",
+      "empty": {
+        "title": "No hands saved yet",
+        "hint": "Capture a memorable spot you played against this opponent."
+      },
+      "proGate": {
+        "title": "Hand history is a Pro feature",
+        "description": "Save and structure individual hands you played, with AI help. Search, share, study.",
+        "cta": "Upgrade to Pro"
+      }
+    },
+    "composer": {
+      "title": "New hand",
+      "vs": "vs {name}",
+      "placeholder": "Describe the hand: stakes, positions, your cards, the action street by street, and the result. The more detail, the better the AI can structure it.",
+      "minLengthHint": "Add a bit more detail (at least 20 characters) before structuring.",
+      "aiButton": "Structure with AI",
+      "aiProcessing": "Structuring...",
+      "aiError": "Could not structure the hand. You can still save it as raw text.",
+      "proRequired": "Hand structuring is a Pro feature.",
+      "rateLimited": "Daily AI limit reached. Try again tomorrow.",
+      "saveStructured": "Save structured hand",
+      "saveRaw": "Save raw text"
+    },
+    "view": {
+      "preflop": "Preflop",
+      "flop": "Flop",
+      "turn": "Turn",
+      "river": "River",
+      "keyMoment": "Key moment",
+      "heroPosition": "Hero {pos}",
+      "villainPosition": "Villain {pos}",
+      "heroHand": "Hand {hand}",
+      "villainHand": "Villain {hand}",
+      "format": {
+        "cash": "Cash",
+        "tournament": "Tournament"
+      },
+      "result": {
+        "hero_won": "Won",
+        "hero_lost": "Lost",
+        "split": "Split",
+        "no_showdown": "No showdown"
+      }
+    },
+    "card": {
+      "positions": "{hero} vs {villain}"
+    },
+    "detail": {
+      "metaTitle": "Hand | PokerReads",
+      "notFound": "Hand not found",
+      "notFoundBack": "Back to notes",
+      "backToPlayer": "Back to {name}",
+      "backToNotes": "Back to notes",
+      "rawDescription": "Original description",
+      "rawOnly": "Not structured",
+      "delete": "Delete hand",
+      "deleteConfirm": "Delete this hand? This cannot be undone.",
+      "deleteConfirmYes": "Yes, delete",
+      "proRequired": "Hand history is a Pro feature.",
+      "proRequiredCta": "Upgrade to Pro"
+    }
+  },
   "tools": {
     "nav": {
       "potOdds": "Pot Odds",

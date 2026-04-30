@@ -6,7 +6,7 @@ import { hybridAdapter } from './hybrid';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import type { StorageAdapter } from './types';
 
-export type { Player, Note, Session, StorageAdapter } from './types';
+export type { Player, Note, Session, Hand, StorageAdapter } from './types';
 export { getActiveSessionId, setActiveSessionId } from './local';
 
 export function useStorage(): StorageAdapter {
