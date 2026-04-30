@@ -1,12 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, Trash2, Loader2 } from 'lucide-react';
+import { ArrowLeft, Trash2, Loader2, Pencil } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/navigation';
 import { useStorage, type Hand, type Player } from '@/lib/storage';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { HandStructuredView } from './HandStructuredView';
+import { HandComposer } from './HandComposer';
 
 interface HandDetailProps {
   handId: string;
@@ -25,6 +26,7 @@ export function HandDetail({ handId }: HandDetailProps) {
   const [player, setPlayer] = useState<Player | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showEditor, setShowEditor] = useState(false);
 
   const load = useCallback(async () => {
     const h = await storage.getHand(handId);
@@ -53,6 +55,20 @@ export function HandDetail({ handId }: HandDetailProps) {
     } catch {
       setDeleting(false);
     }
+  }
+
+  async function handleSaveEdit(handData: Omit<Hand, 'id' | 'createdAt' | 'updatedAt'>) {
+    if (!hand) return;
+    const updated: Hand = {
+      ...hand,
+      ...handData,
+      id: hand.id,
+      createdAt: hand.createdAt,
+      updatedAt: new Date(),
+    };
+    await storage.saveHand(updated);
+    setHand(updated);
+    setShowEditor(false);
   }
 
   if (tierLoading || hand === undefined) {
@@ -114,13 +130,22 @@ export function HandDetail({ handId }: HandDetailProps) {
       </div>
 
       {/* Meta */}
-      <div className="mb-4 flex items-center justify-between text-xs text-slate-500">
+      <div className="mb-4 flex items-center justify-between gap-2 text-xs text-slate-500">
         <span>{dateLabel}</span>
-        {!hand.aiProcessed && (
-          <span className="rounded-full bg-slate-800 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">
-            {t('rawOnly')}
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          {!hand.aiProcessed && (
+            <span className="rounded-full bg-slate-800 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">
+              {t('rawOnly')}
+            </span>
+          )}
+          <button
+            onClick={() => setShowEditor(true)}
+            className="flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white"
+          >
+            <Pencil size={12} />
+            {t('edit')}
+          </button>
+        </div>
       </div>
 
       {/* Structured view */}
@@ -166,6 +191,16 @@ export function HandDetail({ handId }: HandDetailProps) {
           <Trash2 size={15} />
           {t('delete')}
         </button>
+      )}
+
+      {/* Editor modal */}
+      {showEditor && (
+        <HandComposer
+          initialHand={hand}
+          playerNickname={player?.nickname}
+          onSave={handleSaveEdit}
+          onClose={() => setShowEditor(false)}
+        />
       )}
     </>
   );

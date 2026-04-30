@@ -66,6 +66,35 @@ function getSpeechRecognition(): SpeechRecognitionConstructor | null {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
+// ─── Wake Lock ────────────────────────────────────────────────────────────────
+//
+// Keeps the screen on during dictation. Mobile screens auto-lock after ~30s by
+// default — the user reported losing a long dictation that way. The Wake Lock
+// API is supported on Chrome/Edge/Safari iOS 16.4+. Quietly noop where it is
+// not available; auto-reacquires on visibilitychange because the browser
+// releases the lock when the tab is hidden.
+
+interface WakeLockSentinelLike {
+  release(): Promise<void>;
+}
+
+interface NavigatorWakeLock {
+  wakeLock?: {
+    request(type: 'screen'): Promise<WakeLockSentinelLike>;
+  };
+}
+
+async function acquireWakeLock(): Promise<WakeLockSentinelLike | null> {
+  if (typeof navigator === 'undefined') return null;
+  const nav = navigator as unknown as NavigatorWakeLock;
+  if (!nav.wakeLock) return null;
+  try {
+    return await nav.wakeLock.request('screen');
+  } catch {
+    return null;
+  }
+}
+
 const LOCALE_TO_BCP47: Record<string, string> = {
   en: 'en-US',
   es: 'es-ES',
@@ -97,6 +126,7 @@ export function useSpeechToText({
   const [error, setError] = useState<SpeechErrorKind | null>(null);
 
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const wakeLockRef = useRef<WakeLockSentinelLike | null>(null);
   const onFinalSegmentRef = useRef(onFinalSegment);
 
   useEffect(() => {
@@ -105,6 +135,38 @@ export function useSpeechToText({
 
   useEffect(() => {
     setIsSupported(getSpeechRecognition() !== null);
+  }, []);
+
+  const releaseWakeLock = useCallback(async () => {
+    const lock = wakeLockRef.current;
+    wakeLockRef.current = null;
+    if (lock) {
+      try {
+        await lock.release();
+      } catch {
+        // ignore: the lock may have been released by the browser already
+      }
+    }
+  }, []);
+
+  // The browser releases the screen Wake Lock automatically when the tab is
+  // hidden. Re-acquire when it becomes visible again so a quick app-switch
+  // doesn't lose the lock for the rest of a long dictation.
+  useEffect(() => {
+    function handleVisibility() {
+      if (
+        document.visibilityState === 'visible' &&
+        recognitionRef.current &&
+        !wakeLockRef.current
+      ) {
+        void acquireWakeLock().then((lock) => {
+          if (lock && recognitionRef.current) wakeLockRef.current = lock;
+          else if (lock) void lock.release();
+        });
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
   }, []);
 
   useEffect(() => {
@@ -122,8 +184,9 @@ export function useSpeechToText({
         }
         recognitionRef.current = null;
       }
+      void releaseWakeLock();
     };
-  }, []);
+  }, [releaseWakeLock]);
 
   const start = useCallback(() => {
     const Ctor = getSpeechRecognition();
@@ -143,6 +206,12 @@ export function useSpeechToText({
       setError(null);
       setIsListening(true);
       setInterimTranscript('');
+      // Acquire Wake Lock so the screen does not auto-lock during long
+      // dictations. Best-effort — silently noops on browsers that lack the API.
+      void acquireWakeLock().then((lock) => {
+        if (lock && recognitionRef.current) wakeLockRef.current = lock;
+        else if (lock) void lock.release();
+      });
     };
 
     rec.onresult = (event) => {
@@ -183,6 +252,7 @@ export function useSpeechToText({
       setIsListening(false);
       setInterimTranscript('');
       recognitionRef.current = null;
+      void releaseWakeLock();
     };
 
     recognitionRef.current = rec;
@@ -192,8 +262,9 @@ export function useSpeechToText({
       recognitionRef.current = null;
       setIsListening(false);
       setError('generic');
+      void releaseWakeLock();
     }
-  }, [locale]);
+  }, [locale, releaseWakeLock]);
 
   const stop = useCallback(() => {
     const rec = recognitionRef.current;

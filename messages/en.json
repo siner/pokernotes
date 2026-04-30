@@ -163,16 +163,19 @@
     },
     "composer": {
       "title": "New hand",
+      "editTitle": "Edit hand",
       "vs": "vs {name}",
       "placeholder": "Describe the hand: stakes, positions, your cards, the action street by street, and the result. The more detail, the better the AI can structure it.",
       "minLengthHint": "Add a bit more detail (at least 20 characters) before structuring.",
       "aiButton": "Structure with AI",
+      "aiReButton": "Re-structure with AI",
       "aiProcessing": "Structuring...",
       "aiError": "Could not structure the hand. You can still save it as raw text.",
       "proRequired": "Hand structuring is a Pro feature.",
       "rateLimited": "Daily AI limit reached. Try again tomorrow.",
       "saveStructured": "Save structured hand",
-      "saveRaw": "Save raw text"
+      "saveRaw": "Save raw text",
+      "saveChanges": "Save changes"
     },
     "view": {
       "preflop": "Preflop",
@@ -206,6 +209,7 @@
       "backToNotes": "Back to notes",
       "rawDescription": "Original description",
       "rawOnly": "Not structured",
+      "edit": "Edit",
       "delete": "Delete hand",
       "deleteConfirm": "Delete this hand? This cannot be undone.",
       "deleteConfirmYes": "Yes, delete",

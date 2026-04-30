@@ -163,16 +163,19 @@
     },
     "composer": {
       "title": "Nueva mano",
+      "editTitle": "Editar mano",
       "vs": "vs {name}",
       "placeholder": "Describe la mano: stakes, posiciones, tus cartas, la acción street por street, y el resultado. Cuanto más detalle, mejor estructura la IA.",
       "minLengthHint": "Añade un poco más de detalle (al menos 20 caracteres) antes de estructurar.",
       "aiButton": "Estructurar con IA",
+      "aiReButton": "Re-estructurar con IA",
       "aiProcessing": "Estructurando...",
       "aiError": "No se pudo estructurar la mano. Puedes guardarla como texto igualmente.",
       "proRequired": "Estructurar manos es una función Pro.",
       "rateLimited": "Límite diario de IA alcanzado. Inténtalo mañana.",
       "saveStructured": "Guardar mano estructurada",
-      "saveRaw": "Guardar texto"
+      "saveRaw": "Guardar texto",
+      "saveChanges": "Guardar cambios"
     },
     "view": {
       "preflop": "Preflop",
@@ -206,6 +209,7 @@
       "backToNotes": "Volver a notas",
       "rawDescription": "Descripción original",
       "rawOnly": "Sin estructurar",
+      "edit": "Editar",
       "delete": "Eliminar mano",
       "deleteConfirm": "¿Eliminar esta mano? No se puede deshacer.",
       "deleteConfirmYes": "Sí, eliminar",
