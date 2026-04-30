@@ -15,7 +15,13 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 ## Mejoras Pro (ordenadas por impacto · stickiness Pro)
 
 ### Alto valor, esfuerzo medio
-- [ ] **Hand history per player** — guardar manos concretas jugadas contra cada jugador. Entrada free-text o voz (reutiliza `useSpeechToText`); IA estructura a campos canónicos (posición, hero hand, board, acción por street, resultado/pot) + narrativa libre + tags. Vinculada a `playerId` + opcional `sessionId`. Buscable, filtrable por board/posición/tags, compartible. Diferenciador real: no hay buen tracker de hand history para live poker. Probable Pro-only por coste IA y volumen de almacenamiento.
+- [~] **Hand history per player** — guardar manos concretas jugadas contra cada jugador. Entrada free-text o voz (reutiliza `useSpeechToText`); IA estructura a campos canónicos (posición, hero hand, board, acción por street, resultado/pot) + narrativa libre + tags. Vinculada a `playerId` + opcional `sessionId`. Buscable, filtrable por board/posición/tags, compartible. Pro-only.
+  - [x] Spike IA (rama `spike/hand-history-ai-v2`): endpoint `POST /api/ai/structure-hand`, schema zod loose, prompt v2 con anti-invención + alias normalizers para posiciones/stakes. Validado con 7 casos EN/ES — green-light.
+  - [ ] DB schema (`hands` table en D1) + IDB local + sync.
+  - [ ] CRUD endpoints (`/api/hands`).
+  - [ ] UI: form de entrada (voz+texto+IA), lista y detalle, edición, vinculación opcional player/session.
+  - [ ] Pro gate UI + entrada en pricing/features.
+  - [ ] Public share link anonimizado (post-MVP).
 - [ ] **Share player user-to-user** — desbloquear `sharedPlayers` (ya en schema). Modelo: `(ownerUserId, recipientUserId, playerId, scope)`. Notificación in-app. Resuelve bloqueo legal del modelo público que dejamos diferido.
 - [x] **Cross-session player recognition** — PR #32. Matching por nickname + venue con vista de historial en `PlayerDetail`.
 - [ ] **Stats por jugador** — hands jugadas, sesiones, tags más frecuentes, timeline de notas. Roadmap v1.2 actual; subirlo si retención flojea.
