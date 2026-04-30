@@ -29,6 +29,7 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 ### Alto valor, esfuerzo bajo
 - [x] **Búsqueda full-text** — PR #38. Client-side sobre IDB (no FTS5 en D1: los Pro ya tienen todo en local via sync, dataset pequeño). Matchea nickname/description/tags/contenido de notas (token-AND, diacritic-insensitive).
 - [x] **Voz → nota** — PR #44. Web Speech API client-side (Safari prefix incluido), final segments append live al textarea, interim transcript visible. Reutilizable en NoteComposer + QuickNoteSheet. Locale → BCP-47 (`en-US`/`es-ES`).
+- [ ] **Transcripción Pro vía Whisper** — Web Speech API tiene precisión irregular con términos de poker (3bet, UTG, AKs). Para Pro: MediaRecorder en cliente → blob → endpoint `/api/ai/transcribe` con `@cf/openai/whisper-large-v3-turbo` → texto sustituye/append al textarea. Mucho más preciso, coste manejable, requiere recordings cortos (<30s recomendado por chunk).
 - [ ] **Export PDF** — el PRD lo lista junto con el CSV ya entregado en Sprint 6. Reusar el data layer del export, añadir generación PDF.
 - [ ] **Apple Sign-In** — iOS PWA es el sweet spot del producto. Hoy sólo Google OAuth.
 

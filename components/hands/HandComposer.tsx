@@ -37,6 +37,8 @@ interface HandComposerProps {
   playerId?: string;
   playerNickname?: string;
   sessionId?: string;
+  /** When provided, the composer pre-fills with this hand's data (edit mode). */
+  initialHand?: Hand;
   onSave: (hand: Omit<Hand, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
   onClose: () => void;
 }
@@ -45,6 +47,7 @@ export function HandComposer({
   playerId,
   playerNickname,
   sessionId,
+  initialHand,
   onSave,
   onClose,
 }: HandComposerProps) {
@@ -53,9 +56,15 @@ export function HandComposer({
   const tCommon = useTranslations('common');
   const locale = useLocale() as 'en' | 'es';
 
-  const [rawDescription, setRawDescription] = useState('');
+  const isEditing = !!initialHand;
+
+  const [rawDescription, setRawDescription] = useState(() => initialHand?.rawDescription ?? '');
   const [aiLoading, setAiLoading] = useState(false);
-  const [aiResult, setAiResult] = useState<StructuredHand | null>(null);
+  const [aiResult, setAiResult] = useState<StructuredHand | null>(() => {
+    if (!initialHand?.aiProcessed) return null;
+    const data = initialHand.structuredData as unknown as StructuredHand;
+    return data.title ? data : null;
+  });
   const [aiError, setAiError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -109,8 +118,8 @@ export function HandComposer({
     setSaving(true);
     try {
       await onSave({
-        playerId,
-        sessionId,
+        playerId: playerId ?? initialHand?.playerId,
+        sessionId: sessionId ?? initialHand?.sessionId,
         rawDescription: rawDescription.trim(),
         // When the user skipped AI, persist a minimal structured object so
         // the detail view always has something to render. The aiProcessed
@@ -140,7 +149,9 @@ export function HandComposer({
       <div className="w-full max-w-lg rounded-t-2xl border border-slate-800 bg-slate-950 p-5 sm:rounded-2xl">
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold text-white">{t('title')}</h3>
+          <h3 className="text-base font-semibold text-white">
+            {isEditing ? t('editTitle') : t('title')}
+          </h3>
           <button
             onClick={onClose}
             aria-label={tCommon('cancel')}
@@ -222,25 +233,23 @@ export function HandComposer({
 
         {/* Actions */}
         <div className="flex gap-2">
-          {!aiResult && (
-            <button
-              onClick={handleAi}
-              disabled={!canStructure || aiLoading || saving}
-              className="flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 text-sm font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {aiLoading ? (
-                <>
-                  <Loader2 size={15} className="animate-spin" />
-                  {t('aiProcessing')}
-                </>
-              ) : (
-                <>
-                  <Sparkles size={15} />
-                  {t('aiButton')}
-                </>
-              )}
-            </button>
-          )}
+          <button
+            onClick={handleAi}
+            disabled={!canStructure || aiLoading || saving}
+            className="flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 text-sm font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {aiLoading ? (
+              <>
+                <Loader2 size={15} className="animate-spin" />
+                {t('aiProcessing')}
+              </>
+            ) : (
+              <>
+                <Sparkles size={15} />
+                {aiResult ? t('aiReButton') : t('aiButton')}
+              </>
+            )}
+          </button>
 
           <button
             onClick={handleSave}
@@ -249,6 +258,8 @@ export function HandComposer({
           >
             {saving ? (
               <Loader2 size={15} className="animate-spin" />
+            ) : isEditing ? (
+              t('saveChanges')
             ) : aiResult ? (
               t('saveStructured')
             ) : (
