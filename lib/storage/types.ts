@@ -35,6 +35,23 @@ export interface Session {
   createdAt: Date;
 }
 
+// Hand: a specific hand played, structured by AI. `structuredData` is the
+// AI output blob (matches AiHandResponse from lib/ai/handStructurer); kept
+// untyped here so the storage layer doesn't have to track AI schema
+// versions. Consumers should narrow with the AI module's types.
+export interface Hand {
+  id: string;
+  playerId?: string;
+  sessionId?: string;
+  rawDescription: string;
+  structuredData: Record<string, unknown>;
+  aiProcessed: boolean;
+  shareToken?: string;
+  shareCreatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface StorageAdapter {
   // Players
   getAllPlayers(): Promise<Player[]>;
@@ -55,4 +72,12 @@ export interface StorageAdapter {
   getSession(id: string): Promise<Session | undefined>;
   saveSession(session: Session): Promise<void>;
   deleteSession(id: string): Promise<void>;
+
+  // Hands (Pro-only feature; adapters can no-op for free users)
+  getAllHands(): Promise<Hand[]>;
+  getHand(id: string): Promise<Hand | undefined>;
+  getHandsForPlayer(playerId: string): Promise<Hand[]>;
+  getHandsForSession(sessionId: string): Promise<Hand[]>;
+  saveHand(hand: Hand): Promise<void>;
+  deleteHand(id: string): Promise<void>;
 }

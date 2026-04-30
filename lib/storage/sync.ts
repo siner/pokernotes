@@ -15,16 +15,17 @@ async function runSync(): Promise<void> {
     }
 
     // 2. Snapshot local state and push to cloud.
-    const [players, sessions] = await Promise.all([
+    const [players, sessions, hands] = await Promise.all([
       localAdapter.getAllPlayers(),
       localAdapter.getAllSessions(),
+      localAdapter.getAllHands(),
     ]);
     const allNotes = (
       await Promise.all(players.map((p) => localAdapter.getNotesForPlayer(p.id)))
     ).flat();
 
-    if (players.length > 0 || sessions.length > 0 || allNotes.length > 0) {
-      await bulkImportToCloud({ players, notes: allNotes, sessions });
+    if (players.length > 0 || sessions.length > 0 || allNotes.length > 0 || hands.length > 0) {
+      await bulkImportToCloud({ players, notes: allNotes, sessions, hands });
     }
 
     // 3. Pull merged state and replace local.

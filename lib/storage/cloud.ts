@@ -1,4 +1,4 @@
-import type { Player, Note, Session, StorageAdapter } from './types';
+import type { Player, Note, Session, Hand, StorageAdapter } from './types';
 
 interface ApiPlayer extends Omit<Player, 'firstSeenAt' | 'lastSeenAt' | 'createdAt' | 'updatedAt'> {
   firstSeenAt: string | number | null;
@@ -15,6 +15,12 @@ interface ApiNote extends Omit<Note, 'createdAt'> {
 interface ApiSession extends Omit<Session, 'startedAt' | 'endedAt' | 'createdAt'> {
   startedAt: string | number | null;
   endedAt: string | number | null;
+  createdAt: string | number;
+  updatedAt: string | number;
+}
+
+interface ApiHand extends Omit<Hand, 'shareCreatedAt' | 'createdAt' | 'updatedAt'> {
+  shareCreatedAt: string | number | null;
   createdAt: string | number;
   updatedAt: string | number;
 }
@@ -64,6 +70,21 @@ function deserializeSession(s: ApiSession): Session {
     endedAt: toDate(s.endedAt),
     notes: s.notes,
     createdAt: new Date(s.createdAt),
+  };
+}
+
+function deserializeHand(h: ApiHand): Hand {
+  return {
+    id: h.id,
+    playerId: h.playerId ?? undefined,
+    sessionId: h.sessionId ?? undefined,
+    rawDescription: h.rawDescription,
+    structuredData: h.structuredData ?? {},
+    aiProcessed: h.aiProcessed ?? false,
+    shareToken: h.shareToken ?? undefined,
+    shareCreatedAt: toDate(h.shareCreatedAt),
+    createdAt: new Date(h.createdAt),
+    updatedAt: new Date(h.updatedAt),
   };
 }
 
@@ -123,6 +144,15 @@ function serializeSession(s: Session, updatedAt = new Date()) {
     endedAt: s.endedAt?.toISOString(),
     createdAt: s.createdAt.toISOString(),
     updatedAt: updatedAt.toISOString(),
+  };
+}
+
+function serializeHand(h: Hand) {
+  return {
+    ...h,
+    shareCreatedAt: h.shareCreatedAt?.toISOString() ?? null,
+    createdAt: h.createdAt.toISOString(),
+    updatedAt: h.updatedAt.toISOString(),
   };
 }
 
@@ -200,24 +230,60 @@ export const cloudAdapter: StorageAdapter = {
   async deleteSession(id) {
     await send('DELETE', `/api/sessions/${id}`);
   },
+
+  async getAllHands() {
+    const rows = await get<ApiHand[]>('/api/hands');
+    return rows.map(deserializeHand);
+  },
+
+  async getHand(id) {
+    try {
+      const row = await get<ApiHand>(`/api/hands/${id}`);
+      return deserializeHand(row);
+    } catch (err) {
+      if (err instanceof CloudError && err.status === 404) return undefined;
+      throw err;
+    }
+  },
+
+  async getHandsForPlayer(playerId) {
+    const rows = await get<ApiHand[]>(`/api/hands?playerId=${encodeURIComponent(playerId)}`);
+    return rows.map(deserializeHand);
+  },
+
+  async getHandsForSession(sessionId) {
+    const rows = await get<ApiHand[]>(`/api/hands?sessionId=${encodeURIComponent(sessionId)}`);
+    return rows.map(deserializeHand);
+  },
+
+  async saveHand(hand) {
+    await send('POST', '/api/hands', serializeHand(hand));
+  },
+
+  async deleteHand(id) {
+    await send('DELETE', `/api/hands/${id}`);
+  },
 };
 
 export interface CloudPullPayload {
   players: ApiPlayer[];
   notes: ApiNote[];
   sessions: ApiSession[];
+  hands: ApiHand[];
 }
 
 export async function pullCloudState(): Promise<{
   players: Player[];
   notes: Note[];
   sessions: Session[];
+  hands: Hand[];
 }> {
   const data = await get<CloudPullPayload>('/api/sync/pull');
   return {
     players: data.players.map(deserializePlayer),
     notes: data.notes.map(deserializeNote),
     sessions: data.sessions.map(deserializeSession),
+    hands: (data.hands ?? []).map(deserializeHand),
   };
 }
 
@@ -225,10 +291,12 @@ export async function bulkImportToCloud(payload: {
   players: Player[];
   notes: Note[];
   sessions: Session[];
+  hands: Hand[];
 }): Promise<void> {
   await send('POST', '/api/sync/import', {
     players: payload.players.map((p) => serializePlayer(p)),
     notes: payload.notes.map((n) => serializeNote(n, new Date(n.createdAt))),
     sessions: payload.sessions.map((s) => serializeSession(s, new Date(s.createdAt))),
+    hands: payload.hands.map((h) => serializeHand(h)),
   });
 }

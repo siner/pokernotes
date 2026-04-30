@@ -151,6 +151,57 @@ export const notes = sqliteTable('notes', {
 });
 
 // ─────────────────────────────────────────
+// HANDS (specific hands played, Pro feature)
+// ─────────────────────────────────────────
+//
+// A hand is an individual hand-history captured by the user (text or voice
+// input). The AI structures it into `structuredData` (a JSON blob matching
+// the AiHandResponse schema in lib/ai/handStructurer). Loose ties to a
+// player and/or session — both nullable so a hand can live standalone for
+// pure study purposes.
+//
+// `shareToken` is reserved for the public-share feature (a URL that
+// reveals the hand anonymized). Filled when the user enables sharing.
+
+export const hands = sqliteTable('hands', {
+  id: text('id').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  playerId: text('player_id').references(() => players.id, {
+    onDelete: 'set null',
+  }),
+  sessionId: text('session_id').references(() => pokerSessions.id, {
+    onDelete: 'set null',
+  }),
+
+  // Raw input (text or voice transcript)
+  rawDescription: text('raw_description').notNull(),
+
+  // AI-structured payload — JSON blob matching AiHandResponse from
+  // lib/ai/handStructurer. Stored as a single column to keep schema
+  // flexible while we iterate on the structuring fields.
+  structuredData: text('structured_data', { mode: 'json' })
+    .$type<Record<string, unknown>>()
+    .notNull(),
+
+  aiProcessed: integer('ai_processed', { mode: 'boolean' }).notNull().default(false),
+
+  // Public share (post-MVP). Token is generated on demand; nullable means
+  // the hand is private.
+  shareToken: text('share_token').unique(),
+  shareCreatedAt: integer('share_created_at', { mode: 'timestamp' }),
+
+  createdAt: integer('created_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  deletedAt: integer('deleted_at', { mode: 'timestamp' }),
+});
+
+// ─────────────────────────────────────────
 // SHARED PLAYERS (Pro: share with other users)
 // ─────────────────────────────────────────
 

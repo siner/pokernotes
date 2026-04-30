@@ -28,6 +28,12 @@ async function tryCloud(op: PendingOp): Promise<void> {
     case 'deleteSession':
       await cloudAdapter.deleteSession(op.id);
       return;
+    case 'saveHand':
+      await cloudAdapter.saveHand(op.entity);
+      return;
+    case 'deleteHand':
+      await cloudAdapter.deleteHand(op.id);
+      return;
   }
 }
 
@@ -101,6 +107,10 @@ export const hybridAdapter: StorageAdapter = {
   getNotesForSession: localAdapter.getNotesForSession,
   getAllSessions: localAdapter.getAllSessions,
   getSession: localAdapter.getSession,
+  getAllHands: localAdapter.getAllHands,
+  getHand: localAdapter.getHand,
+  getHandsForPlayer: localAdapter.getHandsForPlayer,
+  getHandsForSession: localAdapter.getHandsForSession,
 
   async savePlayer(player) {
     await localAdapter.savePlayer(player);
@@ -130,5 +140,15 @@ export const hybridAdapter: StorageAdapter = {
   async deleteSession(id) {
     await localAdapter.deleteSession(id);
     void dispatch({ kind: 'deleteSession', id });
+  },
+
+  async saveHand(hand) {
+    await localAdapter.saveHand(hand);
+    void dispatch({ kind: 'saveHand', entity: hand });
+  },
+
+  async deleteHand(id) {
+    await localAdapter.deleteHand(id);
+    void dispatch({ kind: 'deleteHand', id });
   },
 };

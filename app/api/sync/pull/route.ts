@@ -1,5 +1,5 @@
 import { and, eq, isNull } from 'drizzle-orm';
-import { players, notes, pokerSessions } from '@/lib/db/schema';
+import { players, notes, pokerSessions, hands } from '@/lib/db/schema';
 import { requireProUser } from '@/lib/auth/requireProUser';
 
 export async function GET(request: Request) {
@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   if (!auth.ok) return auth.response;
   const { db, userId } = auth.ctx;
 
-  const [playerRows, noteRows, sessionRows] = await Promise.all([
+  const [playerRows, noteRows, sessionRows, handRows] = await Promise.all([
     db
       .select()
       .from(players)
@@ -23,6 +23,11 @@ export async function GET(request: Request) {
       .from(pokerSessions)
       .where(and(eq(pokerSessions.userId, userId), isNull(pokerSessions.deletedAt)))
       .all(),
+    db
+      .select()
+      .from(hands)
+      .where(and(eq(hands.userId, userId), isNull(hands.deletedAt)))
+      .all(),
   ]);
 
   return Response.json(
@@ -30,6 +35,7 @@ export async function GET(request: Request) {
       players: playerRows,
       notes: noteRows,
       sessions: sessionRows,
+      hands: handRows,
       pulledAt: new Date().toISOString(),
     },
     { headers: { 'Cache-Control': 'no-store' } }
