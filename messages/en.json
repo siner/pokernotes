@@ -137,7 +137,14 @@
       "save": "Save note",
       "saveWithAi": "Save with AI tags",
       "discard": "Discard",
-      "aiError": "AI analysis failed. You can still save your note."
+      "aiError": "AI analysis failed. You can still save your note.",
+      "micStart": "Dictate note",
+      "micStop": "Stop dictation",
+      "micListening": "Listening...",
+      "micPermissionDenied": "Microphone access denied. Allow it in your browser settings.",
+      "micNoSpeech": "No speech detected. Try again.",
+      "micAudioCapture": "No microphone found.",
+      "micError": "Dictation failed. Try again."
     }
   },
   "tools": {

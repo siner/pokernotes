@@ -137,7 +137,14 @@
       "save": "Guardar nota",
       "saveWithAi": "Guardar con tags IA",
       "discard": "Descartar",
-      "aiError": "El análisis de IA falló. Puedes guardar tu nota igualmente."
+      "aiError": "El análisis de IA falló. Puedes guardar tu nota igualmente.",
+      "micStart": "Dictar nota",
+      "micStop": "Detener dictado",
+      "micListening": "Escuchando...",
+      "micPermissionDenied": "Acceso al micrófono denegado. Habilítalo en los ajustes del navegador.",
+      "micNoSpeech": "No se detectó voz. Inténtalo de nuevo.",
+      "micAudioCapture": "No se encontró micrófono.",
+      "micError": "El dictado falló. Inténtalo de nuevo."
     }
   },
   "tools": {
