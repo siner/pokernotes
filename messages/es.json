@@ -23,6 +23,13 @@
     "signOut": "Cerrar sesión",
     "signUp": "Registrarse"
   },
+  "mobileNav": {
+    "label": "Navegación principal",
+    "notes": "Notas",
+    "session": "Sesión",
+    "tools": "Calc",
+    "settings": "Ajustes"
+  },
   "landing": {
     "hero": {
       "title": "Lee a tus rivales. Gana más al poker en vivo.",
