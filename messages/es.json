@@ -147,6 +147,72 @@
       "micError": "El dictado falló. Inténtalo de nuevo."
     }
   },
+  "hands": {
+    "player": {
+      "tab": "Manos",
+      "addHand": "Añadir mano",
+      "empty": {
+        "title": "Aún no has guardado manos",
+        "hint": "Captura un spot memorable que jugaste contra este rival."
+      },
+      "proGate": {
+        "title": "Historial de manos es Pro",
+        "description": "Guarda y estructura manos concretas que jugaste, con ayuda de IA. Busca, comparte, estudia.",
+        "cta": "Hazte Pro"
+      }
+    },
+    "composer": {
+      "title": "Nueva mano",
+      "vs": "vs {name}",
+      "placeholder": "Describe la mano: stakes, posiciones, tus cartas, la acción street por street, y el resultado. Cuanto más detalle, mejor estructura la IA.",
+      "minLengthHint": "Añade un poco más de detalle (al menos 20 caracteres) antes de estructurar.",
+      "aiButton": "Estructurar con IA",
+      "aiProcessing": "Estructurando...",
+      "aiError": "No se pudo estructurar la mano. Puedes guardarla como texto igualmente.",
+      "proRequired": "Estructurar manos es una función Pro.",
+      "rateLimited": "Límite diario de IA alcanzado. Inténtalo mañana.",
+      "saveStructured": "Guardar mano estructurada",
+      "saveRaw": "Guardar texto"
+    },
+    "view": {
+      "preflop": "Preflop",
+      "flop": "Flop",
+      "turn": "Turn",
+      "river": "River",
+      "keyMoment": "Momento clave",
+      "heroPosition": "Hero {pos}",
+      "villainPosition": "Villano {pos}",
+      "heroHand": "Mano {hand}",
+      "villainHand": "Villano {hand}",
+      "format": {
+        "cash": "Cash",
+        "tournament": "Torneo"
+      },
+      "result": {
+        "hero_won": "Ganada",
+        "hero_lost": "Perdida",
+        "split": "Empate",
+        "no_showdown": "Sin showdown"
+      }
+    },
+    "card": {
+      "positions": "{hero} vs {villain}"
+    },
+    "detail": {
+      "metaTitle": "Mano | PokerReads",
+      "notFound": "Mano no encontrada",
+      "notFoundBack": "Volver a notas",
+      "backToPlayer": "Volver a {name}",
+      "backToNotes": "Volver a notas",
+      "rawDescription": "Descripción original",
+      "rawOnly": "Sin estructurar",
+      "delete": "Eliminar mano",
+      "deleteConfirm": "¿Eliminar esta mano? No se puede deshacer.",
+      "deleteConfirmYes": "Sí, eliminar",
+      "proRequired": "Historial de manos es una función Pro.",
+      "proRequiredCta": "Hazte Pro"
+    }
+  },
   "tools": {
     "nav": {
       "potOdds": "Pot Odds",
