@@ -40,14 +40,14 @@ export function AddPlayerModal({ onClose, onAdd }: AddPlayerModalProps) {
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center"
       onClick={handleBackdropClick}
     >
-      <div className="w-full max-w-lg rounded-t-2xl border border-slate-800 bg-slate-950 p-6 sm:rounded-2xl">
+      <div className="w-full max-w-lg rounded-t-2xl border border-slate-800 bg-slate-950 p-5 sm:rounded-2xl">
         {/* Header */}
-        <div className="mb-5 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">{t('title')}</h2>
           <button
             onClick={onClose}
-            aria-label={tCommon('cancel')}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
+            aria-label={tCommon('close')}
+            className="-mr-2 flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
           >
             <X size={18} />
           </button>
@@ -119,7 +119,7 @@ export function AddPlayerModal({ onClose, onAdd }: AddPlayerModalProps) {
           <button
             type="submit"
             disabled={!nickname.trim()}
-            className="mt-1 w-full rounded-xl bg-emerald-500 py-3 text-sm font-semibold text-slate-950 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            className="mt-1 flex min-h-[44px] w-full items-center justify-center rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {t('submit')}
           </button>

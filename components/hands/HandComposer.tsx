@@ -154,8 +154,8 @@ export function HandComposer({
           </h3>
           <button
             onClick={onClose}
-            aria-label={tCommon('cancel')}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
+            aria-label={tCommon('close')}
+            className="-mr-2 flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
           >
             <X size={18} />
           </button>

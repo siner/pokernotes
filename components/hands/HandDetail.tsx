@@ -1,13 +1,15 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, Trash2, Loader2, Pencil } from 'lucide-react';
+import { ArrowLeft, Trash2, Loader2, Pencil, FileQuestion, Lock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/navigation';
 import { useStorage, type Hand, type Player } from '@/lib/storage';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { HandStructuredView } from './HandStructuredView';
 import { HandComposer } from './HandComposer';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { LoadingState } from '@/components/ui/LoadingState';
 
 interface HandDetailProps {
   handId: string;
@@ -72,39 +74,41 @@ export function HandDetail({ handId }: HandDetailProps) {
   }
 
   if (tierLoading || hand === undefined) {
-    return (
-      <div className="flex h-48 items-center justify-center text-slate-500">
-        {tCommon('loading')}
-      </div>
-    );
+    return <LoadingState label={tCommon('loading')} />;
   }
 
   if (!isPro) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <p className="mb-4 text-slate-400">{t('proRequired')}</p>
-        <Link
-          href="/pricing"
-          className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/20 px-3 py-1.5 text-sm font-semibold text-amber-300 hover:bg-amber-500/30"
-        >
-          {t('proRequiredCta')}
-        </Link>
-      </div>
+      <EmptyState
+        Icon={Lock}
+        title={t('proRequired')}
+        cta={
+          <Link
+            href="/pricing"
+            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl bg-amber-500/20 px-4 py-2.5 text-sm font-semibold text-amber-300 hover:bg-amber-500/30"
+          >
+            {t('proRequiredCta')}
+          </Link>
+        }
+      />
     );
   }
 
   if (hand === null) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <p className="mb-4 text-slate-400">{t('notFound')}</p>
-        <Link
-          href="/notes"
-          className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300"
-        >
-          <ArrowLeft size={16} />
-          {t('notFoundBack')}
-        </Link>
-      </div>
+      <EmptyState
+        Icon={FileQuestion}
+        title={t('notFound')}
+        cta={
+          <Link
+            href="/notes"
+            className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300"
+          >
+            <ArrowLeft size={16} />
+            {t('notFoundBack')}
+          </Link>
+        }
+      />
     );
   }
 
@@ -140,9 +144,9 @@ export function HandDetail({ handId }: HandDetailProps) {
           )}
           <button
             onClick={() => setShowEditor(true)}
-            className="flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white"
+            className="flex min-h-[36px] items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white"
           >
-            <Pencil size={12} />
+            <Pencil size={13} />
             {t('edit')}
           </button>
         </div>
