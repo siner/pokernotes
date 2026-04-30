@@ -15,13 +15,14 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 ## Mejoras Pro (ordenadas por impacto · stickiness Pro)
 
 ### Alto valor, esfuerzo medio
+- [ ] **Hand history per player** — guardar manos concretas jugadas contra cada jugador. Entrada free-text o voz (reutiliza `useSpeechToText`); IA estructura a campos canónicos (posición, hero hand, board, acción por street, resultado/pot) + narrativa libre + tags. Vinculada a `playerId` + opcional `sessionId`. Buscable, filtrable por board/posición/tags, compartible. Diferenciador real: no hay buen tracker de hand history para live poker. Probable Pro-only por coste IA y volumen de almacenamiento.
 - [ ] **Share player user-to-user** — desbloquear `sharedPlayers` (ya en schema). Modelo: `(ownerUserId, recipientUserId, playerId, scope)`. Notificación in-app. Resuelve bloqueo legal del modelo público que dejamos diferido.
 - [x] **Cross-session player recognition** — PR #32. Matching por nickname + venue con vista de historial en `PlayerDetail`.
 - [ ] **Stats por jugador** — hands jugadas, sesiones, tags más frecuentes, timeline de notas. Roadmap v1.2 actual; subirlo si retención flojea.
 
 ### Alto valor, esfuerzo bajo
 - [x] **Búsqueda full-text** — PR #38. Client-side sobre IDB (no FTS5 en D1: los Pro ya tienen todo en local via sync, dataset pequeño). Matchea nickname/description/tags/contenido de notas (token-AND, diacritic-insensitive).
-- [ ] **Voz → nota** (Web Speech API en cliente, transcripción local; texto pasa por el AI structuring existente). Diferenciador real para tomar notas en vivo sin teclear.
+- [x] **Voz → nota** — PR #44. Web Speech API client-side (Safari prefix incluido), final segments append live al textarea, interim transcript visible. Reutilizable en NoteComposer + QuickNoteSheet. Locale → BCP-47 (`en-US`/`es-ES`).
 - [ ] **Export PDF** — el PRD lo lista junto con el CSV ya entregado en Sprint 6. Reusar el data layer del export, añadir generación PDF.
 - [ ] **Apple Sign-In** — iOS PWA es el sweet spot del producto. Hoy sólo Google OAuth.
 
@@ -52,3 +53,4 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 - ✅ AI rate limit tier-aware + `ai_usage` log + admin panel + Unosend + unify users (PRs #34–#37).
 - ✅ Búsqueda FTS + email verification/welcome + AI prompts por locale (PRs #38–#40).
 - ✅ Umami analytics junto a Cloudflare Web Analytics (PR pendiente).
+- ✅ Voz → nota (Web Speech API + dictado en composers) — PR #44.
