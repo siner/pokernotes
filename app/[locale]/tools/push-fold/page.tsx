@@ -40,10 +40,10 @@ export default async function PushFoldPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <header>
-        <h1 className="mb-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h1 className="mb-2 text-balance text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
           {t('title')}
         </h1>
-        <p className="text-lg text-slate-400">{t('metaDescription')}</p>
+        <p className="text-pretty text-base text-slate-400 sm:text-lg">{t('metaDescription')}</p>
       </header>
 
       <main>

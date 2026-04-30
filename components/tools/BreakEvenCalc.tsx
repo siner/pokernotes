@@ -39,13 +39,13 @@ export function BreakEvenCalc() {
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-6 shadow-xl"
+      className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-4 shadow-xl sm:p-6"
       style={{
         backgroundImage: 'radial-gradient(circle, rgba(16,185,129,0.04) 1px, transparent 1px)',
         backgroundSize: '20px 20px',
       }}
     >
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
         {/* Inputs */}
         <div className="space-y-5">
           <div>
@@ -99,14 +99,14 @@ export function BreakEvenCalc() {
         {/* Results */}
         <div className="flex flex-col gap-4">
           {/* Break-even panel */}
-          <div className="flex-1 rounded-xl border border-slate-800 bg-slate-950/60 p-5">
+          <div className="flex-1 rounded-xl border border-slate-800 bg-slate-950/60 p-4 sm:p-5">
             <div className="mb-1 flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
                 Break-Even (attacker)
               </p>
             </div>
-            <p className={`font-mono text-5xl font-bold tracking-tight ${beColor}`}>
+            <p className={`font-mono text-4xl font-bold tracking-tight sm:text-5xl ${beColor}`}>
               {hasValues ? `${result.breakEvenPct.toFixed(1)}%` : '—'}
             </p>
             <p className="mt-2 text-xs text-slate-600">
@@ -115,14 +115,14 @@ export function BreakEvenCalc() {
           </div>
 
           {/* MDF panel */}
-          <div className="flex-1 rounded-xl border border-slate-800 bg-slate-950/60 p-5">
+          <div className="flex-1 rounded-xl border border-slate-800 bg-slate-950/60 p-4 sm:p-5">
             <div className="mb-1 flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
                 MDF (defender)
               </p>
             </div>
-            <p className={`font-mono text-5xl font-bold tracking-tight ${mdfColor}`}>
+            <p className={`font-mono text-4xl font-bold tracking-tight sm:text-5xl ${mdfColor}`}>
               {hasValues ? `${result.mdfPct.toFixed(1)}%` : '—'}
             </p>
             <p className="mt-2 text-xs text-slate-600">Minimum of your range you must continue</p>
@@ -130,15 +130,21 @@ export function BreakEvenCalc() {
 
           {/* Pot after call */}
           {hasValues && (
-            <div className="rounded-xl border border-slate-800/60 bg-slate-950/40 px-4 py-3 text-sm text-slate-500">
-              Pot if called:{' '}
-              <span className="font-mono font-semibold text-slate-300">
-                {result.potAfterBet.toLocaleString()}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-slate-800/60 bg-slate-950/40 px-4 py-3 text-sm text-slate-500">
+              <span>
+                Pot if called:{' '}
+                <span className="font-mono font-semibold text-slate-300">
+                  {result.potAfterBet.toLocaleString()}
+                </span>
               </span>
-              <span className="mx-3 text-slate-700">·</span>
-              Bet/Pot ratio:{' '}
-              <span className="font-mono font-semibold text-slate-300">
-                {result.betToPotRatio}x
+              <span className="text-slate-700" aria-hidden="true">
+                ·
+              </span>
+              <span>
+                Bet/Pot ratio:{' '}
+                <span className="font-mono font-semibold text-slate-300">
+                  {result.betToPotRatio}x
+                </span>
               </span>
             </div>
           )}

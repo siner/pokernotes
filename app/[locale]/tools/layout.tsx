@@ -8,7 +8,7 @@ export default async function ToolsLayout({ children }: { children: ReactNode })
   const t = await getTranslations('nav');
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+    <div className="mx-auto w-full min-w-0 max-w-3xl px-4 py-8 sm:px-6">
       <div className="mb-6 flex items-center">
         <Link
           href="/"
@@ -18,7 +18,7 @@ export default async function ToolsLayout({ children }: { children: ReactNode })
           {t('backToHome')}
         </Link>
       </div>
-      <div className="mb-8">
+      <div className="mb-8 min-w-0">
         <ToolsNav />
       </div>
       {children}

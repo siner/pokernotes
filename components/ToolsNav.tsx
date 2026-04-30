@@ -18,7 +18,7 @@ export function ToolsNav() {
   return (
     <nav
       aria-label="Calculator navigation"
-      className="flex gap-1 overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/50 p-1 scrollbar-none"
+      className="flex w-full min-w-0 gap-1 overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/50 p-1 scrollbar-none"
     >
       {TOOLS.map(({ key, href }) => {
         const isActive = pathname === href || pathname.startsWith(href + '/');
