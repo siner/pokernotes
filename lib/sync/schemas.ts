@@ -84,13 +84,34 @@ export const SessionPatchSchema = SessionPayloadSchema.partial().extend({
   updatedAt: dateLike,
 });
 
+// `structuredData` is the AI structuring output. Validated as a generic
+// record here; the strict shape lives in lib/ai/handStructurer and is
+// applied at AI parse time. Keeping the sync schema permissive lets us
+// evolve the AI fields without forcing a sync schema migration.
+const structuredDataSchema = z.record(z.string(), z.unknown());
+
+export const HandPayloadSchema = z.object({
+  id: z.string().min(1),
+  playerId: optStr(200),
+  sessionId: optStr(200),
+  rawDescription: z.string().min(1).max(8000),
+  structuredData: structuredDataSchema,
+  aiProcessed: optBool(false),
+  shareToken: optStr(80),
+  shareCreatedAt: optDateLike,
+  createdAt: dateLike,
+  updatedAt: dateLike,
+});
+
 export const SyncImportSchema = z.object({
   players: z.array(PlayerPayloadSchema).default([]),
   notes: z.array(NotePayloadSchema).default([]),
   sessions: z.array(SessionPayloadSchema).default([]),
+  hands: z.array(HandPayloadSchema).default([]),
 });
 
 export type PlayerPayload = z.infer<typeof PlayerPayloadSchema>;
 export type NotePayload = z.infer<typeof NotePayloadSchema>;
 export type SessionPayload = z.infer<typeof SessionPayloadSchema>;
+export type HandPayload = z.infer<typeof HandPayloadSchema>;
 export type SyncImportPayload = z.infer<typeof SyncImportSchema>;

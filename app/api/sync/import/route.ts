@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { players, notes, pokerSessions } from '@/lib/db/schema';
+import { players, notes, pokerSessions, hands } from '@/lib/db/schema';
 import { requireProUser } from '@/lib/auth/requireProUser';
 import { SyncImportSchema } from '@/lib/sync/schemas';
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { players: ps, notes: ns, sessions: ss } = parsed.data;
+  const { players: ps, notes: ns, sessions: ss, hands: hs } = parsed.data;
 
   // Last-write-wins: only overwrite if incoming updatedAt is newer than stored.
   for (const p of ps) {
@@ -124,8 +124,45 @@ export async function POST(request: Request) {
       });
   }
 
+  for (const h of hs) {
+    await db
+      .insert(hands)
+      .values({
+        id: h.id,
+        userId,
+        playerId: h.playerId,
+        sessionId: h.sessionId,
+        rawDescription: h.rawDescription,
+        structuredData: h.structuredData,
+        aiProcessed: h.aiProcessed,
+        shareToken: h.shareToken,
+        shareCreatedAt: h.shareCreatedAt,
+        createdAt: h.createdAt,
+        updatedAt: h.updatedAt,
+      })
+      .onConflictDoUpdate({
+        target: hands.id,
+        set: {
+          playerId: h.playerId,
+          sessionId: h.sessionId,
+          rawDescription: h.rawDescription,
+          structuredData: h.structuredData,
+          aiProcessed: h.aiProcessed,
+          shareToken: h.shareToken,
+          shareCreatedAt: h.shareCreatedAt,
+          updatedAt: h.updatedAt,
+        },
+        setWhere: sql`${hands.userId} = ${userId} AND excluded.updated_at > ${hands.updatedAt}`,
+      });
+  }
+
   return Response.json({
     ok: true,
-    imported: { players: ps.length, notes: ns.length, sessions: ss.length },
+    imported: {
+      players: ps.length,
+      notes: ns.length,
+      sessions: ss.length,
+      hands: hs.length,
+    },
   });
 }
