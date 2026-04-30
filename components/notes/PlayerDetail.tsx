@@ -285,17 +285,36 @@ export function PlayerDetail({ playerId }: PlayerDetailProps) {
 
       {/* Tabs */}
       <div className="mb-4 flex gap-0.5 rounded-xl border border-slate-800 bg-slate-900/40 p-1">
-        {(['notes', 'hands', 'info'] as Tab[]).map((tabKey) => (
-          <button
-            key={tabKey}
-            onClick={() => setTab(tabKey)}
-            className={`flex-1 rounded-lg py-2 text-sm font-medium transition-colors ${
-              tab === tabKey ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-300'
-            }`}
-          >
-            {tabKey === 'hands' ? tHands('tab') : t(`tabs.${tabKey as 'notes' | 'info'}`)}
-          </button>
-        ))}
+        {(['notes', 'hands', 'info'] as Tab[]).map((tabKey) => {
+          const label =
+            tabKey === 'hands' ? tHands('tab') : t(`tabs.${tabKey as 'notes' | 'info'}`);
+          // Counters are advisory; only show when there's something to count so
+          // the tab labels stay clean in empty states.
+          const count =
+            tabKey === 'notes' ? notes.length : tabKey === 'hands' ? hands.length : null;
+          return (
+            <button
+              key={tabKey}
+              onClick={() => setTab(tabKey)}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-medium transition-colors ${
+                tab === tabKey ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              <span>{label}</span>
+              {count !== null && count > 0 && (
+                <span
+                  className={`rounded-full px-1.5 py-0.5 font-mono text-[10px] leading-none ${
+                    tab === tabKey
+                      ? 'bg-emerald-500/20 text-emerald-300'
+                      : 'bg-slate-800 text-slate-500'
+                  }`}
+                >
+                  {count}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Notes tab */}
