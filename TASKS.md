@@ -15,13 +15,8 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 ## Mejoras Pro (ordenadas por impacto · stickiness Pro)
 
 ### Alto valor, esfuerzo medio
-- [~] **Hand history per player** — guardar manos concretas jugadas contra cada jugador. Entrada free-text o voz (reutiliza `useSpeechToText`); IA estructura a campos canónicos (posición, hero hand, board, acción por street, resultado/pot) + narrativa libre + tags. Vinculada a `playerId` + opcional `sessionId`. Buscable, filtrable por board/posición/tags, compartible. Pro-only.
-  - [x] Spike IA (rama `spike/hand-history-ai-v2`): endpoint `POST /api/ai/structure-hand`, schema zod loose, prompt v2 con anti-invención + alias normalizers para posiciones/stakes. Validado con 7 casos EN/ES — green-light.
-  - [ ] DB schema (`hands` table en D1) + IDB local + sync.
-  - [ ] CRUD endpoints (`/api/hands`).
-  - [ ] UI: form de entrada (voz+texto+IA), lista y detalle, edición, vinculación opcional player/session.
-  - [ ] Pro gate UI + entrada en pricing/features.
-  - [ ] Public share link anonimizado (post-MVP).
+- [x] **Hand history per player** — PRs #45 (spike IA), #47 (foundation), #48 (UI), #49 (wake-lock + edit), #52 (lista standalone). Entrada free-text o voz, IA estructura a campos canónicos + narrativa + tags. Vinculada opcional a `playerId`/`sessionId`. Buscable. Pro-only. Tabla `hands` en D1 + IDB v3 + sync LWW. Detalle editable con re-estructurar. `/hands` standalone con búsqueda token-AND.
+  - [ ] **Pendiente:** entrada en pricing/features page (mención del feature). Public share link anonimizado (columna `shareToken` ya reservada en DB).
 - [ ] **Share player user-to-user** — desbloquear `sharedPlayers` (ya en schema). Modelo: `(ownerUserId, recipientUserId, playerId, scope)`. Notificación in-app. Resuelve bloqueo legal del modelo público que dejamos diferido.
 - [x] **Cross-session player recognition** — PR #32. Matching por nickname + venue con vista de historial en `PlayerDetail`.
 - [ ] **Stats por jugador** — hands jugadas, sesiones, tags más frecuentes, timeline de notas. Roadmap v1.2 actual; subirlo si retención flojea.
@@ -37,6 +32,7 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 - [x] **Email verification** — PR #39. Better Auth `sendOnSignUp: true` + `autoSignInAfterVerification: true`. Nudge-only: banner en `/settings` con botón Resend (no se gatea sign-in).
 - [x] **Welcome email** post-upgrade Pro — PR #39. Trigger en `checkout.session.completed`, idempotency via `processedStripeEvents`. Bonus: extraído `lib/email/templates.ts` (EN/ES) y arreglado el `sendResetPassword` que estaba en inglés.
 - [x] **Prompts AI por idioma** — PR #40. Directive en CAPS al inicio Y al final del system prompt, one-shot con input en idioma OPUESTO al output para forzar la regla.
+- [x] **Mobile-first UX** — PRs #50–#52. Tier-aware header (logo→/notes logueado, Pricing oculto Pro), `/`→`/notes` redirect, BottomNav móvil (Notes/Sesión/Tools/Settings + active session dot), EmptyState/LoadingState/SkeletonCard compartidos, touch targets ≥44px, modal padding consistente, aria-label cleanup, tab counters en PlayerDetail, footer oculto en móvil logueado, h1 sizes consistentes.
 - [ ] **Quick-actions móvil** — swipe to delete/archive en `PlayerList`, long-press para tag rápido.
 
 ---
@@ -61,3 +57,5 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 - ✅ Búsqueda FTS + email verification/welcome + AI prompts por locale (PRs #38–#40).
 - ✅ Umami analytics junto a Cloudflare Web Analytics (PR pendiente).
 - ✅ Voz → nota (Web Speech API + dictado en composers) — PR #44.
+- ✅ Hand history per player (spike IA + DB + UI + edición + lista standalone) — PRs #45, #47, #48, #49, #52.
+- ✅ Mobile-first UX rework (tier-aware nav, BottomNav, empty/loading/skeleton, polish) — PRs #50, #51, #52.
