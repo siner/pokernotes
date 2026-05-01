@@ -332,12 +332,18 @@
       "banner": {
         "eyebrow": "Compartido vía PokerReads",
         "title": "Mano de poker en vivo estructurada con IA",
-        "cta": "Probar gratis"
+        "cta": "Probar gratis",
+        "ctaFree": "Hazte Pro"
       },
       "footer": {
         "title": "Toma tus propias notas — gratis",
         "description": "PokerReads es una PWA mobile-first para jugadores de poker en vivo. Guarda reads, calcula odds y estructura tus manos con IA.",
         "cta": "Empezar"
+      },
+      "footerFree": {
+        "title": "¿Quieres compartir tus propias manos?",
+        "description": "Compartir manos en público es una función Pro. Hazte Pro para sincronizar en la nube, subir fotos y publicar enlaces como este.",
+        "cta": "Ver planes Pro"
       }
     }
   },

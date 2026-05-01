@@ -332,12 +332,18 @@
       "banner": {
         "eyebrow": "Shared via PokerReads",
         "title": "AI-structured live poker hand",
-        "cta": "Try free"
+        "cta": "Try free",
+        "ctaFree": "Go Pro"
       },
       "footer": {
         "title": "Take your own notes — for free",
         "description": "PokerReads is a mobile-first PWA for live poker players. Save reads, calculate odds, and structure your hands with AI.",
         "cta": "Get started"
+      },
+      "footerFree": {
+        "title": "Want to share your own hands?",
+        "description": "Public hand sharing is a Pro feature. Upgrade to Pro to sync in the cloud, upload photos, and publish links like this one.",
+        "cta": "See Pro plans"
       }
     }
   },
