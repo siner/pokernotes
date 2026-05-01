@@ -1,13 +1,22 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { Spade } from 'lucide-react';
+import { isAuthenticatedServer } from '@/lib/auth/server';
 
 export async function Footer() {
   const t = await getTranslations('footer');
   const currentYear = new Date().getFullYear();
+  const isAuthed = await isAuthenticatedServer();
+
+  // On mobile, logged-in users have the BottomNav handling navigation —
+  // showing the marketing footer below it doubles up affordances and steals
+  // viewport. Hide on mobile when authed; keep visible on tablet/desktop.
+  const responsiveVisibility = isAuthed ? 'hidden sm:block' : '';
 
   return (
-    <footer className="mt-24 border-t border-slate-800 bg-slate-900/50 pt-16 pb-8">
+    <footer
+      className={`mt-24 border-t border-slate-800 bg-slate-900/50 pt-16 pb-8 ${responsiveVisibility}`}
+    >
       <div className="mx-auto max-w-5xl px-6">
         <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-4">
           <div className="md:col-span-1">

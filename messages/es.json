@@ -156,6 +156,20 @@
     }
   },
   "hands": {
+    "list": {
+      "metaTitle": "Todas las manos | PokerReads",
+      "title": "Todas las manos",
+      "tab": "Manos",
+      "addHand": "Añadir mano",
+      "searchPlaceholder": "Buscar por título, jugador o contenido...",
+      "handCount": "{count, plural, one {# mano} other {# manos}}",
+      "noResults": "Ninguna mano coincide con tu búsqueda",
+      "empty": {
+        "title": "Aún no has guardado manos",
+        "description": "Captura un spot memorable de cualquier sesión. La IA ayuda a estructurarlo.",
+        "cta": "Guardar tu primera mano"
+      }
+    },
     "player": {
       "tab": "Manos",
       "addHand": "Añadir mano",

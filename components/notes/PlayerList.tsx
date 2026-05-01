@@ -12,7 +12,7 @@ import { useStorage, getActiveSessionId, type Player, type Note } from '@/lib/st
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { searchPlayers } from '@/lib/search/searchPlayers';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { LoadingState } from '@/components/ui/LoadingState';
+import { SkeletonCard } from '@/components/ui/SkeletonCard';
 
 const FREE_TIER_LIMIT = 20;
 
@@ -80,7 +80,14 @@ export function PlayerList() {
   const atLimit = tier === 'free' && players.length >= FREE_TIER_LIMIT;
 
   if (!loaded) {
-    return <LoadingState label={tCommon('loading')} />;
+    return (
+      <>
+        <div className="mb-6 flex items-center justify-between gap-3">
+          <div className="motion-safe:animate-pulse h-7 w-32 rounded bg-slate-800" />
+        </div>
+        <SkeletonCard count={4} variant="player" />
+      </>
+    );
   }
 
   return (
