@@ -197,7 +197,71 @@
       "rateLimited": "Límite diario de IA alcanzado. Inténtalo mañana.",
       "saveStructured": "Guardar mano estructurada",
       "saveRaw": "Guardar texto",
-      "saveChanges": "Guardar cambios"
+      "saveChanges": "Guardar cambios",
+      "hintLabel": "Pista para la IA (opcional)",
+      "hintPlaceholder": "ej. El board fue Ah 7c 4d, turn 6s, river Js. El resultado de hero fue +20BB.",
+      "hintHelp": "Indica a la IA qué corregir o añadir. Solo se usa en la siguiente re-estructuración."
+    },
+    "editor": {
+      "title": "Editar mano",
+      "vs": "vs {name}",
+      "save": "Guardar",
+      "missing": "Falta",
+      "unknown": "Sin definir",
+      "sections": {
+        "headline": "Título y resumen",
+        "format": "Formato y stakes",
+        "hero": "Hero",
+        "villain": "Villano",
+        "board": "Mesa",
+        "action": "Acción por calle",
+        "outcome": "Bote y resultado",
+        "keyMoment": "Momento clave",
+        "tags": "Tags",
+        "rawDescription": "Descripción original"
+      },
+      "fields": {
+        "titlePlaceholder": "Título corto (ej. AKs vs QQ all-in por las fichas)",
+        "summaryPlaceholder": "Resumen de la mano en un párrafo.",
+        "format": "Formato",
+        "variant": "Variante",
+        "stakes": "Stakes / buy-in",
+        "stakesPlaceholder": "1/3, 100€ MTT…",
+        "position": "Posición",
+        "cards": "Cartas",
+        "cardsRaw": "O notación libre (ej. AKo, QQ)",
+        "cardsRawPlaceholder": "AKo, QQ, 76s…",
+        "actionPlaceholder": "Qué pasó en esta calle",
+        "potSizePlaceholder": "~600",
+        "heroResult": "Resultado hero",
+        "heroResultPlaceholder": "+20BB, -200…",
+        "keyMomentPlaceholder": "¿Cuál fue la decisión más complicada?"
+      },
+      "variant": {
+        "nlhe": "NLHE",
+        "plo": "PLO",
+        "plo5": "PLO5",
+        "other": "Otra"
+      },
+      "picker": {
+        "hero": "Hero — carta {n}",
+        "villain": "Villano — carta {n}",
+        "flop": "Flop — carta {n}",
+        "turn": "Turn",
+        "river": "River"
+      },
+      "aria": {
+        "heroCard": "Carta {n} de hero",
+        "villainCard": "Carta {n} de villano",
+        "flopCard": "Carta {n} del flop",
+        "turnCard": "Carta del turn",
+        "riverCard": "Carta del river"
+      },
+      "regenerate": {
+        "title": "Re-ejecutar IA",
+        "help": "Añade una pista con lo que la IA no ha pillado y vuelve a ejecutarla. Los campos de abajo se rellenan de nuevo; puedes seguir ajustándolos antes de guardar.",
+        "button": "Re-estructurar con IA"
+      }
     },
     "view": {
       "preflop": "Preflop",

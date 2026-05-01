@@ -67,6 +67,8 @@ export function HandComposer({
   });
   const [aiError, setAiError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  // Hint is shown only after a first AI run, to refine a regenerate.
+  const [hint, setHint] = useState('');
 
   const handleSpeechSegment = useCallback((text: string) => {
     setRawDescription((prev) => (prev ? `${prev.replace(/\s+$/, '')} ${text}` : text));
@@ -88,6 +90,7 @@ export function HandComposer({
           description: rawDescription,
           playerNickname,
           locale,
+          hint: hint.trim() ? hint.trim() : undefined,
         }),
       });
 
@@ -223,6 +226,25 @@ export function HandComposer({
               </span>
             </div>
             <HandStructuredView hand={aiResult} compact />
+          </div>
+        )}
+
+        {/* Hint textarea — shown after a first AI run to refine the regenerate */}
+        {aiResult && (
+          <div className="mb-3">
+            <label className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              {t('hintLabel')}
+            </label>
+            <textarea
+              value={hint}
+              onChange={(e) => setHint(e.target.value)}
+              placeholder={t('hintPlaceholder')}
+              rows={2}
+              maxLength={800}
+              disabled={aiLoading || saving}
+              className="w-full resize-none rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm leading-relaxed text-white placeholder-slate-500 focus:border-slate-600 focus:outline-none disabled:opacity-60"
+            />
+            <p className="mt-1 text-[11px] text-slate-500">{t('hintHelp')}</p>
           </div>
         )}
 

@@ -24,7 +24,7 @@ import {
 } from '@/lib/storage';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { HandStructuredView } from './HandStructuredView';
-import { HandComposer } from './HandComposer';
+import { HandEditor } from './HandEditor';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { LoadingState } from '@/components/ui/LoadingState';
 
@@ -335,8 +335,8 @@ export function HandDetail({ handId }: HandDetailProps) {
 
       {/* Editor modal */}
       {showEditor && (
-        <HandComposer
-          initialHand={hand}
+        <HandEditor
+          hand={hand}
           playerNickname={player?.nickname}
           onSave={handleSaveEdit}
           onClose={() => setShowEditor(false)}

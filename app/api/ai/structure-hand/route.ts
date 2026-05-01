@@ -15,6 +15,13 @@ const RequestSchema = z.object({
   description: z.string().min(20).max(4000),
   playerNickname: z.string().max(80).optional(),
   locale: z.enum(['en', 'es']).optional().default('en'),
+  /**
+   * Optional user hint for re-runs. When present, it is appended to the user
+   * prompt as an explicit correction/clarification and temperature is bumped
+   * so the model actually re-derives the structure rather than echoing the
+   * previous deterministic output.
+   */
+  hint: z.string().max(800).optional(),
 });
 
 const AI_MODEL = '@cf/meta/llama-3.1-8b-instruct' as const;
@@ -47,7 +54,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { description, playerNickname, locale } = parsed.data;
+  const { description, playerNickname, locale, hint } = parsed.data;
 
   // 2. Resolve Cloudflare bindings + DB
   const { env } = await getCloudflareContext({ async: true });
@@ -113,7 +120,15 @@ export async function POST(request: Request) {
 
   // 5. Build prompts
   const systemPrompt = buildSystemPrompt(locale);
-  const userPrompt = buildUserPrompt(description, { playerNickname });
+  const trimmedHint = hint?.trim() || undefined;
+  const userPrompt = buildUserPrompt(description, {
+    playerNickname,
+    hint: trimmedHint,
+  });
+
+  // With a hint we want the model to actually re-derive the structure rather
+  // than echo its previous deterministic output, so we bump the temperature.
+  const temperature = trimmedHint ? 0.5 : 0.2;
 
   // 6. Call Workers AI with retry on parse failure
   let lastError: unknown;
@@ -125,7 +140,7 @@ export async function POST(request: Request) {
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
         ],
-        temperature: 0.2,
+        temperature,
         max_tokens: 900,
       });
 

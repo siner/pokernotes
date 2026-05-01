@@ -197,7 +197,71 @@
       "rateLimited": "Daily AI limit reached. Try again tomorrow.",
       "saveStructured": "Save structured hand",
       "saveRaw": "Save raw text",
-      "saveChanges": "Save changes"
+      "saveChanges": "Save changes",
+      "hintLabel": "Hint for the AI (optional)",
+      "hintPlaceholder": "ej. The board was Ah 7c 4d, turn 6s, river Js. Hero result was +20BB.",
+      "hintHelp": "Tell the AI what to fix or add. Used only on the next re-structure."
+    },
+    "editor": {
+      "title": "Edit hand",
+      "vs": "vs {name}",
+      "save": "Save",
+      "missing": "Missing",
+      "unknown": "Unknown",
+      "sections": {
+        "headline": "Title & summary",
+        "format": "Format & stakes",
+        "hero": "Hero",
+        "villain": "Villain",
+        "board": "Board",
+        "action": "Action by street",
+        "outcome": "Pot & outcome",
+        "keyMoment": "Key moment",
+        "tags": "Tags",
+        "rawDescription": "Original description"
+      },
+      "fields": {
+        "titlePlaceholder": "Short title (e.g. AKs vs QQ all-in for stacks)",
+        "summaryPlaceholder": "One-paragraph summary of the hand.",
+        "format": "Format",
+        "variant": "Variant",
+        "stakes": "Stakes / buy-in",
+        "stakesPlaceholder": "1/3, $100 MTT…",
+        "position": "Position",
+        "cards": "Cards",
+        "cardsRaw": "Or free-form (e.g. AKo, QQ)",
+        "cardsRawPlaceholder": "AKo, QQ, 76s…",
+        "actionPlaceholder": "What happened on this street",
+        "potSizePlaceholder": "~600",
+        "heroResult": "Hero result",
+        "heroResultPlaceholder": "+20BB, -200…",
+        "keyMomentPlaceholder": "What was the toughest decision?"
+      },
+      "variant": {
+        "nlhe": "NLHE",
+        "plo": "PLO",
+        "plo5": "PLO5",
+        "other": "Other"
+      },
+      "picker": {
+        "hero": "Hero — card {n}",
+        "villain": "Villain — card {n}",
+        "flop": "Flop — card {n}",
+        "turn": "Turn",
+        "river": "River"
+      },
+      "aria": {
+        "heroCard": "Hero card {n}",
+        "villainCard": "Villain card {n}",
+        "flopCard": "Flop card {n}",
+        "turnCard": "Turn card",
+        "riverCard": "River card"
+      },
+      "regenerate": {
+        "title": "Re-run AI",
+        "help": "Add a hint with what the AI missed and re-run. The fields below will be repopulated; you can still tweak them before saving.",
+        "button": "Re-structure with AI"
+      }
     },
     "view": {
       "preflop": "Preflop",

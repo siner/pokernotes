@@ -1,57 +1,8 @@
 import { z } from 'zod';
+import { HAND_TAGS } from '@/lib/hands/tags';
 
-// ─── Tag vocabulary ───────────────────────────────────────────────────────────
-//
-// Controlled vocabulary for hand-level tags. English keys, never translated —
-// they are stable identifiers used for filtering and search. Loose enough to
-// describe most live-poker spots without forcing a rigid taxonomy.
-
-export const HAND_TAGS = [
-  // action types
-  'bluff',
-  'semi-bluff',
-  'value-bet',
-  'thin-value',
-  'slowplay',
-  'overbet',
-  'check-raise',
-  'donk-bet',
-  '3bet',
-  '4bet',
-  'squeeze',
-  'cold-call',
-  'iso-raise',
-  'limp',
-  // hero perspective
-  'hero-call',
-  'hero-fold',
-  'hero-shove',
-  'hero-bluff',
-  'hero-trap',
-  // hand archetypes
-  'cooler',
-  'setup',
-  'bad-beat',
-  'suckout',
-  // table dynamics
-  'multiway',
-  'heads-up',
-  'srp',
-  '3bp',
-  '4bp',
-  // board textures
-  'wet-board',
-  'dry-board',
-  'paired-board',
-  'monotone',
-  'two-tone',
-  'straighty',
-  // villain perspective
-  'villain-bluff',
-  'villain-value',
-  'villain-station',
-  'villain-spew',
-] as const;
+// Re-export so external callers that import HAND_TAGS from here keep working.
+export { HAND_TAGS };
 
 const handTagsSet = new Set<string>(HAND_TAGS);
 
@@ -372,12 +323,19 @@ Reminder: ${shot.langDirective}`;
 
 export function buildUserPrompt(
   rawDescription: string,
-  context?: { playerNickname?: string }
+  context?: { playerNickname?: string; hint?: string }
 ): string {
   const contextHint = context?.playerNickname
     ? `\nThe primary opponent (villain) in this hand is referred to as "${context.playerNickname}".`
     : '';
-  return `Structure this poker hand and return JSON:${contextHint}\n\n"${rawDescription}"`;
+  // The hint is treated as an authoritative clarification from the user about
+  // what the previous structuring missed (e.g. exact board, missing position,
+  // corrected result). It does NOT override the FAITHFULNESS rule — anything
+  // the user states in the hint counts as user-stated.
+  const hintLine = context?.hint
+    ? `\nADDITIONAL USER CLARIFICATION (treat as user-stated facts, not invention): ${context.hint}`
+    : '';
+  return `Structure this poker hand and return JSON:${contextHint}${hintLine}\n\n"${rawDescription}"`;
 }
 
 // ─── Response parser ──────────────────────────────────────────────────────────
