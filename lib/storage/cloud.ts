@@ -83,6 +83,7 @@ function deserializeHand(h: ApiHand): Hand {
     aiProcessed: h.aiProcessed ?? false,
     shareToken: h.shareToken ?? undefined,
     shareCreatedAt: toDate(h.shareCreatedAt),
+    shareViewCount: h.shareViewCount ?? 0,
     createdAt: new Date(h.createdAt),
     updatedAt: new Date(h.updatedAt),
   };
@@ -285,6 +286,16 @@ export async function pullCloudState(): Promise<{
     sessions: data.sessions.map(deserializeSession),
     hands: (data.hands ?? []).map(deserializeHand),
   };
+}
+
+export async function enableHandShare(handId: string): Promise<Hand> {
+  const row = await send<ApiHand>('POST', `/api/hands/${handId}/share`);
+  return deserializeHand(row);
+}
+
+export async function disableHandShare(handId: string): Promise<Hand> {
+  const row = await send<ApiHand>('DELETE', `/api/hands/${handId}/share`);
+  return deserializeHand(row);
 }
 
 export async function bulkImportToCloud(payload: {

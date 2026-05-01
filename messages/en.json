@@ -236,7 +236,39 @@
       "deleteConfirm": "Delete this hand? This cannot be undone.",
       "deleteConfirmYes": "Yes, delete",
       "proRequired": "Hand history is a Pro feature.",
-      "proRequiredCta": "Upgrade to Pro"
+      "proRequiredCta": "Upgrade to Pro",
+      "share": {
+        "title": "Share publicly",
+        "idleDescription": "Generate a public link so anyone can view this hand. The original text and any player names stay private — only the AI-structured view is shared.",
+        "activeDescription": "Anyone with this link can view the hand.",
+        "enable": "Enable public link",
+        "disable": "Disable",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "viewCount": "{count, plural, =0 {No views yet} one {# view} other {# views}}",
+        "errorEnable": "Could not enable share. Try again.",
+        "errorDisable": "Could not disable share. Try again.",
+        "errorCopy": "Could not copy to clipboard."
+      }
+    },
+    "share": {
+      "metaTitleFallback": "Shared poker hand",
+      "metaDescriptionFallback": "A poker hand shared via PokerReads.",
+      "notFoundMetaTitle": "Hand not found | PokerReads",
+      "notFoundTitle": "This hand isn't available",
+      "notFoundDescription": "The link may have expired, the hand may have been deleted, or sharing was disabled.",
+      "notFoundCta": "Go to PokerReads",
+      "viewCount": "{count, plural, =0 {No views yet} one {# view} other {# views}}",
+      "banner": {
+        "eyebrow": "Shared via PokerReads",
+        "title": "AI-structured live poker hand",
+        "cta": "Try free"
+      },
+      "footer": {
+        "title": "Take your own notes — for free",
+        "description": "PokerReads is a mobile-first PWA for live poker players. Save reads, calculate odds, and structure your hands with AI.",
+        "cta": "Get started"
+      }
     }
   },
   "tools": {
@@ -441,7 +473,8 @@
       "feature1": "Unlimited player notes",
       "feature2": "Cloud Sync across all devices",
       "feature3": "AI Structuring & voice-to-text",
-      "feature4": "Priority Support"
+      "feature4": "Hand history with shareable public links",
+      "feature5": "Priority Support"
     }
   },
   "footer": {

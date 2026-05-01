@@ -43,6 +43,13 @@
       "when": 1777537758010,
       "tag": "0005_cool_black_bird",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1777623246895,
+      "tag": "0006_fine_big_bertha",
+      "breakpoints": true
     }
   ]
 }

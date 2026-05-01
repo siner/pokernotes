@@ -15,8 +15,7 @@ Estado: `[ ]` pendiente · `[~]` en curso · `[x]` hecho.
 ## Mejoras Pro (ordenadas por impacto · stickiness Pro)
 
 ### Alto valor, esfuerzo medio
-- [x] **Hand history per player** — PRs #45 (spike IA), #47 (foundation), #48 (UI), #49 (wake-lock + edit), #52 (lista standalone). Entrada free-text o voz, IA estructura a campos canónicos + narrativa + tags. Vinculada opcional a `playerId`/`sessionId`. Buscable. Pro-only. Tabla `hands` en D1 + IDB v3 + sync LWW. Detalle editable con re-estructurar. `/hands` standalone con búsqueda token-AND.
-  - [ ] **Pendiente:** entrada en pricing/features page (mención del feature). Public share link anonimizado (columna `shareToken` ya reservada en DB).
+- [x] **Hand history per player** — PRs #45 (spike IA), #47 (foundation), #48 (UI), #49 (wake-lock + edit), #52 (lista standalone), #53 (share pack). Entrada free-text o voz, IA estructura a campos canónicos + narrativa + tags. Vinculada opcional a `playerId`/`sessionId`. Buscable. Pro-only. Tabla `hands` en D1 + IDB v3 + sync LWW. Detalle editable con re-estructurar. `/hands` standalone con búsqueda token-AND. **Public share link anonimizado** entregado: lifecycle API (`POST/DELETE /api/hands/[id]/share`), endpoint público con rate-limit 60/min/IP (`GET /api/hands/share/[token]`), página `/[locale]/hands/share/[token]` + OG image dinámica, contador de vistas (`shareViewCount` server-authoritative, no entra en sync push), feature en pricing.
 - [ ] **Share player user-to-user** — desbloquear `sharedPlayers` (ya en schema). Modelo: `(ownerUserId, recipientUserId, playerId, scope)`. Notificación in-app. Resuelve bloqueo legal del modelo público que dejamos diferido.
 - [x] **Cross-session player recognition** — PR #32. Matching por nickname + venue con vista de historial en `PlayerDetail`.
 - [ ] **Stats por jugador** — hands jugadas, sesiones, tags más frecuentes, timeline de notas. Roadmap v1.2 actual; subirlo si retención flojea.

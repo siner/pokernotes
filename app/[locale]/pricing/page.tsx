@@ -82,6 +82,10 @@ export default async function PricingPage() {
               <Check className="h-5 w-5 shrink-0 text-emerald-500" />
               <span>{t('pro.feature4')}</span>
             </li>
+            <li className="flex items-center gap-3">
+              <Check className="h-5 w-5 shrink-0 text-emerald-500" />
+              <span>{t('pro.feature5')}</span>
+            </li>
           </ul>
           <UpgradeButton>{t('pro.cta')}</UpgradeButton>
         </div>

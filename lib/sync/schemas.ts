@@ -99,6 +99,9 @@ export const HandPayloadSchema = z.object({
   aiProcessed: optBool(false),
   shareToken: optStr(80),
   shareCreatedAt: optDateLike,
+  // shareViewCount is server-authoritative: incremented only by the public
+  // GET endpoint, never by client sync. Returned in pull responses for
+  // display, but ignored on push.
   createdAt: dateLike,
   updatedAt: dateLike,
 });

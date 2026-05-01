@@ -8,6 +8,7 @@ import type { StorageAdapter } from './types';
 
 export type { Player, Note, Session, Hand, StorageAdapter } from './types';
 export { getActiveSessionId, setActiveSessionId } from './local';
+export { enableHandShare, disableHandShare } from './cloud';
 
 export function useStorage(): StorageAdapter {
   const { tier, isLoading } = useUserTier();
