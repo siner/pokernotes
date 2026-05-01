@@ -17,8 +17,10 @@ interface CloudflareEnv {
   STRIPE_SECRET_KEY: string;
   /** Stripe Webhook Secret */
   STRIPE_WEBHOOK_SECRET: string;
-  /** Stripe Pro Price ID */
-  NEXT_PUBLIC_STRIPE_PRO_PRICE_ID: string;
+  /** Stripe Pro Price ID — monthly billing (€4.99/mo) */
+  NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY: string;
+  /** Stripe Pro Price ID — yearly billing (€44.99/yr, ~25% off) */
+  NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_YEARLY: string;
   /** Public App URL */
   NEXT_PUBLIC_APP_URL: string;
 }

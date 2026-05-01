@@ -5,9 +5,17 @@ import { users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
+import { z } from 'zod';
 import { logger } from '@/lib/logger';
 
 const ROUTE = 'stripe.checkout';
+const TRIAL_DAYS = 7;
+
+const checkoutBodySchema = z
+  .object({
+    billingPeriod: z.enum(['monthly', 'yearly']).default('monthly'),
+  })
+  .default({ billingPeriod: 'monthly' });
 
 export async function POST(request: Request) {
   try {
@@ -31,23 +39,30 @@ export async function POST(request: Request) {
 
     const stripe = new Stripe(stripeKey, { apiVersion: '2025-02-24.acacia' });
 
-    let priceId = '';
+    let parsedBody: z.infer<typeof checkoutBodySchema>;
     try {
-      const body = (await request.json()) as { priceId?: string };
-      if (body.priceId) priceId = body.priceId;
-    } catch {
-      // No body / not JSON — fall through to env default.
+      const raw = (await request.json().catch(() => ({}))) as unknown;
+      parsedBody = checkoutBodySchema.parse(raw);
+    } catch (error) {
+      logger.warn('invalid checkout body', { route: ROUTE }, error);
+      return Response.json({ error: 'Invalid request body' }, { status: 400 });
     }
 
-    if (!priceId) {
-      priceId =
-        process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || '';
-    }
+    const { billingPeriod } = parsedBody;
+    const priceId =
+      billingPeriod === 'yearly'
+        ? process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_YEARLY ||
+          env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_YEARLY ||
+          ''
+        : process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY ||
+          env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY ||
+          '';
 
     if (!priceId) {
-      logger.error('missing NEXT_PUBLIC_STRIPE_PRO_PRICE_ID and no priceId in request body', {
+      logger.error('missing Stripe price ID for billing period', {
         route: ROUTE,
         userId: session.user.id,
+        billingPeriod,
       });
       return Response.json({ error: 'Stripe price not configured' }, { status: 500 });
     }
@@ -59,10 +74,17 @@ export async function POST(request: Request) {
     // (e.g. they cancelled and are resubscribing). Passing customer_email
     // instead would create a duplicate Customer record on Stripe's side.
     const existing = await db
-      .select({ stripeCustomerId: users.stripeCustomerId })
+      .select({
+        stripeCustomerId: users.stripeCustomerId,
+        tier: users.tier,
+      })
       .from(users)
       .where(eq(users.id, session.user.id))
       .get();
+
+    // Only offer the trial to genuinely new subscribers. Returning users who
+    // already had Pro shouldn't get another free week each time they re-up.
+    const eligibleForTrial = !existing?.stripeCustomerId && existing?.tier !== 'pro';
 
     const checkoutSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -76,6 +98,7 @@ export async function POST(request: Request) {
       success_url: `${appUrl}/settings?checkout=success`,
       cancel_url: `${appUrl}/pricing?checkout=cancelled`,
       client_reference_id: session.user.id,
+      ...(eligibleForTrial ? { subscription_data: { trial_period_days: TRIAL_DAYS } } : {}),
       ...(existing?.stripeCustomerId
         ? { customer: existing.stripeCustomerId }
         : { customer_email: session.user.email }),

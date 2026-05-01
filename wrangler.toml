@@ -26,4 +26,9 @@ binding = "AI"
 
 [vars]
 NEXT_PUBLIC_APP_URL = "https://pokerreads.app"
-NEXT_PUBLIC_STRIPE_PRO_PRICE_ID = "price_1TNxAm03IQZJpCYqet69zF0B"
+# Stripe Pro price IDs. Create both in the Stripe dashboard (EUR currency):
+#   - Monthly recurring at €4.99/mo
+#   - Yearly recurring at €44.99/yr (~25% off)
+# Replace the placeholders below with the resulting `price_...` IDs.
+NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY = "price_1TNxAm03IQZJpCYqet69zF0B"
+NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_YEARLY = "price_REPLACE_WITH_YEARLY_PRICE_ID"

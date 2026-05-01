@@ -422,8 +422,8 @@ Configure in **Settings → Secrets and variables → Actions**:
 | `GOOGLE_CLIENT_SECRET` | Google OAuth |
 | `STRIPE_SECRET_KEY` | Stripe API |
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook verification |
-| `STRIPE_PRICE_ID_MONTHLY` | Product price ID |
-| `STRIPE_PRICE_ID_YEARLY` | Product price ID |
+| `NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY` | Pro monthly price ID (€4.99/mo) |
+| `NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_YEARLY` | Pro yearly price ID (€44.99/yr) |
 
 Use **GitHub Environments** (staging, production) to scope secrets and require manual approval for production deploys if desired.
 

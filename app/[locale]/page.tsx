@@ -45,9 +45,9 @@ export default async function HomePage({ params }: Props) {
     offers: {
       '@type': 'AggregateOffer',
       lowPrice: '0',
-      highPrice: '7',
-      priceCurrency: 'USD',
-      offerCount: 2,
+      highPrice: '44.99',
+      priceCurrency: 'EUR',
+      offerCount: 3,
     },
   } as const;
 

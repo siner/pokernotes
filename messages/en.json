@@ -532,6 +532,12 @@
     "metaDescription": "Upgrade to PokerReads Pro for unlimited cloud-synced player reads.",
     "headline": "Simple, transparent pricing.",
     "subtitle": "Free calculators for everyone. Take notes locally for free. Upgrade to Pro for unlimited cloud storage and AI syncing.",
+    "billing": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "savings": "Save 25%"
+    },
+    "trialBanner": "Start with 7 days free · Cancel anytime",
     "free": {
       "name": "Free",
       "amount": "Free",
@@ -543,9 +549,14 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "$7/mo",
+      "priceMonthly": "€4.99",
+      "priceMonthlyPeriod": "/mo",
+      "priceYearly": "€44.99",
+      "priceYearlyPeriod": "/yr",
+      "priceYearlyEquivalent": "≈ €3.75/mo",
       "badge": "POPULAR",
-      "cta": "Upgrade to Pro",
+      "trialNote": "7-day free trial — pay nothing today",
+      "cta": "Start free trial",
       "feature1": "Unlimited player notes",
       "feature2": "Cloud Sync across all devices",
       "feature3": "AI Structuring & voice-to-text",

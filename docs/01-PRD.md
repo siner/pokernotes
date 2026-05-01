@@ -163,7 +163,10 @@ All calculators are:
 
 ## 8. Monetization Strategy
 
-1. **Pro subscription**: $5/month via Stripe
+1. **Pro subscription** via Stripe, EUR-denominated:
+   - €4.99/month
+   - €44.99/year (~25% off — equivalent to €3.75/mo)
+   - **7-day free trial** on the first subscription (card collected up front, no charge during trial). Returning subscribers are not eligible for repeat trials.
 2. **Affiliate links**: Subtle placements on calculator pages linking to poker rooms (GGPoker, PokerStars, 888poker) — high CPA commissions
 3. **Future**: B2B license for cardrooms (share PokerReads with your poker club members)
 

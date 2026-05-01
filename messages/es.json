@@ -532,6 +532,12 @@
     "metaDescription": "Pasa a PokerReads Pro y accede a notas ilimitadas sincronizadas en la nube.",
     "headline": "Precios simples y transparentes.",
     "subtitle": "Calculadoras gratis para todos. Toma notas en local de forma gratuita. Pasa a Pro para acceso ilimitado a la nube y sincronización con IA.",
+    "billing": {
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "savings": "Ahorra 25%"
+    },
+    "trialBanner": "Empieza con 7 días gratis · Cancela cuando quieras",
     "free": {
       "name": "Gratis",
       "amount": "Gratis",
@@ -543,9 +549,14 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "7€/mes",
+      "priceMonthly": "4,99€",
+      "priceMonthlyPeriod": "/mes",
+      "priceYearly": "44,99€",
+      "priceYearlyPeriod": "/año",
+      "priceYearlyEquivalent": "≈ 3,75€/mes",
       "badge": "POPULAR",
-      "cta": "Pasarse a Pro",
+      "trialNote": "7 días de prueba gratis — hoy no pagas nada",
+      "cta": "Empezar prueba gratis",
       "feature1": "Notas ilimitadas de jugadores",
       "feature2": "Sincronización en la nube entre dispositivos",
       "feature3": "IA para estructurar notas y transcripción de voz",
