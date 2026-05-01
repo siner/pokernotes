@@ -4,16 +4,18 @@ import { ChevronRight, Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { Hand } from '@/lib/storage';
+import { parseCards } from '@/lib/hands/parseCards';
+import { CardRow } from './PlayingCard';
 
 interface HandCardProps {
   hand: Hand;
 }
 
-const RESULT_COLOR: Record<string, string> = {
-  hero_won: 'text-emerald-400',
-  hero_lost: 'text-rose-400',
-  split: 'text-amber-400',
-  no_showdown: 'text-slate-400',
+const RESULT_DOT: Record<string, string> = {
+  hero_won: 'bg-emerald-400',
+  hero_lost: 'bg-rose-400',
+  split: 'bg-amber-400',
+  no_showdown: 'bg-slate-500',
 };
 
 export function HandCard({ hand }: HandCardProps) {
@@ -32,7 +34,9 @@ export function HandCard({ hand }: HandCardProps) {
 
   const title = data.title ?? hand.rawDescription.slice(0, 80);
   const result = data.result ?? 'unknown';
-  const resultClass = RESULT_COLOR[result] ?? '';
+  const dot = RESULT_DOT[result];
+  const heroCards = parseCards(data.heroHand);
+  const boardCards = parseCards(data.board);
   const dateLabel = hand.createdAt.toLocaleDateString(undefined, {
     month: 'short',
     day: 'numeric',
@@ -42,26 +46,36 @@ export function HandCard({ hand }: HandCardProps) {
   return (
     <Link
       href={`/hands/${hand.id}`}
-      className="flex items-stretch gap-3 rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 transition-colors hover:border-slate-700 hover:bg-slate-900"
+      className="group relative flex items-stretch gap-3 overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 transition-all hover:border-slate-700 hover:bg-slate-900"
     >
+      {/* Result accent stripe */}
+      {dot && <span className={`absolute inset-y-0 left-0 w-0.5 ${dot}`} aria-hidden="true" />}
+
       <div className="min-w-0 flex-1">
         {/* Header */}
-        <div className="mb-1 flex items-start gap-2">
+        <div className="mb-2 flex items-start gap-2">
           {hand.aiProcessed && (
             <Sparkles size={12} className="mt-1 shrink-0 text-emerald-400" aria-hidden="true" />
           )}
           <h3 className="line-clamp-2 flex-1 text-sm font-semibold text-white">{title}</h3>
         </div>
 
+        {/* Cards row: hero + board */}
+        {(heroCards.length > 0 || boardCards.length > 0) && (
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            {heroCards.length > 0 && <CardRow cards={heroCards} size="xs" />}
+            {heroCards.length > 0 && boardCards.length > 0 && (
+              <span className="font-mono text-[10px] uppercase tracking-wider text-slate-600">
+                /
+              </span>
+            )}
+            {boardCards.length > 0 && <CardRow cards={boardCards} size="xs" />}
+          </div>
+        )}
+
         {/* Meta line */}
         <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-slate-500">
           <span>{dateLabel}</span>
-          {data.heroHand && (
-            <>
-              <span>·</span>
-              <span className="font-mono text-slate-400">{data.heroHand}</span>
-            </>
-          )}
           {data.heroPosition && (
             <>
               <span>·</span>
@@ -73,16 +87,10 @@ export function HandCard({ hand }: HandCardProps) {
               </span>
             </>
           )}
-          {data.board && (
-            <>
-              <span>·</span>
-              <span className="font-mono text-slate-400">{data.board}</span>
-            </>
-          )}
           {data.heroResult && (
             <>
               <span>·</span>
-              <span className={`font-mono ${resultClass}`}>{data.heroResult}</span>
+              <span className="font-mono text-slate-300">{data.heroResult}</span>
             </>
           )}
         </div>
@@ -105,7 +113,10 @@ export function HandCard({ hand }: HandCardProps) {
         )}
       </div>
 
-      <ChevronRight size={16} className="shrink-0 self-center text-slate-600" />
+      <ChevronRight
+        size={16}
+        className="shrink-0 self-center text-slate-600 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-400"
+      />
     </Link>
   );
 }
