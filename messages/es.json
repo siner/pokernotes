@@ -190,6 +190,11 @@
       "flop": "Flop",
       "turn": "Turn",
       "river": "River",
+      "hero": "Hero",
+      "villain": "Villano",
+      "board": "Mesa",
+      "action": "Acción",
+      "potSize": "Bote",
       "keyMoment": "Momento clave",
       "heroPosition": "Hero {pos}",
       "villainPosition": "Villano {pos}",
@@ -200,6 +205,7 @@
         "tournament": "Torneo"
       },
       "result": {
+        "label": "Resultado",
         "hero_won": "Ganada",
         "hero_lost": "Perdida",
         "split": "Empate",

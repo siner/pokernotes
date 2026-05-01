@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { and, eq, isNotNull, isNull } from 'drizzle-orm';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
-import { ArrowRight, Eye } from 'lucide-react';
+import { ArrowRight, Eye, Sparkles } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { getDb } from '@/lib/db';
 import { hands } from '@/lib/db/schema';
@@ -109,21 +109,32 @@ export default async function SharedHandPage({ params }: Props) {
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-8">
-      {/* Banner: shared hand attribution + CTA */}
-      <div className="mb-6 flex flex-col gap-1.5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-400">
-            {t('banner.eyebrow')}
-          </p>
-          <p className="text-sm text-slate-300">{t('banner.title')}</p>
+      {/* Hero banner */}
+      <div className="relative mb-6 overflow-hidden rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-transparent p-5">
+        <div
+          className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-emerald-500/15 blur-3xl"
+          aria-hidden="true"
+        />
+        <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/30">
+              <Sparkles size={18} aria-hidden="true" />
+            </div>
+            <div>
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-emerald-400">
+                {t('banner.eyebrow')}
+              </p>
+              <p className="text-sm font-semibold text-white">{t('banner.title')}</p>
+            </div>
+          </div>
+          <Link
+            href="/"
+            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-emerald-500 px-4 text-xs font-bold text-slate-950 shadow-md shadow-emerald-500/20 transition-colors hover:bg-emerald-400"
+          >
+            {t('banner.cta')}
+            <ArrowRight size={13} />
+          </Link>
         </div>
-        <Link
-          href="/"
-          className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg bg-emerald-500 px-3 text-xs font-semibold text-slate-950 hover:bg-emerald-400"
-        >
-          {t('banner.cta')}
-          <ArrowRight size={13} />
-        </Link>
       </div>
 
       {/* Meta */}
@@ -136,7 +147,7 @@ export default async function SharedHandPage({ params }: Props) {
       </div>
 
       {/* Structured view */}
-      <div className="mb-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+      <div className="mb-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-2xl shadow-black/20">
         <HandStructuredView hand={data} />
       </div>
 

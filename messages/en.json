@@ -190,6 +190,11 @@
       "flop": "Flop",
       "turn": "Turn",
       "river": "River",
+      "hero": "Hero",
+      "villain": "Villain",
+      "board": "Board",
+      "action": "Action",
+      "potSize": "Pot",
       "keyMoment": "Key moment",
       "heroPosition": "Hero {pos}",
       "villainPosition": "Villain {pos}",
@@ -200,6 +205,7 @@
         "tournament": "Tournament"
       },
       "result": {
+        "label": "Result",
         "hero_won": "Won",
         "hero_lost": "Lost",
         "split": "Split",
