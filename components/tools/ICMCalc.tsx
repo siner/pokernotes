@@ -149,63 +149,53 @@ export function ICMCalc() {
           </p>
         </div>
 
-        <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
-          <table className="w-full min-w-[420px] text-left text-sm">
-            <thead>
-              <tr className="border-b border-slate-800">
-                <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-slate-500">
-                  Player
-                </th>
-                <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-slate-500">
-                  Chips
-                </th>
-                <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-slate-500">
-                  ICM Value
-                </th>
-                <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-slate-500">
-                  % Pool
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/60">
-              {stacks.map((stack, i) => {
-                const icmValue = results[i] ?? 0;
-                const chipPct = totalChips > 0 ? (stack / totalChips) * 100 : 0;
-                const poolPct = totalPrize > 0 ? (icmValue / totalPrize) * 100 : 0;
-                const isChipLeader = i === stacks.indexOf(Math.max(...stacks));
-                return (
-                  <tr key={`res-${i}`} className="transition-colors hover:bg-slate-800/20">
-                    <td className="px-4 py-3 text-slate-400">
-                      P{i + 1}
-                      {isChipLeader && (
-                        <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-amber-500/70">
-                          lead
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="font-mono text-sm text-slate-300">
-                        {stack.toLocaleString()}
-                      </div>
-                      <div className="text-[10px] text-slate-600">{chipPct.toFixed(1)}% chips</div>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <span className="font-mono font-semibold text-emerald-400">
-                        {currencySymbol}
-                        {icmValue.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}
+        <div className="rounded-xl border border-slate-800 bg-slate-950/60">
+          <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 border-b border-slate-800 px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-slate-500 sm:px-4">
+            <span>Player</span>
+            <span>Chips</span>
+            <span className="text-right">ICM Value</span>
+          </div>
+          <div className="divide-y divide-slate-800/60">
+            {stacks.map((stack, i) => {
+              const icmValue = results[i] ?? 0;
+              const chipPct = totalChips > 0 ? (stack / totalChips) * 100 : 0;
+              const poolPct = totalPrize > 0 ? (icmValue / totalPrize) * 100 : 0;
+              const isChipLeader = i === stacks.indexOf(Math.max(...stacks));
+              return (
+                <div
+                  key={`res-${i}`}
+                  className="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 px-3 py-3 transition-colors hover:bg-slate-800/20 sm:px-4"
+                >
+                  <div className="flex items-center gap-1.5 text-slate-400">
+                    <span className="font-mono text-sm">P{i + 1}</span>
+                    {isChipLeader && (
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-500/70">
+                        lead
                       </span>
-                    </td>
-                    <td className="px-4 py-3 text-right font-mono text-xs text-slate-500">
-                      {poolPct.toFixed(1)}%
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate font-mono text-sm text-slate-300">
+                      {stack.toLocaleString()}
+                    </div>
+                    <div className="text-[10px] text-slate-600">{chipPct.toFixed(1)}% chips</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-mono text-sm font-semibold text-emerald-400">
+                      {currencySymbol}
+                      {icmValue.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                    <div className="font-mono text-[10px] text-slate-500">
+                      {poolPct.toFixed(1)}% pool
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {stacks.length > 0 && results.length > 0 && (
