@@ -222,7 +222,39 @@
       "deleteConfirm": "¿Eliminar esta mano? No se puede deshacer.",
       "deleteConfirmYes": "Sí, eliminar",
       "proRequired": "Historial de manos es una función Pro.",
-      "proRequiredCta": "Hazte Pro"
+      "proRequiredCta": "Hazte Pro",
+      "share": {
+        "title": "Compartir públicamente",
+        "idleDescription": "Genera un enlace público para que cualquiera pueda ver esta mano. El texto original y los nombres de jugadores se mantienen privados — solo se comparte la vista estructurada por IA.",
+        "activeDescription": "Cualquiera con este enlace puede ver la mano.",
+        "enable": "Activar enlace público",
+        "disable": "Desactivar",
+        "copy": "Copiar",
+        "copied": "¡Copiado!",
+        "viewCount": "{count, plural, =0 {Sin visitas aún} one {# visita} other {# visitas}}",
+        "errorEnable": "No se pudo activar. Inténtalo de nuevo.",
+        "errorDisable": "No se pudo desactivar. Inténtalo de nuevo.",
+        "errorCopy": "No se pudo copiar al portapapeles."
+      }
+    },
+    "share": {
+      "metaTitleFallback": "Mano de poker compartida",
+      "metaDescriptionFallback": "Una mano de poker compartida vía PokerReads.",
+      "notFoundMetaTitle": "Mano no encontrada | PokerReads",
+      "notFoundTitle": "Esta mano no está disponible",
+      "notFoundDescription": "El enlace puede haber caducado, la mano se eliminó o se desactivó la compartición.",
+      "notFoundCta": "Ir a PokerReads",
+      "viewCount": "{count, plural, =0 {Sin visitas aún} one {# visita} other {# visitas}}",
+      "banner": {
+        "eyebrow": "Compartido vía PokerReads",
+        "title": "Mano de poker en vivo estructurada con IA",
+        "cta": "Probar gratis"
+      },
+      "footer": {
+        "title": "Toma tus propias notas — gratis",
+        "description": "PokerReads es una PWA mobile-first para jugadores de poker en vivo. Guarda reads, calcula odds y estructura tus manos con IA.",
+        "cta": "Empezar"
+      }
     }
   },
   "tools": {
@@ -427,7 +459,8 @@
       "feature1": "Notas ilimitadas de jugadores",
       "feature2": "Sincronización en la nube entre dispositivos",
       "feature3": "IA para estructurar notas y transcripción de voz",
-      "feature4": "Soporte prioritario"
+      "feature4": "Historial de manos con enlaces públicos compartibles",
+      "feature5": "Soporte prioritario"
     }
   },
   "footer": {

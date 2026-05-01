@@ -1,0 +1,1 @@
+ALTER TABLE `hands` ADD `share_view_count` integer DEFAULT 0 NOT NULL;

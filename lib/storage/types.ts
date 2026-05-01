@@ -48,6 +48,7 @@ export interface Hand {
   aiProcessed: boolean;
   shareToken?: string;
   shareCreatedAt?: Date;
+  shareViewCount?: number;
   createdAt: Date;
   updatedAt: Date;
 }

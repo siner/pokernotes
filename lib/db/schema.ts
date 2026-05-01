@@ -187,10 +187,12 @@ export const hands = sqliteTable('hands', {
 
   aiProcessed: integer('ai_processed', { mode: 'boolean' }).notNull().default(false),
 
-  // Public share (post-MVP). Token is generated on demand; nullable means
-  // the hand is private.
+  // Public share. Token is generated on demand; nullable means the hand is
+  // private. `shareViewCount` is best-effort (incremented on each public
+  // GET, no concurrency guard).
   shareToken: text('share_token').unique(),
   shareCreatedAt: integer('share_created_at', { mode: 'timestamp' }),
+  shareViewCount: integer('share_view_count').notNull().default(0),
 
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()

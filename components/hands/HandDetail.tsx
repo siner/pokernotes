@@ -1,10 +1,27 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, Trash2, Loader2, Pencil, FileQuestion, Lock } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import {
+  ArrowLeft,
+  Trash2,
+  Loader2,
+  Pencil,
+  FileQuestion,
+  Lock,
+  Share2,
+  Copy,
+  Check,
+  Eye,
+} from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/navigation';
-import { useStorage, type Hand, type Player } from '@/lib/storage';
+import {
+  useStorage,
+  enableHandShare,
+  disableHandShare,
+  type Hand,
+  type Player,
+} from '@/lib/storage';
 import { useUserTier } from '@/lib/auth/useUserTier';
 import { HandStructuredView } from './HandStructuredView';
 import { HandComposer } from './HandComposer';
@@ -19,6 +36,7 @@ export function HandDetail({ handId }: HandDetailProps) {
   const t = useTranslations('hands.detail');
   const tCommon = useTranslations('common');
   const router = useRouter();
+  const locale = useLocale();
 
   const storage = useStorage();
   const { tier, isLoading: tierLoading } = useUserTier();
@@ -29,6 +47,9 @@ export function HandDetail({ handId }: HandDetailProps) {
   const [deleting, setDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
+  const [shareBusy, setShareBusy] = useState(false);
+  const [shareError, setShareError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const load = useCallback(async () => {
     const h = await storage.getHand(handId);
@@ -56,6 +77,49 @@ export function HandDetail({ handId }: HandDetailProps) {
       router.push(player ? `/notes/${player.id}` : '/notes');
     } catch {
       setDeleting(false);
+    }
+  }
+
+  async function handleEnableShare() {
+    if (!hand) return;
+    setShareBusy(true);
+    setShareError(null);
+    try {
+      const updated = await enableHandShare(hand.id);
+      // Persist locally so IDB stays coherent and the share token survives
+      // a page reload without waiting for the next sync pull.
+      await storage.saveHand(updated);
+      setHand(updated);
+    } catch {
+      setShareError(t('share.errorEnable'));
+    } finally {
+      setShareBusy(false);
+    }
+  }
+
+  async function handleDisableShare() {
+    if (!hand) return;
+    setShareBusy(true);
+    setShareError(null);
+    try {
+      const updated = await disableHandShare(hand.id);
+      await storage.saveHand(updated);
+      setHand(updated);
+      setCopied(false);
+    } catch {
+      setShareError(t('share.errorDisable'));
+    } finally {
+      setShareBusy(false);
+    }
+  }
+
+  async function handleCopyLink(url: string) {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setShareError(t('share.errorCopy'));
     }
   }
 
@@ -163,6 +227,78 @@ export function HandDetail({ handId }: HandDetailProps) {
           {t('rawDescription')}
         </p>
         <p className="whitespace-pre-wrap text-sm text-slate-300">{hand.rawDescription}</p>
+      </div>
+
+      {/* Share */}
+      <div className="mb-6 rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+        <div className="mb-3 flex items-center gap-2">
+          <Share2 size={14} className="text-emerald-400" />
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            {t('share.title')}
+          </p>
+        </div>
+        {hand.shareToken ? (
+          (() => {
+            const origin =
+              typeof window !== 'undefined' ? window.location.origin : 'https://pokerreads.app';
+            const shareUrl = `${origin}/${locale}/hands/share/${hand.shareToken}`;
+            return (
+              <div className="flex flex-col gap-3">
+                <p className="text-sm text-slate-300">{t('share.activeDescription')}</p>
+                <div className="flex items-stretch gap-2 rounded-lg border border-slate-700 bg-slate-950/60">
+                  <input
+                    type="text"
+                    readOnly
+                    value={shareUrl}
+                    onFocus={(e) => e.currentTarget.select()}
+                    className="min-w-0 flex-1 bg-transparent px-3 py-2 font-mono text-xs text-slate-300 outline-none"
+                  />
+                  <button
+                    onClick={() => handleCopyLink(shareUrl)}
+                    className="flex min-h-[44px] items-center gap-1.5 border-l border-slate-700 px-3 text-xs font-medium text-emerald-400 hover:bg-slate-800"
+                  >
+                    {copied ? <Check size={13} /> : <Copy size={13} />}
+                    {copied ? t('share.copied') : t('share.copy')}
+                  </button>
+                </div>
+                <div className="flex items-center justify-between gap-3 text-xs text-slate-500">
+                  <span className="inline-flex items-center gap-1">
+                    <Eye size={12} />
+                    {t('share.viewCount', { count: hand.shareViewCount ?? 0 })}
+                  </span>
+                  <button
+                    onClick={handleDisableShare}
+                    disabled={shareBusy}
+                    className="text-rose-400 hover:text-rose-300 disabled:opacity-50"
+                  >
+                    {shareBusy ? (
+                      <Loader2 size={13} className="animate-spin" />
+                    ) : (
+                      t('share.disable')
+                    )}
+                  </button>
+                </div>
+              </div>
+            );
+          })()
+        ) : (
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-slate-400">{t('share.idleDescription')}</p>
+            <button
+              onClick={handleEnableShare}
+              disabled={shareBusy}
+              className="flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 text-sm font-semibold text-slate-950 hover:bg-emerald-400 disabled:opacity-50"
+            >
+              {shareBusy ? <Loader2 size={15} className="animate-spin" /> : <Share2 size={15} />}
+              {t('share.enable')}
+            </button>
+          </div>
+        )}
+        {shareError && (
+          <p className="mt-3 text-xs text-rose-400" role="alert">
+            {shareError}
+          </p>
+        )}
       </div>
 
       {/* Delete */}
