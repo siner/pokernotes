@@ -26,4 +26,7 @@ binding = "AI"
 
 [vars]
 NEXT_PUBLIC_APP_URL = "https://pokerreads.app"
-NEXT_PUBLIC_STRIPE_PRO_PRICE_ID = "price_1TNxAm03IQZJpCYqet69zF0B"
+# Stripe Pro price IDs (STRIPE_PRO_PRICE_ID_MONTHLY / _YEARLY) are NOT
+# committed here — they are injected as environment variables in the
+# Cloudflare Pages dashboard (per environment) so the IDs can rotate
+# without code changes. For local dev set them in `.dev.vars`.
