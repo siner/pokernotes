@@ -51,12 +51,8 @@ export async function POST(request: Request) {
     const { billingPeriod } = parsedBody;
     const priceId =
       billingPeriod === 'yearly'
-        ? process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_YEARLY ||
-          env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_YEARLY ||
-          ''
-        : process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY ||
-          env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY ||
-          '';
+        ? process.env.STRIPE_PRO_PRICE_ID_YEARLY || env.STRIPE_PRO_PRICE_ID_YEARLY || ''
+        : process.env.STRIPE_PRO_PRICE_ID_MONTHLY || env.STRIPE_PRO_PRICE_ID_MONTHLY || '';
 
     if (!priceId) {
       logger.error('missing Stripe price ID for billing period', {
