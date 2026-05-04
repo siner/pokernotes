@@ -29,20 +29,20 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@serwist/next": "^9.5.7",
-    "@serwist/precaching": "^9.5.7",
-    "@serwist/sw": "^9.5.7",
+    "@serwist/next": "^9.5.11",
+    "@serwist/precaching": "^9.5.11",
+    "@serwist/sw": "^9.5.11",
     "better-auth": "^1.6.9",
     "idb": "^8.0.3",
-    "lucide-react": "^1.11.0",
-    "next": "^15.5.15",
-    "next-intl": "^4.9.1",
+    "lucide-react": "^1.14.0",
+    "next": "^16.2.4",
+    "next-intl": "^4.11.0",
     "pokersolver": "^2.1.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "serwist": "^9.5.7",
-    "stripe": "^17.4.0",
-    "zod": "^4.3.6"
+    "serwist": "^9.5.11",
+    "stripe": "^22.1.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260418.1",
